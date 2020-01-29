@@ -692,13 +692,13 @@ def generate_mesh(input_dict):
             # then stack the two together, but remove the duplicated twist
             # value.
             if num_twist % 2:
-                twist = np.interp(np.linspace(0, 1, (num_twist+1)/2), eta, surf_dict['crm_twist'])
+                twist = np.interp(np.linspace(0, 1, (num_twist+1)//2), eta, surf_dict['crm_twist'])
                 twist = np.hstack((twist[:-1], twist[::-1]))
 
             # If num_twist is even, mirror the twist vector and stack
             # them together
             else:
-                twist = np.interp(np.linspace(0, 1, num_twist/2), eta, surf_dict['crm_twist'])
+                twist = np.interp(np.linspace(0, 1, num_twist//2), eta, surf_dict['crm_twist'])
                 twist = np.hstack((twist, twist[::-1]))
 
         return mesh, twist

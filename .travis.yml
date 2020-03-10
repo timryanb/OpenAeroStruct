@@ -54,8 +54,10 @@ script:
 - testflo -n 1 openaerostruct --coverage --coverpkg openaerostruct --cover-omit \*tests/\* --cover-omit \*docs/\*;
 - if [ "$PY" = "3.6" ];  then
     travis-sphinx build --source=openaerostruct/docs;
+  fi
 
 after_success:
 - if [ "$PY" = "3.6" ];  then
     travis-sphinx deploy;
     coveralls;
+  fi

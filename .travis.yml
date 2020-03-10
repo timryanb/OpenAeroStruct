@@ -41,11 +41,11 @@ install:
 - if [ "$PY" = "3.6" ];  then
     pip install --user travis-sphinx;
   fi
-- pip install testflo;
+- pip install testflo==1.3.6;
 - export PATH=$HOME/.local/bin:$PATH;
 
 # install openmdao
-- pip install "openmdao<3";
+- pip install "openmdao[all]<3";
 
 # install openaerostruct itself
 - pip install -e .;

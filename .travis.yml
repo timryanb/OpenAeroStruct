@@ -38,12 +38,13 @@ install:
 
 - pip install coverage;
 - pip install coveralls;
-- pip install --user travis-sphinx;
+- if [ "$PY" = "3.6" ];  then
+    pip install --user travis-sphinx;
 - pip install testflo;
 - export PATH=$HOME/.local/bin:$PATH;
 
 # install openmdao
-- pip install openmdao[docs,dev];
+- pip install "openmdao<3";
 
 # install openaerostruct itself
 - pip install -e .;
@@ -51,8 +52,10 @@ install:
 script:
 - export PYTHONPATH=$PYTHONPATH:$PWD
 - testflo -n 1 openaerostruct --coverage --coverpkg openaerostruct --cover-omit \*tests/\* --cover-omit \*docs/\*;
-- travis-sphinx build --source=openaerostruct/docs;
+- if [ "$PY" = "3.6" ];  then
+    travis-sphinx build --source=openaerostruct/docs;
 
 after_success:
-- travis-sphinx deploy;
-- coveralls;
+- if [ "$PY" = "3.6" ];  then
+    travis-sphinx deploy;
+    coveralls;

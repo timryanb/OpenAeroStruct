@@ -1,8 +1,8 @@
 from __future__ import print_function
-from openmdao.api import ExplicitComponent
+import openmdao.api as om
 
 
-class ReynoldsComp(ExplicitComponent):
+class ReynoldsComp(om.ExplicitComponent):
 
     def setup(self):
         self.add_input('rho', val=1., units='slug/ft**3')
@@ -19,4 +19,4 @@ class ReynoldsComp(ExplicitComponent):
     def compute_partials(self, inputs, partials):
         partials['re', 'rho'] = inputs['v'] / inputs['mu']
         partials['re', 'v'] = inputs['rho'] / inputs['mu']
-        partials['re', 'mu'] = -inputs['rho'] * inputs['v'] / inputs['mu']**-2
+        partials['re', 'mu'] = - inputs['rho'] * inputs['v'] / inputs['mu']**2

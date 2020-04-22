@@ -2,7 +2,7 @@ from numpy.distutils.core import setup
 
 
 setup(name='openaerostruct',
-    version='2.1.0',
+    version='2.2.0',
     description='OpenAeroStruct',
     author='John Jasa',
     author_email='johnjasa@umich.edu',

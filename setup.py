@@ -1,4 +1,4 @@
-from numpy.distutils.core import setup
+from setuptools import setup
 
 import re
 
@@ -22,8 +22,14 @@ setup(name='openaerostruct',
         'openaerostruct/common',
         'openaerostruct/utils',
     ],
-    # TODO: fix this with the correct requires
-    install_requires=[],
+    # TODO: add versions?
+    install_requires=[
+        'openmdao[docs]>=3.2',
+        'numpy',
+        'scipy',
+        'matplotlib',
+        'six'
+    ],
     zip_safe=False,
     # ext_modules=ext,
     entry_points="""

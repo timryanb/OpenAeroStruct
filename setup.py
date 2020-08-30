@@ -14,14 +14,21 @@ setup(name='openaerostruct',
     license='BSD-3',
     packages=[
         'openaerostruct',
+        'openaerostruct/docs',
+        'openaerostruct/docs/_utils',
         'openaerostruct/geometry',
         'openaerostruct/structures',
         'openaerostruct/aerodynamics',
+        'openaerostruct/transfer',
         'openaerostruct/functionals',
         'openaerostruct/integration',
         'openaerostruct/common',
         'openaerostruct/utils',
     ],
+    # Test files
+    package_data={
+        'openaerostruct': ['tests/*.py', '*/tests/*.py', '*/*/tests/*.py']
+    },
     # TODO: add versions?
     install_requires=[
         'openmdao[docs]>=3.2',

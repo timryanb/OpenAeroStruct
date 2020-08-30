@@ -12,8 +12,6 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - gfortran
-    - libblas-dev
-    - liblapack-dev
     - libopenmpi-dev
     - openmpi-bin
 
@@ -29,7 +27,7 @@ install:
 - pip install --upgrade pip;
 
 # install openaerostruct itself. NOTE: required packages (e.g. openmdao, numpy) are specified in setup.py.
-- pip install -e .;
+- pip install .;
 
 # install pyGeo and pySpline to run FFD tests. pyspline requires fortran compilations
 - pip install mpi4py;
@@ -46,19 +44,19 @@ install:
 - pip install coverage;
 - pip install coveralls;
 - pip install testflo;
-- export PATH=$HOME/.local/bin:$PATH;
-
 - pip install --user travis-sphinx;
 
 script:
-- export PYTHONPATH=$PYTHONPATH:$PWD
+# prevent OpenMPI warning messages
+- export OMPI_MCA_btl=^openib
+# run tests
+- cd openaerostruct
 - testflo -n 2 openaerostruct --coverage --coverpkg openaerostruct --cover-omit \*tests/\* --cover-omit \*docs/\*;
-- cd openaerostruct/docs;
+# make docs
+- cd docs;
 - travis-sphinx build --source=.;
-- cd ../..;
 
 after_success:
-- cd openaerostruct/docs;
 - travis-sphinx deploy;
-- cd ../..;
-- coveralls;
+- cd ../;
+- coveralls --rcfile=../.coveragerc;

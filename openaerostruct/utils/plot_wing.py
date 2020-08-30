@@ -11,7 +11,6 @@ Ex: `plot_wing aero.db 1` a wider view than `plot_wing aero.db 5`.
 """
 
 
-from __future__ import division, print_function
 import sys
 major_python_version = sys.version_info[0]
 
@@ -22,7 +21,6 @@ else:
     import tkinter as Tk
     from tkinter import font as tkFont
 
-from six import iteritems
 import numpy as np
 from openmdao.recorders.sqlite_reader import SqliteCaseReader
 
@@ -429,7 +427,7 @@ class Display(object):
 
             self.ax5.cla()
             max_yield_stress = 0.
-            for key, yield_stress in iteritems(self.yield_stress_dict):
+            for key, yield_stress in self.yield_stress_dict.items():
                 self.ax5.axhline(yield_stress, c='r', lw=2, ls='--')
                 max_yield_stress = max(max_yield_stress, yield_stress)
 

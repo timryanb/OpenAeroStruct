@@ -1,16 +1,26 @@
-from openmdao.utils.assert_utils import assert_rel_error
+import numpy as np
 import unittest
 
+try:
+    import pygeo
 
+    pygeo_flag = True
+except ModuleNotFoundError:
+    pygeo_flag = False
+
+
+@unittest.skipUnless(pygeo_flag, "pyGeo is required.")
 class Test(unittest.TestCase):
     def test(self):
-        import numpy as np
-        import openmdao.api as om
 
-        from openaerostruct.geometry.utils import generate_mesh
+        from openaerostruct.geometry.utils import generate_mesh, write_FFD_file
         from openaerostruct.geometry.geometry_group import Geometry
         from openaerostruct.aerodynamics.aero_groups import AeroPoint
         from openaerostruct.integration.multipoint_comps import MultiCD
+
+        import openmdao.api as om
+        from openmdao.utils.assert_utils import assert_check_partials
+        from pygeo import DVGeometry
 
         # Create a dictionary to store options about the surface
         mesh_dict = {
@@ -22,7 +32,7 @@ class Test(unittest.TestCase):
             'span_cos_spacing': 0.0,
         }
 
-        mesh, twist_cp = generate_mesh(mesh_dict)
+        mesh, _ = generate_mesh(mesh_dict)
 
         surf_dict = {
             # Wing definition
@@ -33,7 +43,9 @@ class Test(unittest.TestCase):
             # can be 'wetted' or 'projected'
             'fem_model_type': 'tube',
             'mesh': mesh,
-            'twist_cp': twist_cp,
+            'mx': 2,
+            'my': 3,
+            'geom_manipulator': 'FFD',
             # Aerodynamic performance of the lifting surface at
             # an angle of attack of 0 (alpha=0).
             # These CL0 and CD0 values are added to the CL and CD
@@ -69,17 +81,23 @@ class Test(unittest.TestCase):
 
         prob.model.add_subsystem('prob_vars', indep_var_comp, promotes=['*'])
 
-        # Loop over each surface and create the geometry groups
+        # Loop over each surface in the surfaces list
         for surface in surfaces:
-            # Get the surface name and create a group to contain components only for this surface.
+            # Get the surface name and create a group to contain components
+            # only for this surface
             name = surface['name']
-            geom_group = Geometry(surface=surface)
 
-            # Add geom_group to the problem with the name of the surface.
+            # FFD setup
+            filename = write_FFD_file(surface, surface['mx'], surface['my'])
+            DVGeo = DVGeometry(filename)
+            geom_group = Geometry(surface=surface, DVGeo=DVGeo)
+
+            # Add tmp_group to the problem with the name of the surface.
             prob.model.add_subsystem(name + '_geom', geom_group)
 
         # Loop through and add a certain number of aero points
         for i in range(n_points):
+
             # Create the aero point group and add it to the model
             aero_group = AeroPoint(surfaces=surfaces)
             point_name = 'aero_point_{}'.format(i)
@@ -97,25 +115,25 @@ class Test(unittest.TestCase):
             for surface in surfaces:
                 name = surface['name']
 
-                # Connect the drag coeff at each point to the multi_CD component, which does the summation.
+                # Connect the drag coeff at this point to the multi_CD component, which does the summation.
                 prob.model.connect(point_name + '.CD', 'multi_CD.' + str(i) + '_CD')
 
                 # Connect the mesh from the geometry component to the analysis point
                 prob.model.connect(name + '_geom.mesh', point_name + '.' + name + '.def_mesh')
 
-                # Perform the connections with the modified names within the 'aero_states' group.
+                # Perform the connections with the modified names within the
+                # 'aero_states' group.
                 prob.model.connect(name + '_geom.mesh', point_name + '.aero_states.' + name + '_def_mesh')
                 prob.model.connect(name + '_geom.t_over_c', point_name + '.' + name + '_perf.' + 't_over_c')
 
         prob.model.add_subsystem('multi_CD', MultiCD(n_points=n_points), promotes_outputs=['CD'])
 
         prob.driver = om.ScipyOptimizeDriver()
-        prob.driver.options['tol'] = 1e-9
 
         # Setup problem and add design variables, constraint, and objective
-        # design variables are the wing twist and angle-of-attack at each point.
+        # design variable is the wing shape, and angle-of-attack at each point.
         prob.model.add_design_var('alpha', lower=-15, upper=15)
-        prob.model.add_design_var('wing_geom.twist_cp', lower=-5, upper=8)
+        prob.model.add_design_var('wing_geom.shape', lower=-3, upper=2)
 
         # set different target CL value at each point.
         prob.model.add_constraint('aero_point_0.wing_perf.CL', equals=0.45)
@@ -124,14 +142,13 @@ class Test(unittest.TestCase):
         # objective is the sum of CDs at each point.
         prob.model.add_objective('CD', scaler=1e4)
 
-        # Set up the problem and run optimization.
+        # Set up the problem
         prob.setup()
-        prob.run_driver()
+        prob.run_model()
 
-        assert_rel_error(self, prob['aero_point_0.wing_perf.CL'][0], 0.45, 1e-6)
-        assert_rel_error(self, prob['aero_point_0.wing_perf.CD'][0], 0.0323165143, 1e-6)
-        assert_rel_error(self, prob['aero_point_1.wing_perf.CL'][0], 0.5, 1e-6)
-        assert_rel_error(self, prob['aero_point_1.wing_perf.CD'][0], 0.0337665178, 1e-6)
+        # Check the partials at this point in the design space
+        data = prob.check_partials(compact_print=True, out_stream=None, method='fd', step=1e-5)
+        assert_check_partials(data, atol=1e20, rtol=1e-3)
 
 
 if __name__ == '__main__':

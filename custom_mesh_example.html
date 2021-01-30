@@ -496,7 +496,20 @@ Make sure you go through the <a class="reference internal" href="aerostructural_
 <span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>Unable to import petsc4py. Parallel processing unavailable.
+<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>--------------------------------------------------------------------------
+[[48381,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: fv-az174-802
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+Unable to import petsc4py. Parallel processing unavailable.
 Unable to import petsc4py. Parallel processing unavailable.</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># om.view_model(prob)</span>
 
 <span class="c1"># prob.check_partials(form=&#39;central&#39;, compact_print=True)</span>
@@ -1008,19 +1021,19 @@ NL: NLBGS 6 ; 3.31015514e-06 2.15766888e-07
 NL: NLBGS 7 ; 1.76279158e-07 1.149046e-08
 NL: NLBGS 8 ; 7.01836696e-10 4.57480431e-11
 NL: NLBGS Converged
-/home/travis/miniconda/lib/python3.7/site-packages/openaerostruct/structures/compute_nodes.py:52: ComplexWarning: Casting complex values to real discards the imaginary part
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openaerostruct/structures/compute_nodes.py:52: ComplexWarning: Casting complex values to real discards the imaginary part
   data[:n] = 1 - w
-/home/travis/miniconda/lib/python3.7/site-packages/openaerostruct/structures/compute_nodes.py:53: ComplexWarning: Casting complex values to real discards the imaginary part
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openaerostruct/structures/compute_nodes.py:53: ComplexWarning: Casting complex values to real discards the imaginary part
   data[n:] = w
-/home/travis/miniconda/lib/python3.7/site-packages/openmdao/utils/general_utils.py:305: ComplexWarning: Casting complex values to real discards the imaginary part
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openmdao/utils/general_utils.py:305: ComplexWarning: Casting complex values to real discards the imaginary part
   value = np.atleast_1d(value).astype(np.float64)
-/home/travis/miniconda/lib/python3.7/site-packages/openaerostruct/transfer/load_transfer.py:49: ComplexWarning: Casting complex values to real discards the imaginary part
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openaerostruct/transfer/load_transfer.py:49: ComplexWarning: Casting complex values to real discards the imaginary part
   self.fem_origin = np.float(fem_origin)
-/home/travis/miniconda/lib/python3.7/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_0.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;load_factor&#x27;, promoted using &#x27;load_factor&#x27;, was already promoted using &#x27;load_factor&#x27;.
-/home/travis/miniconda/lib/python3.7/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_0.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;nodes&#x27;, promoted using &#x27;nodes&#x27;, was already promoted using &#x27;nodes&#x27;.
-/home/travis/miniconda/lib/python3.7/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_1.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;load_factor&#x27;, promoted using &#x27;load_factor&#x27;, was already promoted using &#x27;load_factor&#x27;.
-/home/travis/miniconda/lib/python3.7/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_1.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;nodes&#x27;, promoted using &#x27;nodes&#x27;, was already promoted using &#x27;nodes&#x27;.
-/home/travis/miniconda/lib/python3.7/site-packages/openaerostruct/structures/wingbox_geometry.py:81: ComplexWarning: Casting complex values to real discards the imaginary part
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_0.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;load_factor&#x27;, promoted using &#x27;load_factor&#x27;, was already promoted using &#x27;load_factor&#x27;.
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_0.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;nodes&#x27;, promoted using &#x27;nodes&#x27;, was already promoted using &#x27;nodes&#x27;.
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_1.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;load_factor&#x27;, promoted using &#x27;load_factor&#x27;, was already promoted using &#x27;load_factor&#x27;.
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openmdao/core/system.py:1925: UserWarning:&#x27;AS_point_1.coupled.wing.struct_states&#x27; &lt;class SpatialBeamStates&gt;: input variable &#x27;nodes&#x27;, promoted using &#x27;nodes&#x27;, was already promoted using &#x27;nodes&#x27;.
+/opt/hostedtoolcache/Python/3.8.7/x64/lib/python3.8/site-packages/openaerostruct/structures/wingbox_geometry.py:81: ComplexWarning: Casting complex values to real discards the imaginary part
   fem_chords[ielem] = fem_chords[ielem] * cos_theta_fe_sweep
 Optimization terminated successfully    (Exit mode 0)
             Current function value: [0.0267593]
@@ -1104,7 +1117,7 @@ A finer mesh and a tighter optimization tolerance should be used.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Jan 29, 2021.
+      Last updated on Jan 30, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>

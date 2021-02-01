@@ -1,7 +1,7 @@
 OpenAeroStruct
 ==============
 
-[![Build Status](https://travis-ci.com/mdolab/OpenAeroStruct.svg?branch=master)](https://travis-ci.com/mdolab/OpenAeroStruct)
+![GitHub Actions Status](https://github.com/mdolab/OpenAeroStruct/workflows/OAS%20build/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/mdolab/OpenAeroStruct/badge.svg?branch=master)](https://coveralls.io/github/mdolab/OpenAeroStruct?branch=master)
 
 OpenAeroStruct is a lightweight tool that performs aerostructural optimization using OpenMDAO.

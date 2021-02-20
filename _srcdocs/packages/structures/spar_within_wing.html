@@ -49,7 +49,7 @@
 <span id="spar-within-wing-py"></span><span id="openaerostruct-structures-spar-within-wing-py"></span><span id="index-0"></span><h1>spar_within_wing.py<a class="headerlink" href="#module-openaerostruct.structures.spar_within_wing" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing">
-<em class="property">class </em><code class="sig-prename descclassname">openaerostruct.structures.spar_within_wing.</code><code class="sig-name descname">SparWithinWing</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/structures/spar_within_wing.html#SparWithinWing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">openaerostruct.structures.spar_within_wing.</span></code><code class="sig-name descname"><span class="pre">SparWithinWing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/structures/spar_within_wing.html#SparWithinWing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
 <p>Create a constraint to see if the spar is within the wing.
 This is based on the wing’s t/c and the spar radius.</p>
@@ -81,7 +81,7 @@ Set a constraint with
 </dl>
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.abs_name_iter">
-<code class="sig-name descname">abs_name_iter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iotype</span></em>, <em class="sig-param"><span class="n">local</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">cont</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">discrete</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.abs_name_iter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">abs_name_iter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iotype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.abs_name_iter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over absolute variable names for this System.</p>
 <p>By setting appropriate values for ‘cont’ and ‘discrete’, yielded variable
 names can be continuous only, discrete only, or both.</p>
@@ -103,7 +103,7 @@ names can be continuous only, discrete only, or both.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_input">
-<code class="sig-name descname">add_discrete_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">desc</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">tags</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_discrete_input</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a discrete input variable to the component.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -130,7 +130,7 @@ list_inputs and list_outputs.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_output">
-<code class="sig-name descname">add_discrete_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">desc</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">tags</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_discrete_output</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.add_discrete_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an output variable to the component.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -157,7 +157,7 @@ list_inputs and list_outputs.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.convert2units">
-<code class="sig-name descname">convert2units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">units</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert2units" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">convert2units</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert2units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the given value to the specified units.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -181,7 +181,7 @@ list_inputs and list_outputs.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.convert_from_units">
-<code class="sig-name descname">convert_from_units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">units</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert_from_units" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">convert_from_units</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert_from_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the given value from the specified units to those of the named variable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -205,7 +205,7 @@ list_inputs and list_outputs.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.convert_units">
-<code class="sig-name descname">convert_units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">units_from</span></em>, <em class="sig-param"><span class="n">units_to</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert_units" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">convert_units</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_from</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_to</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.convert_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap the utility convert_units and give a good error message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -231,7 +231,7 @@ list_inputs and list_outputs.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.declare_coloring">
-<code class="sig-name descname">declare_coloring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrt</span><span class="o">=</span><span class="default_value">('*')</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'fd'</span></em>, <em class="sig-param"><span class="n">form</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">step</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">per_instance</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">num_full_jacs</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-25</span></em>, <em class="sig-param"><span class="n">orders</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturb_size</span><span class="o">=</span><span class="default_value">1e-09</span></em>, <em class="sig-param"><span class="n">min_improve_pct</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">show_summary</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">show_sparsity</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.declare_coloring" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">declare_coloring</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_full_jacs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturb_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_improve_pct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.declare_coloring" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set options for deriv coloring of a set of wrt vars matching the given pattern(s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -273,7 +273,7 @@ percentage, coloring will not be used.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.get_approx_coloring_fname">
-<code class="sig-name descname">get_approx_coloring_fname</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_approx_coloring_fname" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_approx_coloring_fname</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_approx_coloring_fname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the full pathname to a coloring file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -293,7 +293,7 @@ percentage, coloring will not be used.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.get_io_metadata">
-<code class="sig-name descname">get_io_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iotypes</span><span class="o">=</span><span class="default_value">('input', 'output')</span></em>, <em class="sig-param"><span class="n">metadata_keys</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">includes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">excludes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tags</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">get_remote</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rank</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">return_rel_names</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_io_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_io_metadata</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iotypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('input',</span> <span class="pre">'output')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excludes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_remote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_rel_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_io_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve metdata for a filtered list of variables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -340,7 +340,7 @@ variable’s promoted name and whether or not it is discrete.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.get_relevant_vars">
-<code class="sig-name descname">get_relevant_vars</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">desvars</span></em>, <em class="sig-param"><span class="n">responses</span></em>, <em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_relevant_vars" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_relevant_vars</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desvars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">responses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_relevant_vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find all relevant vars between desvars and responses.</p>
 <p>Both vars are assumed to be outputs (either design vars or responses).</p>
 <dl class="field-list simple">
@@ -366,7 +366,7 @@ keyed by design vars and responses.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.get_source">
-<code class="sig-name descname">get_source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_source" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_source</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the source variable connected to the given named variable.</p>
 <p>The name can be a promoted name or an absolute name.
 If the given variable is an input, the absolute name of the connected source will
@@ -390,7 +390,7 @@ be returned.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.get_val">
-<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">units</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">indices</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">get_remote</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rank</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vec_name</span><span class="o">=</span><span class="default_value">'nonlinear'</span></em>, <em class="sig-param"><span class="n">kind</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">flat</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">from_src</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_val" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_val</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_remote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nonlinear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.get_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an output/input/residual variable.</p>
 <p>Function is used if you want to specify display units.</p>
 <dl class="field-list simple">
@@ -433,7 +433,7 @@ will be either an input or output.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.msginfo">
-<em class="property">property </em><code class="sig-name descname">msginfo</code><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.msginfo" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">msginfo</span></code><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.msginfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Our instance pathname, if available, or our class name.  For use in error messages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -447,7 +447,7 @@ will be either an input or output.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.set_solver_print">
-<code class="sig-name descname">set_solver_print</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">depth</span><span class="o">=</span><span class="default_value">1e+99</span></em>, <em class="sig-param"><span class="n">type_</span><span class="o">=</span><span class="default_value">'all'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.set_solver_print" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_solver_print</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e+99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.set_solver_print" title="Permalink to this definition">¶</a></dt>
 <dd><p>Control printing for solvers and subsolvers in the model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -469,7 +469,7 @@ prints everything.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.setup_partials">
-<code class="sig-name descname">setup_partials</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.setup_partials" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">setup_partials</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.setup_partials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Declare partials.</p>
 <p>This is meant to be overridden by component classes.  All partials should be
 declared here since this is called after all size/shape information is known for
@@ -478,7 +478,7 @@ all variables.</p>
 
 <dl class="py method">
 <dt id="openaerostruct.structures.spar_within_wing.SparWithinWing.use_fixed_coloring">
-<code class="sig-name descname">use_fixed_coloring</code><span class="sig-paren">(</span><em class="sig-param">coloring=&lt;object object&gt;</em>, <em class="sig-param">recurse=True</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.use_fixed_coloring" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">use_fixed_coloring</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coloring=&lt;object</span> <span class="pre">object&gt;</span></em>, <em class="sig-param"><span class="pre">recurse=True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.structures.spar_within_wing.SparWithinWing.use_fixed_coloring" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use a precomputed coloring for this System.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -566,8 +566,8 @@ if a specific coloring is passed in.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Feb 01, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Last updated on Feb 20, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
   </body>
 </html>

@@ -185,7 +185,7 @@ The <cite>c_max_t</cite> value is the location of the maximum thickness of the a
             <span class="c1"># Airfoil properties for viscous drag calculation</span>
             <span class="s1">&#39;k_lam&#39;</span> <span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>         <span class="c1"># fraction of chord with laminar</span>
                                     <span class="c1"># flow, used for viscous drag</span>
-            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">38</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum thickness</span>
+            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="mf">.38</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum thickness</span>
 
 </pre></div>
 </div>
@@ -247,9 +247,9 @@ For example, our cruise Mach number is 0.85 and our maneuver Mach number is 0.64
 <span class="c1"># Add problem information as an independent variables component</span>
 <span class="n">indep_var_comp</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">IndepVarComp</span><span class="p">()</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">]))</span>
-<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">85</span> <span class="o">*</span> <span class="mf">295.07</span><span class="p">,</span> <span class="o">.</span><span class="mi">64</span> <span class="o">*</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
-<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;re&#39;</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="o">*</span><span class="mf">295.07</span><span class="o">*.</span><span class="mi">85</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.43</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">),</span> \
-                          <span class="mf">1.225</span><span class="o">*</span><span class="mf">340.294</span><span class="o">*.</span><span class="mi">64</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.81206</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">)]),</span>  <span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/m&#39;</span><span class="p">)</span>
+<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.85</span> <span class="o">*</span> <span class="mf">295.07</span><span class="p">,</span> <span class="mf">.64</span> <span class="o">*</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;re&#39;</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="o">*</span><span class="mf">295.07</span><span class="o">*</span><span class="mf">.85</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.43</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">),</span> \
+                          <span class="mf">1.225</span><span class="o">*</span><span class="mf">340.294</span><span class="o">*</span><span class="mf">.64</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.81206</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">)]),</span>  <span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/m&#39;</span><span class="p">)</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="p">,</span> <span class="mf">1.225</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg/m**3&#39;</span><span class="p">)</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;speed_of_sound&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">295.07</span><span class="p">,</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
 
@@ -572,7 +572,7 @@ The <cite>check_partials</cite> command can be used to check partial derivatives
 
 </pre></div>
 </div>
-<p>Now we put the code together, run it, and see the output:</p>
+<p>The complete script for the optimization is as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ignore the #docs checkpoint comments. They are just used to split up the code for the documentation webpage.</span>
 <span class="c1">#docs checkpoint 0</span>
 
@@ -652,7 +652,7 @@ The <cite>check_partials</cite> command can be used to check partial derivatives
             <span class="c1"># Airfoil properties for viscous drag calculation</span>
             <span class="s1">&#39;k_lam&#39;</span> <span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>         <span class="c1"># fraction of chord with laminar</span>
                                     <span class="c1"># flow, used for viscous drag</span>
-            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">38</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum thickness</span>
+            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="mf">.38</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum thickness</span>
 
             <span class="c1">#docs checkpoint 6</span>
 
@@ -688,9 +688,9 @@ The <cite>check_partials</cite> command can be used to check partial derivatives
 <span class="c1"># Add problem information as an independent variables component</span>
 <span class="n">indep_var_comp</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">IndepVarComp</span><span class="p">()</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">]))</span>
-<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">85</span> <span class="o">*</span> <span class="mf">295.07</span><span class="p">,</span> <span class="o">.</span><span class="mi">64</span> <span class="o">*</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
-<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;re&#39;</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="o">*</span><span class="mf">295.07</span><span class="o">*.</span><span class="mi">85</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.43</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">),</span> \
-                          <span class="mf">1.225</span><span class="o">*</span><span class="mf">340.294</span><span class="o">*.</span><span class="mi">64</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.81206</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">)]),</span>  <span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/m&#39;</span><span class="p">)</span>
+<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.85</span> <span class="o">*</span> <span class="mf">295.07</span><span class="p">,</span> <span class="mf">.64</span> <span class="o">*</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+<span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;re&#39;</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="o">*</span><span class="mf">295.07</span><span class="o">*</span><span class="mf">.85</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.43</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">),</span> \
+                          <span class="mf">1.225</span><span class="o">*</span><span class="mf">340.294</span><span class="o">*</span><span class="mf">.64</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.81206</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">)]),</span>  <span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/m&#39;</span><span class="p">)</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.348</span><span class="p">,</span> <span class="mf">1.225</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg/m**3&#39;</span><span class="p">)</span>
 <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;speed_of_sound&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">295.07</span><span class="p">,</span> <span class="mf">340.294</span><span class="p">]),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
 
@@ -922,448 +922,11 @@ The <cite>check_partials</cite> command can be used to check partial derivatives
 <span class="c1"># prob.check_partials(form=&#39;central&#39;, compact_print=True)</span>
 
 <span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 1632894.66 1
-NL: NLBGS 2 ; 1065249.98 0.652369078
-NL: NLBGS 3 ; 191093.757 0.117027609
-NL: NLBGS 4 ; 46092.3602 0.0282273936
-NL: NLBGS 5 ; 1525.33068 0.000934126812
-NL: NLBGS 6 ; 913.496172 0.000559433621
-NL: NLBGS 7 ; 258.102355 0.000158064302
-NL: NLBGS 8 ; 30.1920001 1.8489864e-05
-NL: NLBGS 9 ; 1.48522998 9.09568767e-07
-NL: NLBGS 10 ; 0.52756079 3.23083174e-07
-NL: NLBGS 11 ; 0.0435564256 2.66743635e-08
-NL: NLBGS 12 ; 0.00928692457 5.68739968e-09
-NL: NLBGS 13 ; 0.00311251173 1.90613137e-09
-NL: NLBGS 14 ; 8.4589099e-05 5.18031574e-11
-NL: NLBGS 15 ; 2.00856597e-05 1.23006463e-11
-NL: NLBGS 16 ; 4.30329146e-06 2.63537604e-12
-NL: NLBGS 17 ; 8.83892911e-07 5.41304307e-13
-NL: NLBGS 18 ; 2.34981697e-07 1.43904994e-13
-NL: NLBGS 19 ; 7.91327085e-08 4.84616127e-14
-NL: NLBGS Converged
 
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 4204333.61 1
-NL: NLBGS 2 ; 3178294.52 0.755956785
-NL: NLBGS 3 ; 1413471.2 0.336193873
-NL: NLBGS 4 ; 390387.883 0.0928536884
-NL: NLBGS 5 ; 82929.7278 0.019724821
-NL: NLBGS 6 ; 79638.0657 0.0189418997
-NL: NLBGS 7 ; 95055.9497 0.0226090407
-NL: NLBGS 8 ; 76748.0874 0.0182545189
-NL: NLBGS 9 ; 17691.3692 0.00420788901
-NL: NLBGS 10 ; 1470.77833 0.000349824364
-NL: NLBGS 11 ; 481.146146 0.000114440525
-NL: NLBGS 12 ; 62.4547521 1.48548517e-05
-NL: NLBGS 13 ; 5.75686323 1.36926889e-06
-NL: NLBGS 14 ; 2.54636082 6.05651468e-07
-NL: NLBGS 15 ; 0.70751796 1.68283021e-07
-NL: NLBGS 16 ; 0.219368941 5.21768637e-08
-NL: NLBGS 17 ; 0.30832557 7.3335182e-08
-NL: NLBGS 18 ; 0.0110514666 2.62858936e-09
-NL: NLBGS 19 ; 0.00489498461 1.16427122e-09
-NL: NLBGS 20 ; 0.00175006924 4.16253657e-10
-NL: NLBGS 21 ; 0.00014932619 3.55172077e-11
-NL: NLBGS 22 ; 0.00019066604 4.53498838e-11
-NL: NLBGS 23 ; 5.45418936e-06 1.29727797e-12
-NL: NLBGS 24 ; 7.10044703e-07 1.68884006e-13
-NL: NLBGS 25 ; 2.73705571e-07 6.51008213e-14
-NL: NLBGS 26 ; 1.25075767e-07 2.9749249e-14
-NL: NLBGS 27 ; 2.12270719e-09 5.04885528e-16
-NL: NLBGS Converged
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The fuel burn value is&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="p">[</span><span class="s1">&#39;AS_point_0.fuelburn&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;[kg]&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The wingbox mass (excluding the wing_weight_ratio) is&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="p">[</span><span class="s1">&#39;wing.structural_mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">surf_dict</span><span class="p">[</span><span class="s1">&#39;wing_weight_ratio&#39;</span><span class="p">],</span> <span class="s1">&#39;[kg]&#39;</span><span class="p">)</span>
 
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 5.22753863e-09 1
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 7.40257094e-09 1
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 439200.512 1
-NL: NLBGS 2 ; 208691.119 0.475161376
-NL: NLBGS 3 ; 59547.571 0.135581743
-NL: NLBGS 4 ; 5848.52739 0.0133163037
-NL: NLBGS 5 ; 230.61864 0.000525087367
-NL: NLBGS 6 ; 163.832299 0.000373023925
-NL: NLBGS 7 ; 7.05284764 1.60583776e-05
-NL: NLBGS 8 ; 3.38124479 7.69863582e-06
-NL: NLBGS 9 ; 0.893846571 2.03516742e-06
-NL: NLBGS 10 ; 0.0527613357 1.20130406e-07
-NL: NLBGS 11 ; 0.00478979136 1.09057053e-08
-NL: NLBGS 12 ; 0.00137330298 3.12682464e-09
-NL: NLBGS 13 ; 0.000274154428 6.24212451e-10
-NL: NLBGS 14 ; 6.34361024e-05 1.44435402e-10
-NL: NLBGS 15 ; 1.03027516e-05 2.34579681e-11
-NL: NLBGS 16 ; 2.35541387e-06 5.36295793e-12
-NL: NLBGS 17 ; 5.9352173e-07 1.35136849e-12
-NL: NLBGS 18 ; 9.43314176e-08 2.14779844e-13
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 1330631.61 1
-NL: NLBGS 2 ; 960620.067 0.721927885
-NL: NLBGS 3 ; 58418.5738 0.0439028904
-NL: NLBGS 4 ; 31437.9033 0.0236263012
-NL: NLBGS 5 ; 526.328771 0.000395548073
-NL: NLBGS 6 ; 452.492027 0.000340058077
-NL: NLBGS 7 ; 135.008154 0.000101461707
-NL: NLBGS 8 ; 46.1884693 3.47116879e-05
-NL: NLBGS 9 ; 4.83221261 3.63151797e-06
-NL: NLBGS 10 ; 1.80967541 1.36001234e-06
-NL: NLBGS 11 ; 0.770315183 5.78909426e-07
-NL: NLBGS 12 ; 0.0298818877 2.245692e-08
-NL: NLBGS 13 ; 0.0309729548 2.32768818e-08
-NL: NLBGS 14 ; 0.00259306452 1.94874712e-09
-NL: NLBGS 15 ; 0.00011381028 8.55310207e-11
-NL: NLBGS 16 ; 5.00785626e-05 3.76351817e-11
-NL: NLBGS 17 ; 1.03619636e-05 7.78725196e-12
-NL: NLBGS 18 ; 2.597706e-07 1.95223529e-13
-NL: NLBGS 19 ; 3.11589315e-07 2.34166475e-13
-NL: NLBGS 20 ; 1.08186302e-08 8.1304473e-15
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 87547.4404 1
-NL: NLBGS 2 ; 57331.2079 0.654858756
-NL: NLBGS 3 ; 14877.8254 0.169940153
-NL: NLBGS 4 ; 2257.49292 0.0257859386
-NL: NLBGS 5 ; 78.1373214 0.000892514059
-NL: NLBGS 6 ; 31.8095706 0.000363340954
-NL: NLBGS 7 ; 4.14086089 4.72984803e-05
-NL: NLBGS 8 ; 0.304458782 3.47764344e-06
-NL: NLBGS 9 ; 0.0341317021 3.8986522e-07
-NL: NLBGS 10 ; 0.0118681384 1.35562368e-07
-NL: NLBGS 11 ; 8.92363829e-05 1.01929174e-09
-NL: NLBGS 12 ; 1.68714541e-05 1.92712134e-10
-NL: NLBGS 13 ; 9.11369509e-06 1.04100075e-10
-NL: NLBGS 14 ; 2.04162425e-07 2.3320205e-12
-NL: NLBGS 15 ; 8.55663504e-09 9.7737124e-14
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 366529.868 1
-NL: NLBGS 2 ; 402027.987 1.09684918
-NL: NLBGS 3 ; 202334.714 0.552027901
-NL: NLBGS 4 ; 36582.0738 0.0998065287
-NL: NLBGS 5 ; 3122.39602 0.00851880377
-NL: NLBGS 6 ; 3443.5761 0.00939507637
-NL: NLBGS 7 ; 3217.51274 0.0087783098
-NL: NLBGS 8 ; 2012.73954 0.00549133839
-NL: NLBGS 9 ; 425.856271 0.00116185967
-NL: NLBGS 10 ; 36.718185 0.00010017788
-NL: NLBGS 11 ; 10.9223885 2.979945e-05
-NL: NLBGS 12 ; 5.02748592 1.37164426e-05
-NL: NLBGS 13 ; 0.797227805 2.17506914e-06
-NL: NLBGS 14 ; 0.100340998 2.73759403e-07
-NL: NLBGS 15 ; 0.118468434 3.23216317e-07
-NL: NLBGS 16 ; 0.014123602 3.85332907e-08
-NL: NLBGS 17 ; 0.00352033268 9.60449062e-09
-NL: NLBGS 18 ; 0.000343898836 9.38255966e-10
-NL: NLBGS 19 ; 0.000175822838 4.79695798e-10
-NL: NLBGS 20 ; 3.74043087e-05 1.02049824e-10
-NL: NLBGS 21 ; 2.45760489e-06 6.70506035e-12
-NL: NLBGS 22 ; 3.2658583e-06 8.91021054e-12
-NL: NLBGS 23 ; 2.04649189e-07 5.58342461e-13
-NL: NLBGS 24 ; 1.59985231e-08 4.36486203e-14
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 37524.6587 1
-NL: NLBGS 2 ; 18894.3693 0.503518751
-NL: NLBGS 3 ; 5302.45299 0.141305828
-NL: NLBGS 4 ; 832.60379 0.0221881775
-NL: NLBGS 5 ; 3.56936459 9.51205078e-05
-NL: NLBGS 6 ; 1.64833345 4.39266739e-05
-NL: NLBGS 7 ; 0.278522387 7.42238294e-06
-NL: NLBGS 8 ; 0.00455295027 1.21332223e-07
-NL: NLBGS 9 ; 0.000777017942 2.07068623e-08
-NL: NLBGS 10 ; 9.55430016e-05 2.54613912e-09
-NL: NLBGS 11 ; 2.39034499e-05 6.37006457e-10
-NL: NLBGS 12 ; 2.15924057e-06 5.75419108e-11
-NL: NLBGS 13 ; 9.27010602e-08 2.47040382e-12
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 103427.231 1
-NL: NLBGS 2 ; 79127.3339 0.765053199
-NL: NLBGS 3 ; 38473.7083 0.371988189
-NL: NLBGS 4 ; 7779.70869 0.0752191529
-NL: NLBGS 5 ; 143.849564 0.00139082873
-NL: NLBGS 6 ; 145.996806 0.00141158962
-NL: NLBGS 7 ; 93.3119433 0.00090219899
-NL: NLBGS 8 ; 49.7792598 0.000481297424
-NL: NLBGS 9 ; 6.03298444 5.8330716e-05
-NL: NLBGS 10 ; 0.978549707 9.46123858e-06
-NL: NLBGS 11 ; 0.471945579 4.56306889e-06
-NL: NLBGS 12 ; 0.16584515 1.60349599e-06
-NL: NLBGS 13 ; 0.0222953756 2.15565818e-07
-NL: NLBGS 14 ; 0.0247378289 2.39181004e-07
-NL: NLBGS 15 ; 0.00113597576 1.09833334e-08
-NL: NLBGS 16 ; 0.000305726137 2.955954e-09
-NL: NLBGS 17 ; 0.0001074185 1.03859012e-09
-NL: NLBGS 18 ; 5.37578159e-05 5.19764625e-10
-NL: NLBGS 19 ; 8.81699766e-07 8.52483198e-12
-NL: NLBGS 20 ; 5.80551768e-07 5.61314233e-12
-NL: NLBGS 21 ; 4.41240353e-07 4.26619131e-12
-NL: NLBGS 22 ; 1.70773198e-08 1.65114348e-13
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 176917.896 1
-NL: NLBGS 2 ; 134643.353 0.761049936
-NL: NLBGS 3 ; 34435.5946 0.194641669
-NL: NLBGS 4 ; 5314.47985 0.030039244
-NL: NLBGS 5 ; 47.4537281 0.000268224579
-NL: NLBGS 6 ; 29.1637199 0.000164843244
-NL: NLBGS 7 ; 1.82856243 1.03356555e-05
-NL: NLBGS 8 ; 0.430465981 2.43313984e-06
-NL: NLBGS 9 ; 0.033678542 1.90362551e-07
-NL: NLBGS 10 ; 0.00225937213 1.27707382e-08
-NL: NLBGS 11 ; 0.000553727127 3.12985367e-09
-NL: NLBGS 12 ; 3.88725327e-05 2.19720749e-10
-NL: NLBGS 13 ; 1.19742033e-05 6.76822614e-11
-NL: NLBGS 14 ; 1.08136394e-06 6.11223604e-12
-NL: NLBGS 15 ; 7.92966151e-08 4.48211384e-13
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 509860.628 1
-NL: NLBGS 2 ; 491332.211 0.963659838
-NL: NLBGS 3 ; 216641.489 0.424903349
-NL: NLBGS 4 ; 52715.7524 0.103392475
-NL: NLBGS 5 ; 2059.84839 0.00404002247
-NL: NLBGS 6 ; 1885.03499 0.00369715739
-NL: NLBGS 7 ; 2027.7985 0.00397716236
-NL: NLBGS 8 ; 622.655938 0.00122122773
-NL: NLBGS 9 ; 198.914966 0.000390135961
-NL: NLBGS 10 ; 9.35960642 1.83571861e-05
-NL: NLBGS 11 ; 4.07524497 7.99286069e-06
-NL: NLBGS 12 ; 0.76285717 1.49620725e-06
-NL: NLBGS 13 ; 0.146525499 2.87383435e-07
-NL: NLBGS 14 ; 0.17193619 3.37221939e-07
-NL: NLBGS 15 ; 0.00813969397 1.5964547e-08
-NL: NLBGS 16 ; 0.00128193733 2.51428971e-09
-NL: NLBGS 17 ; 0.000485010745 9.5126142e-10
-NL: NLBGS 18 ; 0.000126305583 2.47725703e-10
-NL: NLBGS 19 ; 4.13585238e-06 8.11173122e-12
-NL: NLBGS 20 ; 4.61973778e-06 9.06078548e-12
-NL: NLBGS 21 ; 3.18255184e-07 6.24200352e-13
-NL: NLBGS 22 ; 1.51900516e-08 2.97925566e-14
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 71254.939 1
-NL: NLBGS 2 ; 61049.1091 0.85677021
-NL: NLBGS 3 ; 14780.389 0.207429677
-NL: NLBGS 4 ; 2253.52489 0.0316262272
-NL: NLBGS 5 ; 11.9452431 0.000167640914
-NL: NLBGS 6 ; 3.7322644 5.23790274e-05
-NL: NLBGS 7 ; 0.668127374 9.37657633e-06
-NL: NLBGS 8 ; 0.0238606958 3.34863745e-07
-NL: NLBGS 9 ; 0.00244794088 3.43546835e-08
-NL: NLBGS 10 ; 0.000120240768 1.68747275e-09
-NL: NLBGS 11 ; 3.09899996e-05 4.34917214e-10
-NL: NLBGS 12 ; 4.2016136e-07 5.8965928e-12
-NL: NLBGS 13 ; 1.51211732e-07 2.12212281e-12
-NL: NLBGS 14 ; 1.89182466e-08 2.65500846e-13
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 202876.118 1
-NL: NLBGS 2 ; 241008.72 1.18796003
-NL: NLBGS 3 ; 120345.893 0.593198916
-NL: NLBGS 4 ; 3017.74709 0.0148748267
-NL: NLBGS 5 ; 682.867685 0.0033659343
-NL: NLBGS 6 ; 793.606434 0.00391177849
-NL: NLBGS 7 ; 739.320249 0.00364419556
-NL: NLBGS 8 ; 98.3701388 0.000484877864
-NL: NLBGS 9 ; 36.7731651 0.000181259211
-NL: NLBGS 10 ; 14.0820564 6.94120949e-05
-NL: NLBGS 11 ; 1.45256763 7.15987493e-06
-NL: NLBGS 12 ; 0.53439053 2.63407312e-06
-NL: NLBGS 13 ; 0.116017226 5.71862411e-07
-NL: NLBGS 14 ; 0.0286170758 1.41056897e-07
-NL: NLBGS 15 ; 0.0351341585 1.73180357e-07
-NL: NLBGS 16 ; 0.00249885533 1.23171488e-08
-NL: NLBGS 17 ; 0.000715586819 3.52721072e-09
-NL: NLBGS 18 ; 0.000187015441 9.21820877e-10
-NL: NLBGS 19 ; 7.34161869e-05 3.6187693e-10
-NL: NLBGS 20 ; 3.42012603e-06 1.68581993e-11
-NL: NLBGS 21 ; 1.60585524e-06 7.91544738e-12
-NL: NLBGS 22 ; 1.43912906e-06 7.09363465e-12
-NL: NLBGS 23 ; 1.58328941e-07 7.80421777e-13
-NL: NLBGS 24 ; 3.48606124e-08 1.71832016e-13
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 37425.4255 1
-NL: NLBGS 2 ; 32107.372 0.857902656
-NL: NLBGS 3 ; 7901.541 0.211127619
-NL: NLBGS 4 ; 1225.26121 0.0327387384
-NL: NLBGS 5 ; 6.3712042 0.000170237322
-NL: NLBGS 6 ; 1.99172392 5.32184709e-05
-NL: NLBGS 7 ; 0.285255624 7.6219741e-06
-NL: NLBGS 8 ; 0.00708334616 1.89265614e-07
-NL: NLBGS 9 ; 0.000581276482 1.55315931e-08
-NL: NLBGS 10 ; 9.87815051e-05 2.63942236e-09
-NL: NLBGS 11 ; 1.64080977e-05 4.38421138e-10
-NL: NLBGS 12 ; 3.19081075e-07 8.52578348e-12
-NL: NLBGS 13 ; 1.01826504e-07 2.72078414e-12
-NL: NLBGS 14 ; 8.96146428e-09 2.39448561e-13
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 106892.667 1
-NL: NLBGS 2 ; 128496.939 1.20211183
-NL: NLBGS 3 ; 65064.0104 0.608685441
-NL: NLBGS 4 ; 1896.44815 0.0177416113
-NL: NLBGS 5 ; 253.933842 0.00237559646
-NL: NLBGS 6 ; 366.372558 0.00342748074
-NL: NLBGS 7 ; 225.523704 0.00210981454
-NL: NLBGS 8 ; 53.0897014 0.000496663642
-NL: NLBGS 9 ; 2.73511536 2.55874928e-05
-NL: NLBGS 10 ; 0.326519887 3.05465188e-06
-NL: NLBGS 11 ; 0.0713021303 6.67044168e-07
-NL: NLBGS 12 ; 0.0333860166 3.1233215e-07
-NL: NLBGS 13 ; 0.000312882616 2.92707278e-09
-NL: NLBGS 14 ; 7.68464425e-05 7.18912199e-10
-NL: NLBGS 15 ; 7.26668857e-05 6.79811699e-10
-NL: NLBGS 16 ; 2.59482951e-06 2.42750937e-11
-NL: NLBGS 17 ; 1.30477663e-07 1.22064185e-12
-NL: NLBGS 18 ; 2.94782522e-08 2.75774316e-13
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 45527.1418 1
-NL: NLBGS 2 ; 51564.4595 1.1326092
-NL: NLBGS 3 ; 12022.9696 0.264083557
-NL: NLBGS 4 ; 1559.34499 0.0342508869
-NL: NLBGS 5 ; 11.4753187 0.00025205445
-NL: NLBGS 6 ; 2.9513723 6.48266547e-05
-NL: NLBGS 7 ; 0.405430577 8.90524993e-06
-NL: NLBGS 8 ; 0.0215526329 4.73401845e-07
-NL: NLBGS 9 ; 0.00102251346 2.24594256e-08
-NL: NLBGS 10 ; 0.00013272626 2.9153216e-09
-NL: NLBGS 11 ; 2.20062504e-05 4.83365517e-10
-NL: NLBGS 12 ; 2.34616569e-07 5.15333402e-12
-NL: NLBGS 13 ; 4.00284729e-08 8.7922218e-13
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 143184.147 1
-NL: NLBGS 2 ; 200652.144 1.40135726
-NL: NLBGS 3 ; 96546.1629 0.674279695
-NL: NLBGS 4 ; 2033.65712 0.0142030886
-NL: NLBGS 5 ; 415.010163 0.00289843654
-NL: NLBGS 6 ; 578.581981 0.0040408243
-NL: NLBGS 7 ; 368.819442 0.00257583992
-NL: NLBGS 8 ; 104.228871 0.000727935829
-NL: NLBGS 9 ; 4.22261331 2.94907879e-05
-NL: NLBGS 10 ; 0.480944982 3.3589262e-06
-NL: NLBGS 11 ; 0.101454879 7.08562233e-07
-NL: NLBGS 12 ; 0.035534906 2.48176259e-07
-NL: NLBGS 13 ; 0.000325828825 2.27559288e-09
-NL: NLBGS 14 ; 0.000299754983 2.09349282e-09
-NL: NLBGS 15 ; 1.40018338e-05 9.77889948e-11
-NL: NLBGS 16 ; 4.38849615e-07 3.06493159e-12
-NL: NLBGS 17 ; 5.74791633e-08 4.01435246e-13
-NL: NLBGS Converged
-
-==================
-AS_point_0.coupled
-==================
-NL: NLBGS 1 ; 21264.6321 1
-NL: NLBGS 2 ; 23134.1655 1.08791751
-NL: NLBGS 3 ; 4936.98596 0.232168887
-NL: NLBGS 4 ; 673.459331 0.0316703966
-NL: NLBGS 5 ; 6.74556479 0.000317219916
-NL: NLBGS 6 ; 1.18882185 5.59060628e-05
-NL: NLBGS 7 ; 0.141552046 6.65668919e-06
-NL: NLBGS 8 ; 0.00402640124 1.89347327e-07
-NL: NLBGS 9 ; 0.000234099275 1.10088561e-08
-NL: NLBGS 10 ; 5.02896604e-05 2.36494383e-09
-NL: NLBGS 11 ; 4.37783042e-06 2.05873791e-10
-NL: NLBGS 12 ; 1.24001138e-07 5.83133239e-12
-NL: NLBGS 13 ; 4.12474646e-08 1.93972153e-12
-NL: NLBGS Converged
-
-==================
-AS_point_1.coupled
-==================
-NL: NLBGS 1 ; 73129.4203 1
-NL: NLBGS 2 ; 98084.6601 1.34124761
-NL: NLBGS 3 ; 45398.4826 0.620796425
-NL: NLBGS 4 ; 824.294721 0.0112717251
-NL: NLBGS 5 ; 181.548029 0.00248255803
-NL: NLBGS 6 ; 125.747796 0.00171952403
-NL: NLBGS 7 ; 43.8748412 0.000599961562
-NL: NLBGS 8 ; 1.26382422 1.72820216e-05
-NL: NLBGS 9 ; 0.3680316 5.03260655e-06
-NL: NLBGS 10 ; 0.106672429 1.45868009e-06
-NL: NLBGS 11 ; 0.0156826664 2.14450851e-07
-NL: NLBGS 12 ; 0.00284459937 3.88981529e-08
-NL: NLBGS 13 ; 0.00175905885 2.40540516e-08
-NL: NLBGS 14 ; 0.000153632593 2.10083154e-09
-NL: NLBGS 15 ; 2.52387191e-05 3.45124014e-10
-NL: NLBGS 16 ; 8.42183577e-06 1.15163442e-10
-NL: NLBGS 17 ; 2.12124375e-06 2.90067082e-11
-NL: NLBGS 18 ; 4.93910379e-08 6.75392171e-13
-NL: NLBGS Converged
-Optimization terminated successfully    (Exit mode 0)
-            Current function value: [0.97788112]
-            Iterations: 7
-            Function evaluations: 9
-            Gradient evaluations: 7
-Optimization Complete
------------------------------------</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The fuel burn value is&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="p">[</span><span class="s1">&#39;AS_point_0.fuelburn&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;[kg]&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>The fuel burn value is 97788.11166796465 [kg]</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The wingbox mass (excluding the wing_weight_ratio) is&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="p">[</span><span class="s1">&#39;wing.structural_mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">surf_dict</span><span class="p">[</span><span class="s1">&#39;wing_weight_ratio&#39;</span><span class="p">],</span> <span class="s1">&#39;[kg]&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>The wingbox mass (excluding the wing_weight_ratio) is 19174.00918660545 [kg]</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#docs checkpoint 28</span>
+<span class="c1">#docs checkpoint 28</span>
 </pre></div>
 </div>
 <p>The following are the visualization results (keep in mind that this is with a very large optimization tolerance) for this problem using the <cite>plot_wingbox.py</cite> visualization script (located in the <cite>utils</cite> directory).
@@ -1440,8 +1003,8 @@ For example, to use it for this example problem, from the example script’s (wi
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Feb 20, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Last updated on Aug 10, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

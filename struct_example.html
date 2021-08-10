@@ -82,7 +82,7 @@ Although doing structural-only optimizations is relatively rare, this is a build
             <span class="s1">&#39;mrho&#39;</span> <span class="p">:</span> <span class="mf">3.e3</span><span class="p">,</span>          <span class="c1"># [kg/m^3] material density</span>
             <span class="s1">&#39;fem_origin&#39;</span> <span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span>    <span class="c1"># normalized chordwise location of the spar</span>
             <span class="s1">&#39;t_over_c_cp&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15</span><span class="p">]),</span>      <span class="c1"># maximum airfoil thickness</span>
-            <span class="s1">&#39;thickness_cp&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;thickness_cp&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mf">.1</span><span class="p">,</span>
             <span class="s1">&#39;wing_weight_ratio&#39;</span> <span class="p">:</span> <span class="mf">2.</span><span class="p">,</span>
             <span class="s1">&#39;struct_weight_relief&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>    <span class="c1"># True to add the weight of the structure to the loads on the structure</span>
             <span class="s1">&#39;distributed_fuel_weight&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
@@ -142,7 +142,7 @@ Optimization Complete
 -----------------------------------</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;wing.structural_mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>71088.46823993213</pre></div></div></div></blockquote>
+<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>71088.46823993576</pre></div></div></div></blockquote>
 </div>
 
 
@@ -209,8 +209,8 @@ Optimization Complete
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Feb 20, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Last updated on Aug 10, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

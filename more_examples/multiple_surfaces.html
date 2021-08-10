@@ -91,7 +91,7 @@ The most straightforward example is a wing and a tail for a conventional airplan
             <span class="s1">&#39;k_lam&#39;</span> <span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>         <span class="c1"># percentage of chord with laminar</span>
                                     <span class="c1"># flow, used for viscous drag</span>
             <span class="s1">&#39;t_over_c_cp&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15</span><span class="p">]),</span>      <span class="c1"># thickness over chord ratio (NACA0015)</span>
-            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">303</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum (NACA0015)</span>
+            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="mf">.303</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum (NACA0015)</span>
                                     <span class="c1"># thickness</span>
             <span class="s1">&#39;with_viscous&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># if true, compute viscous drag</span>
             <span class="s1">&#39;with_wave&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>     <span class="c1"># if true, compute wave drag</span>
@@ -132,7 +132,7 @@ The most straightforward example is a wing and a tail for a conventional airplan
             <span class="s1">&#39;k_lam&#39;</span> <span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>         <span class="c1"># percentage of chord with laminar</span>
                                     <span class="c1"># flow, used for viscous drag</span>
             <span class="s1">&#39;t_over_c_cp&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15</span><span class="p">]),</span>      <span class="c1"># thickness over chord ratio (NACA0015)</span>
-            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">303</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum (NACA0015)</span>
+            <span class="s1">&#39;c_max_t&#39;</span> <span class="p">:</span> <span class="mf">.303</span><span class="p">,</span>       <span class="c1"># chordwise location of maximum (NACA0015)</span>
                                     <span class="c1"># thickness</span>
             <span class="s1">&#39;with_viscous&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># if true, compute viscous drag</span>
             <span class="s1">&#39;with_wave&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>     <span class="c1"># if true, compute wave drag</span>
@@ -201,15 +201,11 @@ The most straightforward example is a wing and a tail for a conventional airplan
 <span class="n">prob</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;aero_point_0.wing_perf.CD&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;aero_point_0.wing_perf.CL&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;aero_point_0.CM&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>0.03721047865983213</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;aero_point_0.wing_perf.CL&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>0.512473693224805</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;aero_point_0.CM&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>-1.7028233361964462</pre></div></div></div>
 
 
             <div class="clearer"></div>
@@ -282,8 +278,8 @@ The most straightforward example is a wing and a tail for a conventional airplan
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Feb 20, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Last updated on Aug 10, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

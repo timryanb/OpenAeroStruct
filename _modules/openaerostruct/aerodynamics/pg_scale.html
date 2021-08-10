@@ -166,6 +166,7 @@
         <span class="c1"># We&#39;ll compute all of sensitivities associated with Mach number through</span>
         <span class="c1"># complex-step. Since it&#39;s a scalar this is pretty cheap.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_check_partial_options</span><span class="p">(</span><span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
 
         <span class="n">row_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_eval_points</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 
@@ -306,6 +307,7 @@
         <span class="c1"># We&#39;ll compute all of sensitivities associated with Mach number through</span>
         <span class="c1"># complex-step. Since it&#39;s a scalar this is pretty cheap.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_check_partial_options</span><span class="p">(</span><span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]:</span>
             <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
@@ -417,8 +419,8 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Feb 20, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Last updated on Aug 10, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

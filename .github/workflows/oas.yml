@@ -1,8 +1,9 @@
 name: OAS build
 
-# This workflow is triggered on the pull-request events, as well as when we push to the master branch (i.e., merge PR).
-# On the pull-request events, this runs tests and builds docs (but not deploy it).
-# On the push-to-master events, in addition to the tests and docs build, it deploys the docs and runs coveralls.
+# This workflow runs all unit and regression tests, as well as coveralls.
+# On the pull-request events, this workflow runs OAS tests, checks code format by flake8/black, and builds the docs.
+# On the push-to-master events, it also deploys the docs.
+
 on:
   pull_request:
   push:
@@ -10,7 +11,8 @@ on:
       - master
 
 jobs:
-  build:
+  # --- run OAS unit and regression tests ---
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,9 +50,63 @@ jobs:
         cd openaerostruct
         testflo -n 2 openaerostruct --coverage --coverpkg openaerostruct --cover-omit \*tests/\* --cover-omit \*docs/\*
 
+    - name: Run coveralls
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cd openaerostruct
+        coveralls --service=github --rcfile=../.coveragerc;
+
+  # --- code style check by flake8 ---
+  flake8:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    # use both MDO Lab standard config
+    - name: Code style (flake8)
+      run: |
+        pip install flake8==3.9.2
+        wget https://raw.githubusercontent.com/mdolab/.github/master/.flake8 -O .flake8_mdolab
+        python -m flake8 openaerostruct --append-config .flake8_mdolab --append-config .github/.flake8_oas_specific --count --show-source --statistics
+
+  # --- code format check by black ---
+  black:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    # code format check by black
+    - name: Code format (black)
+      run: |
+        pip install black==21.6b0
+        black openaerostruct --check --diff -l 120 --target-version py38
+
+  # --- documentation build ---
+  docs-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
     # build docs
     - name: Build docs
       run: |
+        python -m pip install --upgrade pip wheel
         pip install .[docs]
         cd openaerostruct/docs
         make clean
@@ -76,10 +132,3 @@ jobs:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Run coveralls
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cd openaerostruct
-        coveralls --service=github --rcfile=../.coveragerc;

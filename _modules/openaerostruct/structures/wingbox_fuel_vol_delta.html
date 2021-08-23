@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.wingbox_fuel_vol_delta &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.wingbox_fuel_vol_delta &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.wingbox_fuel_vol_delta</a></li> 
       </ul>
@@ -43,11 +43,12 @@
 
 
 <div class="viewcode-block" id="norm"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/wingbox_fuel_vol_delta.html#openaerostruct.structures.wingbox_fuel_vol_delta.norm">[docs]</a><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vec</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vec</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
+
 
 <div class="viewcode-block" id="WingboxFuelVolDelta"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/wingbox_fuel_vol_delta.html#openaerostruct.structures.wingbox_fuel_vol_delta.WingboxFuelVolDelta">[docs]</a><span class="k">class</span> <span class="nc">WingboxFuelVolDelta</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">ExplicitComponent</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a constraint to ensure the wingbox has enough internal volume to </span>
+<span class="sd">    Create a constraint to ensure the wingbox has enough internal volume to</span>
 <span class="sd">    store the required fuel.</span>
 
 <span class="sd">    Parameters</span>
@@ -64,33 +65,33 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;fuelburn&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;fuel_vols&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**3&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;fuel_vol_delta&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**3&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;fuelburn&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;kg&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;fuel_vols&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**3&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;fuel_vol_delta&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**3&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cs&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">fuel_weight</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;fuelburn&#39;</span><span class="p">]</span>
-        <span class="n">reserves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;Wf_reserve&#39;</span><span class="p">]</span>
-        <span class="n">fuel_density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;fuel_density&#39;</span><span class="p">]</span>
-        <span class="n">vols</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;fuel_vols&#39;</span><span class="p">]</span>
+        <span class="n">fuel_weight</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;fuelburn&quot;</span><span class="p">]</span>
+        <span class="n">reserves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;Wf_reserve&quot;</span><span class="p">]</span>
+        <span class="n">fuel_density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;fuel_density&quot;</span><span class="p">]</span>
+        <span class="n">vols</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;fuel_vols&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-             <span class="n">fuel_weight</span> <span class="o">/=</span> <span class="mf">2.</span>
-             <span class="n">reserves</span> <span class="o">/=</span> <span class="mf">2.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">fuel_weight</span> <span class="o">/=</span> <span class="mf">2.0</span>
+            <span class="n">reserves</span> <span class="o">/=</span> <span class="mf">2.0</span>
 
         <span class="n">sum_vols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vols</span><span class="p">)</span>
 
         <span class="c1"># This is used for the fuel-volume constraint. It should be positive for fuel to fit.</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;fuel_vol_delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_vols</span> <span class="o">-</span> <span class="p">(</span><span class="n">fuel_weight</span> <span class="o">+</span> <span class="n">reserves</span><span class="p">)</span> <span class="o">/</span> <span class="n">fuel_density</span></div>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;fuel_vol_delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_vols</span> <span class="o">-</span> <span class="p">(</span><span class="n">fuel_weight</span> <span class="o">+</span> <span class="n">reserves</span><span class="p">)</span> <span class="o">/</span> <span class="n">fuel_density</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -144,14 +145,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.wingbox_fuel_vol_delta</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

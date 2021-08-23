@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.geometry.ffd_component &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.geometry.ffd_component &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.geometry.ffd_component</a></li> 
       </ul>
@@ -42,9 +42,10 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pygeo</span> <span class="kn">import</span> <span class="n">DVGeometry</span>
-<span class="k">except</span><span class="p">:</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">pass</span>
 
 
@@ -70,34 +71,34 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;DVGeo&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="n">DVGeometry</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;DVGeo&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="n">DVGeometry</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mx&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;my&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;DVGeo&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;DVGeo&quot;</span><span class="p">]</span>
 
         <span class="c1"># Associate a &#39;reference axis&#39; for large-scale manipulation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addRefAxis</span><span class="p">(</span><span class="s1">&#39;wing_axis&#39;</span><span class="p">,</span> <span class="n">xFraction</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alignIndex</span><span class="o">=</span><span class="s1">&#39;i&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addRefAxis</span><span class="p">(</span><span class="s2">&quot;wing_axis&quot;</span><span class="p">,</span> <span class="n">xFraction</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alignIndex</span><span class="o">=</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>
 
         <span class="c1"># Now add local (shape) variables</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addGeoDVLocal</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addGeoDVLocal</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
 
-        <span class="n">pts</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addPointSet</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="s1">&#39;surface&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">addPointSet</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="s2">&quot;surface&quot;</span><span class="p">)</span>
 
         <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">getLocalIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inds</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inds2</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
         <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span>
@@ -107,28 +108,28 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inds</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
                 <span class="n">ind2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inds2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-                <span class="n">dvs</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-                <span class="n">dvs</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">][</span><span class="n">ind2</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="n">dvs</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="n">dvs</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">][</span><span class="n">ind2</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">setDesignVars</span><span class="p">(</span><span class="n">dvs</span><span class="p">)</span>
-        <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">)</span>
 
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mesh</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mesh</span>
 
     <span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">partials</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">computeTotalJacobian</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span>
-        <span class="n">jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">JT</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">my_jac</span> <span class="o">=</span> <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">]</span>
-        <span class="n">my_jac</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">computeTotalJacobian</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">)</span>
+        <span class="n">jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DVGeo</span><span class="o">.</span><span class="n">JT</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">my_jac</span> <span class="o">=</span> <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+        <span class="n">my_jac</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inds</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
             <span class="n">ind2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inds2</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">my_jac</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">jac</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]</span>
             <span class="n">my_jac</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">jac</span><span class="p">[:,</span> <span class="n">ind2</span><span class="p">]</span>
 
-        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_jac</span></div>
+        <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_jac</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -182,14 +183,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.geometry.ffd_component</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

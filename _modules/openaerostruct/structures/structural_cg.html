@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.structural_cg &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.structural_cg &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.structural_cg</a></li> 
       </ul>
@@ -43,7 +43,7 @@
 
 
 <div class="viewcode-block" id="StructuralCG"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/structural_cg.html#openaerostruct.structures.structural_cg.StructuralCG">[docs]</a><span class="k">class</span> <span class="nc">StructuralCG</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">ExplicitComponent</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Compute center-of-gravity location of the spar elements.</span>
+    <span class="sd">&quot;&quot;&quot;Compute center-of-gravity location of the spar elements.</span>
 
 <span class="sd">    parameters</span>
 <span class="sd">    ----------</span>
@@ -62,87 +62,87 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Setup Inputs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;nodes&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;structural_mass&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;element_mass&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;nodes&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;structural_mass&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;kg&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;element_mass&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;kg&quot;</span><span class="p">)</span>
 
         <span class="c1"># Setup Outputs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">)),</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 
         <span class="c1"># Setup Partials</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;structural_mass&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;element_mass&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s2">&quot;structural_mass&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s2">&quot;element_mass&quot;</span><span class="p">)</span>
         <span class="c1"># Setup Sparce Matrix</span>
         <span class="n">dimensions</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">cols_const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">*</span><span class="n">dimensions</span><span class="p">,</span><span class="n">dimensions</span><span class="p">)</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">*</span><span class="n">dimensions</span><span class="p">)</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">*</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">cols_const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">*</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">*</span> <span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">*</span> <span class="n">dimensions</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimensions</span><span class="p">):</span>
-            <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">]</span><span class="o">=</span><span class="n">i</span>
-            <span class="n">cols</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">]</span><span class="o">=</span><span class="n">cols_const</span><span class="o">+</span><span class="n">i</span>
+            <span class="n">rows</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">cols</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">cols_const</span> <span class="o">+</span> <span class="n">i</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;nodes&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s2">&quot;nodes&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 
         <span class="c1"># Check partials options</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_check_partial_options</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_check_partial_options</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cs&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-40</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">]</span>
-        <span class="n">structural_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;structural_mass&#39;</span><span class="p">]</span>
-        <span class="n">element_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;element_mass&#39;</span><span class="p">]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span>
+        <span class="n">structural_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;structural_mass&quot;</span><span class="p">]</span>
+        <span class="n">element_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;element_mass&quot;</span><span class="p">]</span>
 
         <span class="c1"># Calculate the center-of-gravity location of the spar elements only</span>
-        <span class="n">center_of_elements</span> <span class="o">=</span> <span class="p">((</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">nodes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">center_of_elements</span> <span class="o">=</span> <span class="p">((</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">nodes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="n">cg_loc</span> <span class="o">=</span> <span class="n">center_of_elements</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">element_mass</span><span class="p">)</span> <span class="o">/</span> <span class="n">structural_mass</span>
 
         <span class="c1"># If the tube is symmetric, double the computed weight and set the</span>
         <span class="c1"># y-location of the cg to 0, at the symmetry plane</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]:</span>
-            <span class="n">cg_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
-            <span class="n">cg_loc</span> <span class="o">*=</span> <span class="mf">2.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]:</span>
+            <span class="n">cg_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">cg_loc</span> <span class="o">*=</span> <span class="mf">2.0</span>
 
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cg_loc</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cg_loc</span>
 
     <span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">J</span><span class="p">):</span>
         <span class="n">ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">]</span>
-        <span class="n">structural_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;structural_mass&#39;</span><span class="p">]</span>
-        <span class="n">element_mass</span> <span class="o">=</span> <span class="n">em</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;element_mass&#39;</span><span class="p">]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span>
+        <span class="n">structural_mass</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;structural_mass&quot;</span><span class="p">]</span>
+        <span class="n">element_mass</span> <span class="o">=</span> <span class="n">em</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;element_mass&quot;</span><span class="p">]</span>
 
-        <span class="n">center_of_elements</span> <span class="o">=</span> <span class="p">((</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">nodes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">center_of_elements</span> <span class="o">=</span> <span class="p">((</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">nodes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
         <span class="n">sum_coe_dot_em</span> <span class="o">=</span> <span class="n">center_of_elements</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">element_mass</span><span class="p">)</span>
 
-        <span class="n">is_sym</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]</span>
+        <span class="n">is_sym</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
 
-        <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;structural_mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">sum_coe_dot_em</span><span class="o">/</span><span class="n">structural_mass</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;element_mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center_of_elements</span><span class="o">/</span><span class="n">structural_mass</span>
+        <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;structural_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">sum_coe_dot_em</span> <span class="o">/</span> <span class="n">structural_mass</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;element_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center_of_elements</span> <span class="o">/</span> <span class="n">structural_mass</span>
 
-        <span class="c1">#derivates with respect to nodes require special ninja math</span>
+        <span class="c1"># derivates with respect to nodes require special ninja math</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">em</span>
+        <span class="n">values</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">em</span>
         <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">ny</span><span class="p">]</span> <span class="o">+=</span> <span class="n">em</span>
-        <span class="n">values</span> <span class="o">/=</span> <span class="mi">2</span><span class="o">*</span><span class="n">structural_mass</span>
+        <span class="n">values</span> <span class="o">/=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">structural_mass</span>
         <span class="n">dimensions</span> <span class="o">=</span> <span class="mi">3</span>
 
-        <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">values</span><span class="p">,</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;nodes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">is_sym</span><span class="p">:</span>
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes&#39;</span><span class="p">][</span><span class="n">ny</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">ny</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;nodes&quot;</span><span class="p">][</span><span class="n">ny</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ny</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;nodes&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
 
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;structural_mass&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;structural_mass&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;structural_mass&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;structural_mass&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
 
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;element_mass&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">J</span><span class="p">[</span><span class="s1">&#39;cg_location&#39;</span><span class="p">,</span> <span class="s1">&#39;element_mass&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span></div>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;element_mass&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">J</span><span class="p">[</span><span class="s2">&quot;cg_location&quot;</span><span class="p">,</span> <span class="s2">&quot;element_mass&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -196,14 +196,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.structural_cg</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

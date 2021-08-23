@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.utils &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.utils &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.utils</a></li> 
       </ul>
@@ -41,51 +41,55 @@
 
 
 <div class="viewcode-block" id="norm"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.norm">[docs]</a><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vec</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vec</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span></div>
+
 
 <div class="viewcode-block" id="unit"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.unit">[docs]</a><span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">vec</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="norm_d"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.norm_d">[docs]</a><span class="k">def</span> <span class="nf">norm_d</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
-    <span class="n">vec_d</span> <span class="o">=</span> <span class="n">vec</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+    <span class="n">vec_d</span> <span class="o">=</span> <span class="n">vec</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vec_d</span></div>
+
 
 <div class="viewcode-block" id="unit_d"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.unit_d">[docs]</a><span class="k">def</span> <span class="nf">unit_d</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
     <span class="n">n_d</span> <span class="o">=</span> <span class="n">norm_d</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
     <span class="n">normvec</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
-    <span class="n">vec_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">((</span><span class="o">-</span><span class="n">vec</span><span class="o">/</span><span class="p">(</span><span class="n">normvec</span><span class="o">*</span><span class="n">normvec</span><span class="p">)),</span><span class="n">n_d</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">normvec</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span>
+    <span class="n">vec_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">((</span><span class="o">-</span><span class="n">vec</span> <span class="o">/</span> <span class="p">(</span><span class="n">normvec</span> <span class="o">*</span> <span class="n">normvec</span><span class="p">)),</span> <span class="n">n_d</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">normvec</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">vec_d</span></div>
 
+
 <span class="c1"># This is a limited cross product definition for 3 vectors</span>
-<div class="viewcode-block" id="cross_d"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.cross_d">[docs]</a><span class="k">def</span> <span class="nf">cross_d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="p">:</span>
+<div class="viewcode-block" id="cross_d"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.cross_d">[docs]</a><span class="k">def</span> <span class="nf">cross_d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="o">!=</span><span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;a must be a (3,) nd array&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;a must be a (3,) nd array&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="o">!=</span><span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;b must be a (3,) nd array&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;b must be a (3,) nd array&quot;</span><span class="p">)</span>
 
-    <span class="n">dcda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-    <span class="n">dcdb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">dcda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">dcdb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">=-</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=-</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">dcda</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">=-</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dcda</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">=-</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">=-</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=-</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">dcdb</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dcdb</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">dcda</span><span class="p">,</span><span class="n">dcdb</span></div>
+    <span class="k">return</span> <span class="n">dcda</span><span class="p">,</span> <span class="n">dcdb</span></div>
 
 
 <div class="viewcode-block" id="radii"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/utils.html#openaerostruct.structures.utils.radii">[docs]</a><span class="k">def</span> <span class="nf">radii</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">t_c</span><span class="o">=</span><span class="mf">0.15</span><span class="p">):</span>
@@ -94,7 +98,7 @@
 <span class="sd">    Obtain the radii of the FEM element based on local chord.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">vectors</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">mesh</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
-    <span class="n">chords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vectors</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">chords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vectors</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">mean_chords</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">chords</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">chords</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">return</span> <span class="n">t_c</span> <span class="o">*</span> <span class="n">mean_chords</span> <span class="o">*</span> <span class="mf">0.5</span></div>
 </pre></div>
@@ -150,14 +154,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.utils</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.aerodynamics.compressible_states &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.aerodynamics.compressible_states &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.compressible_states</a></li> 
       </ul>
@@ -76,190 +76,197 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;rotational&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
-                             <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Set to True to turn on support for computing angular velocities&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surfaces&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+            <span class="s2">&quot;rotational&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Set to True to turn on support for computing angular velocities&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]</span>
-        <span class="n">rotational</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;rotational&#39;</span><span class="p">]</span>
+        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]</span>
+        <span class="n">rotational</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;rotational&quot;</span><span class="p">]</span>
 
         <span class="n">num_collocation_points</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">mesh</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+            <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
             <span class="n">nx</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ny</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">num_collocation_points</span> <span class="o">+=</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="n">num_force_points</span> <span class="o">=</span> <span class="n">num_collocation_points</span>
 
-        <span class="c1">#----------------------------------------------------------------</span>
+        <span class="c1"># ----------------------------------------------------------------</span>
         <span class="c1"># Step 0: Need to calculate a few things prior to transformation.</span>
-        <span class="c1">#----------------------------------------------------------------</span>
+        <span class="c1"># ----------------------------------------------------------------</span>
 
         <span class="c1"># Get collocation points</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;collocation_points&#39;</span><span class="p">,</span>
-             <span class="n">CollocationPoints</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;collocation_points&quot;</span><span class="p">,</span> <span class="n">CollocationPoints</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="c1"># Convert freestream velocity to array of velocities</span>
         <span class="k">if</span> <span class="n">rotational</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;rotational_velocity&#39;</span><span class="p">,</span>
-                 <span class="n">RotationalVelocity</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-                 <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;omega&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+                <span class="s2">&quot;rotational_velocity&quot;</span><span class="p">,</span> <span class="n">RotationalVelocity</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cg&quot;</span><span class="p">,</span> <span class="s2">&quot;omega&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;collocation_points.coll_pts&#39;</span><span class="p">,</span> <span class="s1">&#39;rotational_velocity.coll_pts&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;collocation_points.coll_pts&quot;</span><span class="p">,</span> <span class="s2">&quot;rotational_velocity.coll_pts&quot;</span><span class="p">)</span>
 
-        <span class="c1">#----------------------------------------</span>
+        <span class="c1"># ----------------------------------------</span>
         <span class="c1"># Step 1: Transform geometry to PG domain</span>
-        <span class="c1">#----------------------------------------</span>
+        <span class="c1"># ----------------------------------------</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;collocation_points.coll_pts&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_transform.coll_pts&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;collocation_points.bound_vecs&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_transform.bound_vecs&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;collocation_points.force_pts&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_transform.force_pts&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;collocation_points.coll_pts&quot;</span><span class="p">,</span> <span class="s2">&quot;pg_transform.coll_pts&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;collocation_points.bound_vecs&quot;</span><span class="p">,</span> <span class="s2">&quot;pg_transform.bound_vecs&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;collocation_points.force_pts&quot;</span><span class="p">,</span> <span class="s2">&quot;pg_transform.force_pts&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rotational</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;rotational_velocity.rotational_velocities&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_transform.rotational_velocities&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;rotational_velocity.rotational_velocities&quot;</span><span class="p">,</span> <span class="s2">&quot;pg_transform.rotational_velocities&quot;</span><span class="p">)</span>
 
-        <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">]</span>
+        <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;Mach_number&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="n">vname</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_def_mesh&#39;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_def_mesh&quot;</span>
             <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.&#39;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s1">&#39;_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;vortex_mesh.&#39;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.&quot;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s2">&quot;_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;vortex_mesh.&quot;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">)</span>
 
-            <span class="n">vname</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_normals&#39;</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_normals&quot;</span>
             <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.&#39;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s1">&#39;_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;mtx_rhs.&#39;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.&quot;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s2">&quot;_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;mtx_rhs.&quot;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;pg_transform&#39;</span><span class="p">,</span> <span class="n">PGTransform</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">),</span>
-            <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;pg_transform&quot;</span><span class="p">,</span> <span class="n">PGTransform</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.coll_pts_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;coll_pts&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.bound_vecs_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;bound_vecs&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.force_pts_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;force_pts&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.coll_pts_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;coll_pts&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.bound_vecs_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;bound_vecs&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.force_pts_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;force_pts&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rotational</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_transform.rotational_velocities_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;rotational_velocities&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_transform.rotational_velocities_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;rotational_velocities&quot;</span><span class="p">)</span>
 
-        <span class="c1">#---------------------------------------------------</span>
+        <span class="c1"># ---------------------------------------------------</span>
         <span class="c1"># Step 2: Solve incompressible problem in PG domain</span>
-        <span class="c1">#---------------------------------------------------</span>
+        <span class="c1"># ---------------------------------------------------</span>
 
         <span class="c1"># Compute the vortex mesh based off the deformed aerodynamic mesh</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;vortex_mesh&#39;</span><span class="p">,</span>
-            <span class="n">VortexMesh</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;vortex_mesh&quot;</span><span class="p">,</span> <span class="n">VortexMesh</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="c1"># Get vectors from mesh points to collocation points</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;get_vectors&#39;</span><span class="p">,</span>
-             <span class="n">GetVectors</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_collocation_points</span><span class="p">,</span>
-                <span class="n">eval_name</span><span class="o">=</span><span class="s1">&#39;coll_pts&#39;</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;get_vectors&quot;</span><span class="p">,</span>
+            <span class="n">GetVectors</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_collocation_points</span><span class="p">,</span> <span class="n">eval_name</span><span class="o">=</span><span class="s2">&quot;coll_pts&quot;</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># In the PG domain, alpha and beta are zero.</span>
         <span class="n">indep_var_comp</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">IndepVarComp</span><span class="p">()</span>
-        <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;alpha_pg&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
-        <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;beta_pg&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;pg_frame&#39;</span><span class="p">,</span> <span class="n">indep_var_comp</span><span class="p">)</span>
+        <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;alpha_pg&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;deg&quot;</span><span class="p">)</span>
+        <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;beta_pg&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;deg&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;pg_frame&quot;</span><span class="p">,</span> <span class="n">indep_var_comp</span><span class="p">)</span>
 
         <span class="c1"># Construct matrix based on rings, not horseshoes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;mtx_assy&#39;</span><span class="p">,</span>
-             <span class="n">EvalVelMtx</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_collocation_points</span><span class="p">,</span>
-                <span class="n">eval_name</span><span class="o">=</span><span class="s1">&#39;coll_pts&#39;</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*_vectors&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;mtx_assy&quot;</span><span class="p">,</span>
+            <span class="n">EvalVelMtx</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_collocation_points</span><span class="p">,</span> <span class="n">eval_name</span><span class="o">=</span><span class="s2">&quot;coll_pts&quot;</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*_vectors&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_frame.alpha_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;mtx_assy.alpha&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_frame.alpha_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;mtx_assy.alpha&quot;</span><span class="p">)</span>
 
         <span class="c1"># Convert freestream velocity to array of velocities</span>
         <span class="c1"># Note, don&#39;t want to promote Alpha or Beta here because we are in the transformed system.</span>
-        <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+        <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">rotational</span><span class="p">:</span>
-            <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;rotational_velocities&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;convert_velocity&#39;</span><span class="p">,</span>
-             <span class="n">ConvertVelocity</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span><span class="p">,</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+            <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;rotational_velocities&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;convert_velocity&quot;</span><span class="p">,</span>
+            <span class="n">ConvertVelocity</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span><span class="p">,</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_frame.alpha_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_velocity.alpha&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_frame.beta_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_velocity.beta&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_frame.alpha_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;convert_velocity.alpha&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_frame.beta_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;convert_velocity.beta&quot;</span><span class="p">)</span>
 
         <span class="c1"># Construct RHS and full matrix of system</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;mtx_rhs&#39;</span><span class="p">,</span>
-             <span class="n">VLMMtxRHSComp</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;freestream_velocities&#39;</span><span class="p">,</span> <span class="s1">&#39;*coll_pts_vel_mtx&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;mtx_rhs&quot;</span><span class="p">,</span>
+            <span class="n">VLMMtxRHSComp</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;freestream_velocities&quot;</span><span class="p">,</span> <span class="s2">&quot;*coll_pts_vel_mtx&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Solve Mtx RHS to get ring circs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;solve_matrix&#39;</span><span class="p">,</span>
-             <span class="n">SolveMatrix</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;solve_matrix&quot;</span><span class="p">,</span> <span class="n">SolveMatrix</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="c1"># Convert ring circs to horseshoe circs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;horseshoe_circulations&#39;</span><span class="p">,</span>
-             <span class="n">HorseshoeCirculations</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;horseshoe_circulations&quot;</span><span class="p">,</span>
+            <span class="n">HorseshoeCirculations</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Eval force vectors</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;get_vectors_force&#39;</span><span class="p">,</span>
-             <span class="n">GetVectors</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span>
-                <span class="n">eval_name</span><span class="o">=</span><span class="s1">&#39;force_pts&#39;</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;get_vectors_force&quot;</span><span class="p">,</span>
+            <span class="n">GetVectors</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span> <span class="n">eval_name</span><span class="o">=</span><span class="s2">&quot;force_pts&quot;</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Set up force mtx</span>
         <span class="c1"># Note, don&#39;t want to promote Alpha here because we are in the transformed system.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;mtx_assy_forces&#39;</span><span class="p">,</span>
-             <span class="n">EvalVelMtx</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span>
-                <span class="n">eval_name</span><span class="o">=</span><span class="s1">&#39;force_pts&#39;</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*_force_pts_vectors&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;mtx_assy_forces&quot;</span><span class="p">,</span>
+            <span class="n">EvalVelMtx</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span> <span class="n">eval_name</span><span class="o">=</span><span class="s2">&quot;force_pts&quot;</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*_force_pts_vectors&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;pg_frame.alpha_pg&#39;</span><span class="p">,</span> <span class="s1">&#39;mtx_assy_forces.alpha&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;pg_frame.alpha_pg&quot;</span><span class="p">,</span> <span class="s2">&quot;mtx_assy_forces.alpha&quot;</span><span class="p">)</span>
 
         <span class="c1"># Multiply by horseshoe circs to get velocities</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;eval_velocities&#39;</span><span class="p">,</span>
-             <span class="n">EvalVelocities</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span>
-                <span class="n">eval_name</span><span class="o">=</span><span class="s1">&#39;force_pts&#39;</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;eval_velocities&quot;</span><span class="p">,</span>
+            <span class="n">EvalVelocities</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">num_eval_points</span><span class="o">=</span><span class="n">num_force_points</span><span class="p">,</span> <span class="n">eval_name</span><span class="o">=</span><span class="s2">&quot;force_pts&quot;</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Get sectional panel forces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;panel_forces&#39;</span><span class="p">,</span>
-             <span class="n">PanelForces</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;panel_forces&quot;</span><span class="p">,</span> <span class="n">PanelForces</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="c1"># Get panel forces for each lifting surface individually</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;panel_forces_surf&#39;</span><span class="p">,</span>
-             <span class="n">PanelForcesSurf</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;panel_forces_surf&quot;</span><span class="p">,</span> <span class="n">PanelForcesSurf</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
-        <span class="c1">#-----------------------------------------------------------</span>
+        <span class="c1"># -----------------------------------------------------------</span>
         <span class="c1"># Step 3: Transform forces from PG domain to physical domain</span>
-        <span class="c1">#-----------------------------------------------------------</span>
+        <span class="c1"># -----------------------------------------------------------</span>
 
         <span class="n">prom_out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">vname</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_sec_forces&#39;</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_sec_forces&quot;</span>
             <span class="n">prom_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;panel_forces_surf.&#39;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">,</span> <span class="s1">&#39;inverse_pg_transform.&#39;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s1">&#39;_pg&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;panel_forces_surf.&quot;</span> <span class="o">+</span> <span class="n">vname</span><span class="p">,</span> <span class="s2">&quot;inverse_pg_transform.&quot;</span> <span class="o">+</span> <span class="n">vname</span> <span class="o">+</span> <span class="s2">&quot;_pg&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;inverse_pg_transform&#39;</span><span class="p">,</span> <span class="n">InversePGTransform</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">],</span>
-            <span class="n">promotes_outputs</span><span class="o">=</span><span class="n">prom_out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;inverse_pg_transform&quot;</span><span class="p">,</span>
+            <span class="n">InversePGTransform</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;Mach_number&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="n">prom_out</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="c1">#---------------------------------------------------------------</span>
+        <span class="c1"># ---------------------------------------------------------------</span>
         <span class="c1"># Step 4: Mesh point forces are downstream, already transformed.</span>
-        <span class="c1">#---------------------------------------------------------------</span>
+        <span class="c1"># ---------------------------------------------------------------</span>
 
         <span class="c1"># Get nodal forces for each lifting surface individually</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;mesh_point_forces_surf&#39;</span><span class="p">,</span>
-             <span class="n">MeshPointForces</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span>
-             <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-             <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;mesh_point_forces_surf&quot;</span><span class="p">,</span> <span class="n">MeshPointForces</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+        <span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -313,14 +320,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.compressible_states</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

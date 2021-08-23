@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.local_stiff_transformed &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.local_stiff_transformed &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.local_stiff_transformed</a></li> 
       </ul>
@@ -43,41 +43,40 @@
 
 
 <div class="viewcode-block" id="LocalStiffTransformed"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/local_stiff_transformed.html#openaerostruct.structures.local_stiff_transformed.LocalStiffTransformed">[docs]</a><span class="k">class</span> <span class="nc">LocalStiffTransformed</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">ExplicitComponent</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">144</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
         <span class="n">ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span>
 
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,lm-&gt;ijklm&#39;</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ilm,jk-&gt;ijklm&#39;</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ijk,lm-&gt;ijklm&quot;</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ilm,jk-&gt;ijklm&quot;</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ilj,ilm,imk-&gt;ijk&#39;</span><span class="p">,</span>
-            <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">])</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+            <span class="s2">&quot;ilj,ilm,imk-&gt;ijk&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">partials</span><span class="p">):</span>
-        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ilj,imk-&gt;ijklm&#39;</span><span class="p">,</span>
-            <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+            <span class="s2">&quot;ilj,imk-&gt;ijklm&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ilj,ilp,kq-&gt;ijkpq&#39;</span><span class="p">,</span>
-                <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span> <span class="o">+</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;jq,ipm,imk-&gt;ijkpq&#39;</span><span class="p">,</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">])</span>
+        <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ilj,ilp,kq-&gt;ijkpq&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;jq,ipm,imk-&gt;ijkpq&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">])</span>
         <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span></div>
 </pre></div>
 
@@ -132,14 +131,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.local_stiff_transformed</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

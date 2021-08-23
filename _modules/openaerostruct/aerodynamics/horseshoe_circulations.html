@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.aerodynamics.horseshoe_circulations &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.aerodynamics.horseshoe_circulations &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.horseshoe_circulations</a></li> 
       </ul>
@@ -66,17 +66,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surfaces&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]</span>
+        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]</span>
 
         <span class="n">system_size</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Loop through all the surfaces to obtain the total system size,</span>
         <span class="c1"># which is the number of panels in the total system.</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+            <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
             <span class="n">nx</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ny</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
@@ -84,8 +84,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">system_size</span> <span class="o">=</span> <span class="n">system_size</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;circulations&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">system_size</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2/s&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;horseshoe_circulations&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">system_size</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2/s&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;circulations&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">system_size</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**2/s&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;horseshoe_circulations&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">system_size</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**2/s&quot;</span><span class="p">)</span>
 
         <span class="c1"># To convert between the two circulations, we simply need to set up a</span>
         <span class="c1"># matrix that linearly transforms the vortex ring circulations to</span>
@@ -98,7 +98,7 @@
         <span class="n">ind_1</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">ind_2</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+            <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
             <span class="n">nx</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ny</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -124,10 +124,10 @@
         <span class="c1"># Actually create the sparse matrix based on these rows and cols</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span> <span class="o">=</span> <span class="n">csc_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">system_size</span><span class="p">,</span> <span class="n">system_size</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;horseshoe_circulations&#39;</span><span class="p">,</span> <span class="s1">&#39;circulations&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;horseshoe_circulations&quot;</span><span class="p">,</span> <span class="s2">&quot;circulations&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;horseshoe_circulations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;circulations&#39;</span><span class="p">])</span></div>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;horseshoe_circulations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;circulations&quot;</span><span class="p">])</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -181,14 +181,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.horseshoe_circulations</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

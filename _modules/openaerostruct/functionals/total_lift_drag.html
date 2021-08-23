@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.functionals.total_lift_drag &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.functionals.total_lift_drag &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.functionals.total_lift_drag</a></li> 
       </ul>
@@ -64,65 +64,65 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surfaces&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**2&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;S_ref_total&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m**2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ref_total&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ref_total&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
 
         <span class="c1"># Compute the weighted CL and CD contributions from each surface,</span>
         <span class="c1"># weighted by the individual surface areas</span>
-        <span class="n">CL</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="n">CD</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">]</span>
-            <span class="n">CL</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
-            <span class="n">CD</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
+        <span class="n">CL</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">CD</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">]</span>
+            <span class="n">CL</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
+            <span class="n">CD</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
 
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;CL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CL</span> <span class="o">/</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">]</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CD</span> <span class="o">/</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">]</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;CL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CL</span> <span class="o">/</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;S_ref_total&quot;</span><span class="p">]</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;CD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CD</span> <span class="o">/</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;S_ref_total&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">partials</span><span class="p">):</span>
 
         <span class="c1"># Compute the weighted CL and CD contributions from each surface,</span>
         <span class="c1"># weighted by the individual surface areas</span>
-        <span class="n">CL</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="n">CD</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">]</span>
-            <span class="n">CL</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
-            <span class="n">CD</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
+        <span class="n">CL</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">CD</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">]</span>
+            <span class="n">CL</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
+            <span class="n">CD</span> <span class="o">+=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_ref</span>
 
-        <span class="n">S_ref_total</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;S_ref_total&#39;</span><span class="p">]</span>
+        <span class="n">S_ref_total</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;S_ref_total&quot;</span><span class="p">]</span>
 
-        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="s1">&#39;S_ref_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">CL</span> <span class="o">/</span> <span class="n">S_ref_total</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="s1">&#39;S_ref_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">CD</span> <span class="o">/</span> <span class="n">S_ref_total</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ref_total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">CL</span> <span class="o">/</span> <span class="n">S_ref_total</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ref_total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">CD</span> <span class="o">/</span> <span class="n">S_ref_total</span> <span class="o">**</span> <span class="mi">2</span>
 
-        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">]</span>
-            <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_ref</span> <span class="o">/</span> <span class="n">S_ref_total</span>
-            <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_ref</span> <span class="o">/</span> <span class="n">S_ref_total</span>
+        <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="n">S_ref</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">]</span>
+            <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_ref</span> <span class="o">/</span> <span class="n">S_ref_total</span>
+            <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_ref</span> <span class="o">/</span> <span class="n">S_ref_total</span>
 
-            <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">S_ref_total</span>
-            <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">S_ref_total</span></div>
+            <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">S_ref_total</span>
+            <span class="n">partials</span><span class="p">[</span><span class="s2">&quot;CD&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">S_ref_total</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -176,14 +176,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.functionals.total_lift_drag</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

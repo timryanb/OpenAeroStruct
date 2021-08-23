@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.geometry.geometry_mesh &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.geometry.geometry_mesh &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.geometry.geometry_mesh</a></li> 
       </ul>
@@ -43,9 +43,17 @@
 
 <span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
 
-<span class="kn">from</span> <span class="nn">openaerostruct.geometry.geometry_mesh_transformations</span> <span class="kn">import</span> \
-     <span class="n">Taper</span><span class="p">,</span> <span class="n">ScaleX</span><span class="p">,</span> <span class="n">Sweep</span><span class="p">,</span> <span class="n">ShearX</span><span class="p">,</span> <span class="n">Stretch</span><span class="p">,</span> <span class="n">ShearY</span><span class="p">,</span> <span class="n">Dihedral</span><span class="p">,</span> \
-     <span class="n">ShearZ</span><span class="p">,</span> <span class="n">Rotate</span>
+<span class="kn">from</span> <span class="nn">openaerostruct.geometry.geometry_mesh_transformations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Taper</span><span class="p">,</span>
+    <span class="n">ScaleX</span><span class="p">,</span>
+    <span class="n">Sweep</span><span class="p">,</span>
+    <span class="n">ShearX</span><span class="p">,</span>
+    <span class="n">Stretch</span><span class="p">,</span>
+    <span class="n">ShearY</span><span class="p">,</span>
+    <span class="n">Dihedral</span><span class="p">,</span>
+    <span class="n">ShearZ</span><span class="p">,</span>
+    <span class="n">Rotate</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="GeometryMesh"><a class="viewcode-back" href="../../../_srcdocs/packages/geometry/geometry_mesh.html#openaerostruct.geometry.geometry_mesh.GeometryMesh">[docs]</a><span class="k">class</span> <span class="nc">GeometryMesh</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
@@ -80,15 +88,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
 
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
         <span class="n">ny</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">mesh_shape</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">symmetry</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]</span>
+        <span class="n">symmetry</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
 
         <span class="c1"># This flag determines whether or not changes in z (dihedral) add an</span>
         <span class="c1"># additional rotation matrix to modify the twist direction</span>
@@ -96,119 +104,117 @@
 
         <span class="c1"># 1. Taper</span>
 
-        <span class="k">if</span> <span class="s1">&#39;taper&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;taper&#39;</span><span class="p">]</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;taper&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;taper&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;taper&quot;</span><span class="p">]</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;taper&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="mf">1.</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="mf">1.0</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;taper&#39;</span><span class="p">,</span> <span class="n">Taper</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;taper&quot;</span><span class="p">,</span> <span class="n">Taper</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 2. Scale X</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;chord_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chord&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;chord_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chord&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;scale_x&#39;</span><span class="p">,</span> <span class="n">ScaleX</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;scale_x&quot;</span><span class="p">,</span> <span class="n">ScaleX</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 3. Sweep</span>
 
-        <span class="k">if</span> <span class="s1">&#39;sweep&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;sweep&#39;</span><span class="p">]</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sweep&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;sweep&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;sweep&quot;</span><span class="p">]</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sweep&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;sweep&#39;</span><span class="p">,</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;sweep&quot;</span><span class="p">,</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 4. Shear X</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;xshear_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;xshear&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;xshear_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;xshear&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;shear_x&#39;</span><span class="p">,</span> <span class="n">ShearX</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;shear_x&quot;</span><span class="p">,</span> <span class="n">ShearX</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 5. Stretch</span>
 
-        <span class="k">if</span> <span class="s1">&#39;span&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;span&#39;</span><span class="p">]</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;span&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;span&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;span&quot;</span><span class="p">]</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;span&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Compute span. We need .real to make span to avoid OpenMDAO warnings.</span>
             <span class="n">quarter_chord</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">mesh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">mesh</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
             <span class="n">span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">quarter_chord</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">real</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">quarter_chord</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">real</span>
             <span class="k">if</span> <span class="n">symmetry</span><span class="p">:</span>
-                <span class="n">span</span> <span class="o">*=</span> <span class="mf">2.</span>
+                <span class="n">span</span> <span class="o">*=</span> <span class="mf">2.0</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">span</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;stretch&#39;</span><span class="p">,</span> <span class="n">Stretch</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;stretch&quot;</span><span class="p">,</span> <span class="n">Stretch</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span>
+        <span class="p">)</span>
 
         <span class="c1"># 6. Shear Y</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;yshear_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yshear&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;yshear_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;yshear&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;shear_y&#39;</span><span class="p">,</span> <span class="n">ShearY</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;shear_y&quot;</span><span class="p">,</span> <span class="n">ShearY</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 7. Dihedral</span>
 
-        <span class="k">if</span> <span class="s1">&#39;dihedral&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;dihedral&#39;</span><span class="p">]</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dihedral&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;dihedral&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;dihedral&quot;</span><span class="p">]</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;dihedral&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;dihedral&#39;</span><span class="p">,</span> <span class="n">Dihedral</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;dihedral&quot;</span><span class="p">,</span> <span class="n">Dihedral</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span>
+        <span class="p">)</span>
 
         <span class="c1"># 8. Shear Z</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;zshear_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;zshear&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;zshear_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;zshear&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;shear_z&#39;</span><span class="p">,</span> <span class="n">ShearZ</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;shear_z&quot;</span><span class="p">,</span> <span class="n">ShearZ</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">),</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">)</span>
 
         <span class="c1"># 9. Rotate</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;twist_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
-            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;twist&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;twist_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="p">:</span>
+            <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;twist&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
             <span class="n">promotes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="n">Rotate</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
-                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">,</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;rotate&quot;</span><span class="p">,</span>
+            <span class="n">Rotate</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="n">mesh_shape</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">promotes</span><span class="p">,</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
-
-        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;taper&#39;</span><span class="p">,</span> <span class="s1">&#39;scale_x&#39;</span><span class="p">,</span> <span class="s1">&#39;sweep&#39;</span><span class="p">,</span> <span class="s1">&#39;shear_x&#39;</span><span class="p">,</span> <span class="s1">&#39;stretch&#39;</span><span class="p">,</span> <span class="s1">&#39;shear_y&#39;</span><span class="p">,</span> <span class="s1">&#39;dihedral&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;shear_z&#39;</span><span class="p">,</span> <span class="s1">&#39;rotate&#39;</span><span class="p">]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;taper&quot;</span><span class="p">,</span> <span class="s2">&quot;scale_x&quot;</span><span class="p">,</span> <span class="s2">&quot;sweep&quot;</span><span class="p">,</span> <span class="s2">&quot;shear_x&quot;</span><span class="p">,</span> <span class="s2">&quot;stretch&quot;</span><span class="p">,</span> <span class="s2">&quot;shear_y&quot;</span><span class="p">,</span> <span class="s2">&quot;dihedral&quot;</span><span class="p">,</span> <span class="s2">&quot;shear_z&quot;</span><span class="p">,</span> <span class="s2">&quot;rotate&quot;</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.mesh&#39;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.in_mesh&#39;</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.mesh&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.in_mesh&quot;</span><span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -262,14 +268,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.geometry.geometry_mesh</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.tube_group &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.tube_group &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.tube_group</a></li> 
       </ul>
@@ -44,16 +44,16 @@
 
 
 <div class="viewcode-block" id="TubeGroup"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/tube_group.html#openaerostruct.structures.tube_group.TubeGroup">[docs]</a><span class="k">class</span> <span class="nc">TubeGroup</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Group that contains everything needed for a structural-only problem. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Group that contains everything needed for a structural-only problem.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;connect_geom_DVs&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;connect_geom_DVs&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
-        <span class="n">connect_geom_DVs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;connect_geom_DVs&#39;</span><span class="p">]</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
+        <span class="n">connect_geom_DVs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;connect_geom_DVs&quot;</span><span class="p">]</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
         <span class="n">ny</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">connect_geom_DVs</span><span class="p">:</span>
@@ -61,47 +61,53 @@
             <span class="n">indep_var_comp</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">IndepVarComp</span><span class="p">()</span>
 
             <span class="c1"># Add structural components to the surface-specific group</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;indep_vars&#39;</span><span class="p">,</span>
-                     <span class="n">indep_var_comp</span><span class="p">,</span>
-                     <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;indep_vars&quot;</span><span class="p">,</span> <span class="n">indep_var_comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="s1">&#39;thickness_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">n_cp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;thickness_cp&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;thickness_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">n_cp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;thickness_cp&quot;</span><span class="p">])</span>
             <span class="c1"># Add bspline components for active bspline geometric variables.</span>
-            <span class="n">x_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;thickness_bsp&#39;</span><span class="p">,</span> <span class="n">om</span><span class="o">.</span><span class="n">SplineComp</span><span class="p">(</span>
-                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bsplines&#39;</span><span class="p">,</span> <span class="n">x_interp_val</span><span class="o">=</span><span class="n">x_interp</span><span class="p">,</span>
-                <span class="n">num_cp</span><span class="o">=</span><span class="n">n_cp</span><span class="p">,</span>
-                <span class="n">interp_options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;order&#39;</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_cp</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}),</span>
-                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;thickness_cp&#39;</span><span class="p">],</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;thickness&#39;</span><span class="p">])</span>
-            <span class="n">comp</span><span class="o">.</span><span class="n">add_spline</span><span class="p">(</span><span class="n">y_cp_name</span><span class="o">=</span><span class="s1">&#39;thickness_cp&#39;</span><span class="p">,</span> <span class="n">y_interp_name</span><span class="o">=</span><span class="s1">&#39;thickness&#39;</span><span class="p">,</span>
-                <span class="n">y_units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+            <span class="n">x_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+                <span class="s2">&quot;thickness_bsp&quot;</span><span class="p">,</span>
+                <span class="n">om</span><span class="o">.</span><span class="n">SplineComp</span><span class="p">(</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bsplines&quot;</span><span class="p">,</span> <span class="n">x_interp_val</span><span class="o">=</span><span class="n">x_interp</span><span class="p">,</span> <span class="n">num_cp</span><span class="o">=</span><span class="n">n_cp</span><span class="p">,</span> <span class="n">interp_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_cp</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+                <span class="p">),</span>
+                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;thickness_cp&quot;</span><span class="p">],</span>
+                <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;thickness&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">comp</span><span class="o">.</span><span class="n">add_spline</span><span class="p">(</span><span class="n">y_cp_name</span><span class="o">=</span><span class="s2">&quot;thickness_cp&quot;</span><span class="p">,</span> <span class="n">y_interp_name</span><span class="o">=</span><span class="s2">&quot;thickness&quot;</span><span class="p">,</span> <span class="n">y_units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">connect_geom_DVs</span><span class="p">:</span>
-                <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;thickness_cp&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;thickness_cp&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+                <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;thickness_cp&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;thickness_cp&quot;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;radius_cp&#39;</span> <span class="ow">in</span> <span class="n">surface</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">n_cp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;radius_cp&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;radius_cp&quot;</span> <span class="ow">in</span> <span class="n">surface</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">n_cp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;radius_cp&quot;</span><span class="p">])</span>
             <span class="c1"># Add bspline components for active bspline geometric variables.</span>
-            <span class="n">x_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;radius_bsp&#39;</span><span class="p">,</span> <span class="n">om</span><span class="o">.</span><span class="n">SplineComp</span><span class="p">(</span>
-                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bsplines&#39;</span><span class="p">,</span> <span class="n">x_interp_val</span><span class="o">=</span><span class="n">x_interp</span><span class="p">,</span>
-                <span class="n">num_cp</span><span class="o">=</span><span class="n">n_cp</span><span class="p">,</span>
-                <span class="n">interp_options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;order&#39;</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_cp</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}),</span>
-                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;radius_cp&#39;</span><span class="p">],</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">])</span>
-            <span class="n">comp</span><span class="o">.</span><span class="n">add_spline</span><span class="p">(</span><span class="n">y_cp_name</span><span class="o">=</span><span class="s1">&#39;radius_cp&#39;</span><span class="p">,</span> <span class="n">y_interp_name</span><span class="o">=</span><span class="s1">&#39;radius&#39;</span><span class="p">,</span>
-                <span class="n">y_units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+            <span class="n">x_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+                <span class="s2">&quot;radius_bsp&quot;</span><span class="p">,</span>
+                <span class="n">om</span><span class="o">.</span><span class="n">SplineComp</span><span class="p">(</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bsplines&quot;</span><span class="p">,</span> <span class="n">x_interp_val</span><span class="o">=</span><span class="n">x_interp</span><span class="p">,</span> <span class="n">num_cp</span><span class="o">=</span><span class="n">n_cp</span><span class="p">,</span> <span class="n">interp_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_cp</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+                <span class="p">),</span>
+                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;radius_cp&quot;</span><span class="p">],</span>
+                <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">comp</span><span class="o">.</span><span class="n">add_spline</span><span class="p">(</span><span class="n">y_cp_name</span><span class="o">=</span><span class="s2">&quot;radius_cp&quot;</span><span class="p">,</span> <span class="n">y_interp_name</span><span class="o">=</span><span class="s2">&quot;radius&quot;</span><span class="p">,</span> <span class="n">y_units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">connect_geom_DVs</span><span class="p">:</span>
-                <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;radius_cp&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;radius_cp&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+                <span class="n">indep_var_comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s2">&quot;radius_cp&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">surface</span><span class="p">[</span><span class="s2">&quot;radius_cp&quot;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;radius_comp&#39;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+                <span class="s2">&quot;radius_comp&quot;</span><span class="p">,</span>
                 <span class="n">RadiusComp</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">),</span>
-                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span> <span class="s1">&#39;t_over_c&#39;</span><span class="p">],</span>
-                <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">])</span>
+                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;t_over_c&quot;</span><span class="p">],</span>
+                <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;tube&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;tube&quot;</span><span class="p">,</span>
             <span class="n">SectionPropertiesTube</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">),</span>
-            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;thickness&#39;</span><span class="p">,</span> <span class="s1">&#39;radius&#39;</span><span class="p">],</span>
-            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;Iy&#39;</span><span class="p">,</span> <span class="s1">&#39;Iz&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">])</span></div>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;thickness&quot;</span><span class="p">,</span> <span class="s2">&quot;radius&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Iy&quot;</span><span class="p">,</span> <span class="s2">&quot;Iz&quot;</span><span class="p">,</span> <span class="s2">&quot;J&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -155,14 +161,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.tube_group</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.aerodynamics.aero_groups &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.aerodynamics.aero_groups &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.aero_groups</a></li> 
       </ul>
@@ -53,44 +53,46 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;user_specified_Sref&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;rotational&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
-                             <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Set to True to turn on support for computing angular velocities&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;compressible&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                             <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Turns on compressibility correction for moderate Mach number &#39;</span>
-                             <span class="s1">&#39;flows. Defaults to False.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surfaces&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;user_specified_Sref&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+            <span class="s2">&quot;rotational&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Set to True to turn on support for computing angular velocities&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+            <span class="s2">&quot;compressible&quot;</span><span class="p">,</span>
+            <span class="n">types</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Turns on compressibility correction for moderate Mach number &quot;</span> <span class="s2">&quot;flows. Defaults to False.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]</span>
-        <span class="n">rotational</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;rotational&#39;</span><span class="p">]</span>
+        <span class="n">surfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]</span>
+        <span class="n">rotational</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;rotational&quot;</span><span class="p">]</span>
 
         <span class="c1"># Loop through each surface and connect relevant parameters</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.normals&#39;</span><span class="p">,</span> <span class="s1">&#39;aero_states.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_normals&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.normals&quot;</span><span class="p">,</span> <span class="s2">&quot;aero_states.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_normals&quot;</span><span class="p">)</span>
 
             <span class="c1"># Connect the results from &#39;aero_states&#39; to the performance groups</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;aero_states.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_sec_forces&#39;</span><span class="p">,</span>
-                <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf&#39;</span> <span class="o">+</span> <span class="s1">&#39;.sec_forces&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;aero_states.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_sec_forces&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf&quot;</span> <span class="o">+</span> <span class="s2">&quot;.sec_forces&quot;</span><span class="p">)</span>
 
             <span class="c1"># Connect S_ref for performance calcs</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.S_ref&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf.S_ref&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.widths&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf.widths&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.chords&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf.chords&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.lengths&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf.lengths&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.cos_sweep&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf.cos_sweep&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.S_ref&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf.S_ref&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.widths&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf.widths&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.chords&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf.chords&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.lengths&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf.lengths&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.cos_sweep&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf.cos_sweep&quot;</span><span class="p">)</span>
 
             <span class="c1"># Connect S_ref for performance calcs</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.S_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_S_ref&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.widths&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_widths&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.chords&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_chords&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.b_pts&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_b_pts&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf&#39;</span> <span class="o">+</span> <span class="s1">&#39;.CL&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CL&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_perf&#39;</span> <span class="o">+</span> <span class="s1">&#39;.CD&#39;</span><span class="p">,</span> <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_CD&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;aero_states.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_sec_forces&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;total_perf.&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_sec_forces&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.S_ref&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_S_ref&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.widths&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_widths&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.chords&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_chords&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.b_pts&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_b_pts&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf&quot;</span> <span class="o">+</span> <span class="s2">&quot;.CL&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CL&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_perf&quot;</span> <span class="o">+</span> <span class="s2">&quot;.CD&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_CD&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;aero_states.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_sec_forces&quot;</span><span class="p">,</span> <span class="s2">&quot;total_perf.&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_sec_forces&quot;</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">VLMGeometry</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">))</span>
 
@@ -103,27 +105,24 @@
         <span class="c1"># check for ground effect and if so, promote</span>
         <span class="n">ground_effect</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">surface</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;groundplane&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">surface</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;groundplane&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="n">ground_effect</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;compressible&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;compressible&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">aero_states</span> <span class="o">=</span> <span class="n">CompressibleVLMStates</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">)</span>
-            <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">]</span>
+            <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;Mach_number&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">aero_states</span> <span class="o">=</span> <span class="n">VLMStates</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">rotational</span><span class="o">=</span><span class="n">rotational</span><span class="p">)</span>
-            <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">]</span>
+            <span class="n">prom_in</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">ground_effect</span><span class="p">:</span>
-            <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;height_agl&#39;</span><span class="p">)</span>
+            <span class="n">prom_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;height_agl&quot;</span><span class="p">)</span>
 
         <span class="n">aero_states</span><span class="o">.</span><span class="n">linear_solver</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">LinearRunOnce</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">rotational</span><span class="p">:</span>
-            <span class="n">prom_in</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">])</span>
+            <span class="n">prom_in</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="s2">&quot;cg&quot;</span><span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;aero_states&#39;</span><span class="p">,</span>
-                 <span class="n">aero_states</span><span class="p">,</span>
-                 <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span><span class="p">,</span>
-                 <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;circulations&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;aero_states&quot;</span><span class="p">,</span> <span class="n">aero_states</span><span class="p">,</span> <span class="n">promotes_inputs</span><span class="o">=</span><span class="n">prom_in</span><span class="p">,</span> <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;circulations&quot;</span><span class="p">])</span>
 
         <span class="c1"># Explicitly connect parameters from each surface&#39;s group and the common</span>
         <span class="c1"># &#39;aero_states&#39; group.</span>
@@ -131,20 +130,23 @@
         <span class="c1"># from each surface, but this information is stored within each</span>
         <span class="c1"># surface&#39;s group.</span>
         <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">+</span><span class="s1">&#39;_perf&#39;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+                <span class="n">surface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_perf&quot;</span><span class="p">,</span>
                 <span class="n">VLMFunctionals</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">),</span>
-                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;Mach_number&#39;</span><span class="p">,</span> <span class="s1">&#39;re&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">])</span>
+                <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;Mach_number&quot;</span><span class="p">,</span> <span class="s2">&quot;re&quot;</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
 
         <span class="c1"># Add the total aero performance group to compute the CL, CD, and CM</span>
         <span class="c1"># of the total aircraft. This accounts for all lifting surfaces.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;total_perf&#39;</span><span class="p">,</span>
-            <span class="n">TotalAeroPerformance</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span>
-            <span class="n">user_specified_Sref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;user_specified_Sref&#39;</span><span class="p">]),</span>
-            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;S_ref_total&#39;</span><span class="p">],</span>
-            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">,</span> <span class="s1">&#39;CL&#39;</span><span class="p">,</span> <span class="s1">&#39;CD&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span>
+            <span class="s2">&quot;total_perf&quot;</span><span class="p">,</span>
+            <span class="n">TotalAeroPerformance</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="n">surfaces</span><span class="p">,</span> <span class="n">user_specified_Sref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;user_specified_Sref&quot;</span><span class="p">]),</span>
+            <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;cg&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ref_total&quot;</span><span class="p">],</span>
+            <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CM&quot;</span><span class="p">,</span> <span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Need to set the default value/unit for beta since it is often unused (unconnected)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_input_defaults</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_input_defaults</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;deg&quot;</span><span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -198,14 +200,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.aerodynamics.aero_groups</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

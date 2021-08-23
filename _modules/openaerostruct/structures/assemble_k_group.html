@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaerostruct.structures.assemble_k_group &#8212; OpenAeroStruct 2.3.0 documentation</title>
+    <title>openaerostruct.structures.assemble_k_group &#8212; OpenAeroStruct 2.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.assemble_k_group</a></li> 
       </ul>
@@ -44,29 +44,30 @@
 <span class="kn">from</span> <span class="nn">openaerostruct.structures.local_stiff_permuted</span> <span class="kn">import</span> <span class="n">LocalStiffPermuted</span>
 <span class="kn">from</span> <span class="nn">openaerostruct.structures.local_stiff_transformed</span> <span class="kn">import</span> <span class="n">LocalStiffTransformed</span>
 
+
 <div class="viewcode-block" id="AssembleKGroup"><a class="viewcode-back" href="../../../_srcdocs/packages/structures/assemble_k_group.html#openaerostruct.structures.assemble_k_group.AssembleKGroup">[docs]</a><span class="k">class</span> <span class="nc">AssembleKGroup</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Assemble that there compact local stiffness matrix. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Assemble that there compact local stiffness matrix.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;surface&#39;</span><span class="p">]</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">]</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">Transform</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">Length</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">LocalStiff</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;local_stiff&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;local_stiff&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">LocalStiffPermuted</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;local_stiff_permuted&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;local_stiff_permuted&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">LocalStiffTransformed</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;local_stiff_transformed&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s2">&quot;local_stiff_transformed&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -120,14 +121,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">openaerostruct.structures.assemble_k_group</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Aug 10, 2021.
+      Last updated on Aug 23, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Structural Optimization Example &#8212; OpenAeroStruct 2.3.1 documentation</title>
+    <title>Structural Optimization Example &#8212; OpenAeroStruct 2.3.2 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="aero_walkthrough.html" title="Aerodynamic Optimization Walkthrough"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OpenAeroStruct 2.3.2 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Structural Optimization Example</a></li> 
       </ul>
     </div>  
@@ -124,7 +124,9 @@ Although doing structural-only optimizations is relatively rare, this is a build
 <span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>Optimization terminated successfully    (Exit mode 0)
+<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/scipy/optimize/optimize.py:282: RuntimeWarning: Values in x were outside bounds during a minimize step, clipping to bounds
+  warnings.warn(&quot;Values in x were outside bounds during a &quot;
+Optimization terminated successfully    (Exit mode 0)
             Current function value: [0.71088468]
             Iterations: 14
             Function evaluations: 22
@@ -133,7 +135,7 @@ Optimization Complete
 -----------------------------------</pre></div></div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s2">&quot;wing.structural_mass&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>71088.46823994313</pre></div></div></div></blockquote>
+<div class="cell border-box-sizing code_cell rendered"><div class="output_area"><pre>71088.468239932</pre></div></div></div></blockquote>
 </div>
 
 
@@ -194,13 +196,13 @@ Optimization Complete
         <li class="right" >
           <a href="aero_walkthrough.html" title="Aerodynamic Optimization Walkthrough"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OpenAeroStruct 2.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OpenAeroStruct 2.3.2 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Structural Optimization Example</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
-      Last updated on Jan 28, 2022.
+      Last updated on Jan 30, 2022.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>

@@ -27,11 +27,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip wheel
         pip install .[test]
-        pip install coverage coveralls     # for coveralls
 
     # we need pySpline/pyGeo to run FFD tests.
     - name: Install pySpline and pyGeo
       run: |
+        cd ..
         sudo apt-get install openmpi-bin libopenmpi-dev
         pip install mpi4py
         git clone https://github.com/mdolab/pyspline.git
@@ -40,22 +40,19 @@ jobs:
         make
         pip install -e .
         cd ..
-        git clone https://github.com/mdolab/pygeo.git
-        pip install -e ./pygeo
+        pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git"
 
     - name: Run tests
       env:
         OMPI_MCA_btl: ^openib   # prevent OpenMPI warning messages
       run: |
-        cd openaerostruct
-        testflo -n 2 openaerostruct --coverage --coverpkg openaerostruct --cover-omit \*tests/\* --cover-omit \*docs/\*
+        python -m pytest --cov-config=.coveragerc --cov=openaerostruct --cov-report=xml
 
-    - name: Run coveralls
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cd openaerostruct
-        coveralls --service=github --rcfile=../.coveragerc;
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   # --- code style check by flake8 ---
   flake8:
@@ -91,44 +88,3 @@ jobs:
       run: |
         pip install black==21.6b0
         black openaerostruct --check --diff -l 120 --target-version py38
-
-  # --- documentation build ---
-  docs-build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-
-    # build docs
-    - name: Build docs
-      run: |
-        python -m pip install --upgrade pip wheel
-        pip install .[docs]
-        cd openaerostruct/docs
-        make clean
-        make html
-
-    # deploy docs only when we're pushing to the master branch.
-    - name: Commit doc changes
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      run: |
-        git clone https://github.com/mdolab/OpenAeroStruct.git --branch gh-pages --single-branch gh-pages
-        cp -r ./openaerostruct/docs/_build/html/* gh-pages/
-        cd gh-pages
-        touch .nojekyll
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Update documentation" -a || true
-
-    - name: Push changes to gh-pages
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      uses: ad-m/github-push-action@master
-      with:
-        branch: gh-pages
-        directory: gh-pages
-        github_token: ${{ secrets.GITHUB_TOKEN }}

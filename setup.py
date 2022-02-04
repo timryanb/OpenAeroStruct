@@ -7,7 +7,10 @@ __version__ = re.findall(
     open("openaerostruct/__init__.py").read(),
 )[0]
 
-optional_dependencies = {"docs": ["openmdao[docs]>=3.2, <=3.9.2"], "test": ["testflo>=1.3.6"]}
+optional_dependencies = {
+    "docs": ["sphinx_mdolab_theme"],
+    "test": ["pytest", "pytest-cov", "coverage"],
+}
 
 # Add an optional dependency that concatenates all others
 optional_dependencies["all"] = sorted(
@@ -25,6 +28,7 @@ setup(
         "openaerostruct",
         "openaerostruct/docs",
         "openaerostruct/docs/_utils",
+        "openaerostruct/docs/_exts",
         "openaerostruct/geometry",
         "openaerostruct/structures",
         "openaerostruct/aerodynamics",
@@ -37,7 +41,7 @@ setup(
     # Test files
     package_data={"openaerostruct": ["tests/*.py", "*/tests/*.py", "*/*/tests/*.py"]},
     install_requires=[
-        "openmdao>=3.2, <=3.16.0",   # don't forget to update OM versions in README.md and docs/installation.rst
+        "openmdao>=3.2, <=3.16.0",  # don't forget to update OM versions in README.md and docs/installation.rst
         "numpy",
         "scipy",
         "matplotlib",

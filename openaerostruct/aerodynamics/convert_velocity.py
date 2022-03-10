@@ -55,9 +55,9 @@ class ConvertVelocity(om.ExplicitComponent):
 
         self.system_size = system_size
 
-        self.add_input("alpha", val=0.0, units="deg")
-        self.add_input("beta", val=0.0, units="deg")
-        self.add_input("v", val=1.0, units="m/s")
+        self.add_input("alpha", val=0.0, units="deg", tags=["mphys_input"])
+        self.add_input("beta", val=0.0, units="deg", tags=["mphys_input"])
+        self.add_input("v", val=1.0, units="m/s", tags=["mphys_input"])
 
         if rotational:
             self.add_input("rotational_velocities", shape=(system_size, 3), units="m/s")

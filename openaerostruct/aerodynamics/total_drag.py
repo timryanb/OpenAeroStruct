@@ -27,7 +27,7 @@ class TotalDrag(om.ExplicitComponent):
         self.add_input("CDv", val=1.0)
         self.add_input("CDw", val=1.0)
 
-        self.add_output("CD", val=1.0)
+        self.add_output("CD", val=1.0, tags=["mphys_result"])
 
         self.CD0 = surface["CD0"]
 

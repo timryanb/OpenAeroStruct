@@ -50,8 +50,8 @@ class RotationalVelocity(om.ExplicitComponent):
         self.system_size = system_size
 
         self.add_input("coll_pts", shape=(system_size, 3), units="m")
-        self.add_input("omega", val=np.zeros((3,)), units="rad/s")
-        self.add_input("cg", val=np.ones((3,)), units="m")
+        self.add_input("omega", val=np.zeros((3,)), units="rad/s", tags=["mphys_input"])
+        self.add_input("cg", val=np.ones((3,)), units="m", tags=["mphys_input"])
 
         self.add_output("rotational_velocities", shape=(system_size, 3), units="m/s")
 

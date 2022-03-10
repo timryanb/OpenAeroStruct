@@ -52,7 +52,7 @@ class VortexMesh(om.ExplicitComponent):
             mesh_name = "{}_def_mesh".format(name)
             vortex_mesh_name = "{}_vortex_mesh".format(name)
 
-            self.add_input(mesh_name, shape=(nx, ny, 3), units="m")
+            self.add_input(mesh_name, shape=(nx, ny, 3), units="m", tags=["mphys_coupling"])
 
             ground_effect = surface.get("groundplane", False)
 
@@ -62,7 +62,7 @@ class VortexMesh(om.ExplicitComponent):
                     any_ground_effect = True
                     self._cached_constant_partial_vals = dict()
                     self.add_input("height_agl", val=8000.0, units="m")
-                    self.add_input("alpha", val=0.0 * np.pi / 180, units="rad")
+                    self.add_input("alpha", val=0.0 * np.pi / 180, units="rad", tags=["mphys_inputs"])
 
             if surface["symmetry"]:
                 left_wing = abs(surface["mesh"][0, 0, 1]) > abs(surface["mesh"][0, -1, 1])

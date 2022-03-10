@@ -163,7 +163,7 @@ class EvalVelMtx(om.ExplicitComponent):
         eval_name = self.options["eval_name"]
         num_eval_points = self.options["num_eval_points"]
 
-        self.add_input("alpha", val=1.0, units="deg")
+        self.add_input("alpha", val=1.0, units="deg", tags=["mphys_input"])
 
         self.surface_indices_repeated = dict()
 

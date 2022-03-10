@@ -35,10 +35,10 @@ class MeshPointForces(om.ExplicitComponent):
             sec_forces_name = "{}_sec_forces".format(name)
             mesh_point_forces_name = "{}_mesh_point_forces".format(name)
 
-            self.add_input(sec_forces_name, shape=(nx - 1, ny - 1, 3), units="N")
+            self.add_input(sec_forces_name, shape=(nx - 1, ny - 1, 3), units="N", tags=["mphys_coupling"])
 
             # TODO: what should res_ref be when it was np.sqrt(self.comm.size)
-            self.add_output(mesh_point_forces_name, val=np.zeros((nx, ny, 3)), units="N")
+            self.add_output(mesh_point_forces_name, val=np.zeros((nx, ny, 3)), units="N", tags=["mphys_coupling"])
 
             # Sparse partials
             rowcol = np.arange(3 * (ny - 1))

@@ -72,7 +72,7 @@ class CollocationPoints(om.ExplicitComponent):
 
             # Take in a deformed mesh for each surface.
             mesh_name = name + "_def_mesh"
-            self.add_input(mesh_name, shape=(nx, ny, 3), units="m")
+            self.add_input(mesh_name, shape=(nx, ny, 3), units="m", tags=["mphys_coupling"])
 
             mesh_indices = np.arange(nx * ny * 3).reshape((nx, ny, 3))
 

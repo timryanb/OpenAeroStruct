@@ -56,7 +56,7 @@ class PanelForcesSurf(om.ExplicitComponent):
 
             ind2 += (nx - 1) * (ny - 1) * 3
 
-            self.add_output(sec_forces_name, shape=(nx - 1, ny - 1, 3), units="N")
+            self.add_output(sec_forces_name, shape=(nx - 1, ny - 1, 3), units="N", tags=["mphys_coupling"])
 
             rows = np.arange((nx - 1) * (ny - 1) * 3)
             cols = arange[ind1:ind2]

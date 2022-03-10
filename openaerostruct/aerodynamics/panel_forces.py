@@ -48,7 +48,7 @@ class PanelForces(om.ExplicitComponent):
 
         self.system_size = system_size
 
-        self.add_input("rho", units="kg/m**3")
+        self.add_input("rho", units="kg/m**3", tags=["mphys_input"])
         self.add_input("horseshoe_circulations", shape=system_size, units="m**2/s")
         self.add_input("force_pts_velocities", shape=(system_size, 3), units="m/s")
         self.add_input("bound_vecs", shape=(system_size, 3), units="m")

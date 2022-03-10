@@ -43,12 +43,12 @@ class LiftCoeff2D(om.ExplicitComponent):
         self.num_panels = (self.nx - 1) * (self.ny - 1)
 
         # Inputs
-        self.add_input("alpha", val=3.0, units="deg")
-        self.add_input("sec_forces", val=np.ones((self.nx - 1, self.ny - 1, 3)), units="N")
-        self.add_input("widths", val=np.arange((self.ny - 1)) + 1.0, units="m")
-        self.add_input("chords", val=np.ones((self.ny)), units="m")
-        self.add_input("v", val=1.0, units="m/s")
-        self.add_input("rho", val=1.0, units="kg/m**3")
+        self.add_input("alpha", val=3.0, units="deg", tags=["mphys_input"])
+        self.add_input("sec_forces", val=np.ones((self.nx - 1, self.ny - 1, 3)), units="N", tags=["mphys_coupling"])
+        self.add_input("widths", val=np.arange((self.ny - 1)) + 1.0, units="m", tags=["mphys_coupling"])
+        self.add_input("chords", val=np.ones((self.ny)), units="m", tags=["mphys_coupling"])
+        self.add_input("v", val=1.0, units="m/s", tags=["mphys_input"])
+        self.add_input("rho", val=1.0, units="kg/m**3", tags=["mphys_input"])
 
         # Outputs
         self.add_output("Cl", val=np.zeros((self.ny - 1)))

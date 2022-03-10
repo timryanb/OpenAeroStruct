@@ -56,7 +56,7 @@ class EvalVelocities(om.ExplicitComponent):
         self.system_size = system_size
 
         self.add_input("freestream_velocities", shape=(system_size, 3), units="m/s")
-        self.add_input("circulations", shape=system_size, units="m**2/s")
+        self.add_input("circulations", shape=system_size, units="m**2/s", tags=["mphys_coupling"])
 
         # Get the correct output name; the velocities output depends on which
         # set of evaluation points we use, either collocation or force.

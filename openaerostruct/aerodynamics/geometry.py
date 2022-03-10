@@ -44,16 +44,16 @@ class VLMGeometry(om.ExplicitComponent):
         ny = self.ny = mesh.shape[1]
 
         # All of these computations only need the deformed mesh
-        self.add_input("def_mesh", val=np.zeros((nx, ny, 3)), units="m")
+        self.add_input("def_mesh", val=np.zeros((nx, ny, 3)), units="m", tags=["mphys_coupling"])
 
         rng = np.random.default_rng(314)
-        self.add_output("b_pts", val=rng.random((nx - 1, ny, 3)), units="m")
-        self.add_output("widths", val=np.ones((ny - 1)), units="m")
-        self.add_output("cos_sweep", val=np.zeros((ny - 1)), units="m")
-        self.add_output("lengths", val=np.zeros((ny)), units="m")
-        self.add_output("chords", val=np.zeros((ny)), units="m")
-        self.add_output("normals", val=np.zeros((nx - 1, ny - 1, 3)))
-        self.add_output("S_ref", val=1.0, units="m**2")
+        self.add_output("b_pts", val=rng.random((nx - 1, ny, 3)), units="m", tags=["mphys_coupling"])
+        self.add_output("widths", val=np.ones((ny - 1)), units="m", tags=["mphys_coupling"])
+        self.add_output("cos_sweep", val=np.zeros((ny - 1)), units="m", tags=["mphys_coupling"])
+        self.add_output("lengths", val=np.zeros((ny)), units="m", tags=["mphys_coupling"])
+        self.add_output("chords", val=np.zeros((ny)), units="m", tags=["mphys_coupling"])
+        self.add_output("normals", val=np.zeros((nx - 1, ny - 1, 3)), tags=["mphys_coupling"])
+        self.add_output("S_ref", val=1.0, units="m**2", tags=["mphys_coupling"])
 
         # Next up we have a lot of rows and cols settings for the sparse
         # Jacobians. Each set of partials needs a different rows/cols setup

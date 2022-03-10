@@ -86,8 +86,8 @@ class RotateToWindFrame(om.ExplicitComponent):
 
             num_eval_points += (nx - 1) * (ny - 1)
 
-        self.add_input("alpha", val=0.0, units="rad")
-        self.add_input("beta", val=0.0, units="rad")
+        self.add_input("alpha", val=0.0, units="rad", tags=["mphys_input"])
+        self.add_input("beta", val=0.0, units="rad", tags=["mphys_input"])
         self.add_input("coll_pts", shape=(num_eval_points, 3), units="m")
         self.add_input("force_pts", shape=(num_eval_points, 3), units="m")
         self.add_input("bound_vecs", shape=(num_eval_points, 3), units="m")
@@ -166,10 +166,10 @@ class RotateToWindFrame(om.ExplicitComponent):
         alpha = inputs["alpha"]
         beta = inputs["beta"]
 
-        cosa = np.asscalar(np.cos(alpha))
-        sina = np.asscalar(np.sin(alpha))
-        cosb = np.asscalar(np.cos(beta))
-        sinb = np.asscalar(np.sin(beta))
+        cosa = np.cos(alpha.item())
+        sina = np.sin(alpha.item())
+        cosb = np.cos(beta.item())
+        sinb = np.sin(beta.item())
 
         # Define aero->wind rotation matrix
         Tw = np.array(
@@ -200,10 +200,10 @@ class RotateToWindFrame(om.ExplicitComponent):
         alpha = inputs["alpha"]
         beta = inputs["beta"]
 
-        cosa = np.asscalar(np.cos(alpha))
-        sina = np.asscalar(np.sin(alpha))
-        cosb = np.asscalar(np.cos(beta))
-        sinb = np.asscalar(np.sin(beta))
+        cosa = np.cos(alpha.item())
+        sina = np.sin(alpha.item())
+        cosb = np.cos(beta.item())
+        sinb = np.sin(beta.item())
 
         num_eval_pts = inputs["bound_vecs"].shape[0]
 
@@ -271,8 +271,8 @@ class RotateFromWindFrame(om.ExplicitComponent):
         self.options.declare("surfaces", types=list)
 
     def setup(self):
-        self.add_input("alpha", val=0.0, units="rad")
-        self.add_input("beta", val=0.0, units="rad")
+        self.add_input("alpha", val=0.0, units="rad", tags=["mphys_input"])
+        self.add_input("beta", val=0.0, units="rad", tags=["mphys_input"])
 
         # We'll compute all of sensitivities associated with angle of attack and
         # sideslip number through complex-step. Since it's a scalar this is
@@ -291,7 +291,7 @@ class RotateFromWindFrame(om.ExplicitComponent):
             of_name = "{}_sec_forces".format(name)
 
             self.add_input(wrt_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N")
-            self.add_output(of_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N")
+            self.add_output(of_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N", tags=["mphys_coupling"])
 
             row = np.array([0, 0, 0, 1, 1, 1, 2, 2, 2])
             col = np.array([0, 1, 2, 0, 1, 2, 0, 1, 2])
@@ -306,10 +306,10 @@ class RotateFromWindFrame(om.ExplicitComponent):
         alpha = inputs["alpha"]
         beta = inputs["beta"]
 
-        cosa = np.asscalar(np.cos(alpha))
-        sina = np.asscalar(np.sin(alpha))
-        cosb = np.asscalar(np.cos(beta))
-        sinb = np.asscalar(np.sin(beta))
+        cosa = np.cos(alpha.item())
+        sina = np.sin(alpha.item())
+        cosb = np.cos(beta.item())
+        sinb = np.sin(beta.item())
 
         # Define aero->wind rotation matrix
         # wind->aero rotation matrix is given by transpose
@@ -329,10 +329,10 @@ class RotateFromWindFrame(om.ExplicitComponent):
         alpha = inputs["alpha"]
         beta = inputs["beta"]
 
-        cosa = np.asscalar(np.cos(alpha))
-        sina = np.asscalar(np.sin(alpha))
-        cosb = np.asscalar(np.cos(beta))
-        sinb = np.asscalar(np.sin(beta))
+        cosa = np.cos(alpha.item())
+        sina = np.sin(alpha.item())
+        cosb = np.cos(beta.item())
+        sinb = np.sin(beta.item())
 
         # Define aero->wind rotation matrix
         Tw = np.array(

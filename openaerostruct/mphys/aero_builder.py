@@ -72,6 +72,7 @@ class DemuxSurfaceMesh(om.ExplicitComponent):
 class AeroSolverGroup(om.Group):
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
+        self.options.declare("compressible", default=True, desc="prandtl glauert compressibiity flag", recordable=True)
 
     def setup(self):
         self.surfaces = self.options["surfaces"]
@@ -87,8 +88,13 @@ class AeroSolverGroup(om.Group):
 
             self.add_subsystem(name, VLMGeometry(surface=surface), promotes_inputs=[("def_mesh", name+"_def_mesh")])
 
+        if self.options["compressible"]:
+            aero_states = CompressibleVLMStates(surfaces=self.surfaces)
+        else:
+            aero_states = VLMStates(surfaces=surfaces)
+
         self.add_subsystem("solver",
-                           VLMStates(surfaces=self.surfaces),
+                           aero_states,
                            promotes_inputs=proms_in+["*"],
                            promotes_outputs=proms_out+["circulations", "*_mesh_point_forces"])
 
@@ -138,6 +144,7 @@ class MuxSurfaceForces(om.ExplicitComponent):
 class AeroCouplingGroup(om.Group):
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
+        self.options.declare("compressible", default=True, desc="prandtl glauert compressibiity flag", recordable=True)
 
     def setup(self):
         self.surfaces = self.options["surfaces"]
@@ -148,7 +155,7 @@ class AeroCouplingGroup(om.Group):
                            promotes_outputs=["*_def_mesh"])
 
         self.add_subsystem("states",
-                           AeroSolverGroup(surfaces=self.surfaces),
+                           AeroSolverGroup(surfaces=self.surfaces, compressible=self.options["compressible"]),
                            promotes_inputs=["*"],
                            promotes_outputs=["*"])
 
@@ -160,6 +167,7 @@ class AeroCouplingGroup(om.Group):
 class AeroFuncsGroup(om.Group):
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
+        self.options.declare("user_specified_Sref", types=bool)
         self.options.declare("write_solution", default=True)
         self.options.declare("output_dir")
         self.options.declare("scenario_name", default=None)
@@ -176,6 +184,31 @@ class AeroFuncsGroup(om.Group):
                 promotes_inputs=["v", "alpha", "beta", "Mach_number", "re", "rho"]
             )
 
+            proms_in.append((surf_name + "_S_ref", surf_name + ".S_ref"))
+            proms_in.append((surf_name + "_b_pts", surf_name + ".b_pts"))
+            proms_in.append((surf_name + "_widths", surf_name + ".widths"))
+            proms_in.append((surf_name + "_chords", surf_name + ".chords"))
+            proms_in.append((surf_name + "_sec_forces", surf_name + ".sec_forces"))
+            proms_in.append((surf_name + "_CL", surf_name + ".CL"))
+            proms_in.append((surf_name + "_CD", surf_name + ".CD"))
+
+        proms_out = ["CM", "CL", "CD"]
+        if self.options["user_specified_Sref"]:
+            proms_in.append("S_ref_total")
+        else:
+            proms_out.append("S_ref_total")
+
+        # Add the total aero performance group to compute the CL, CD, and CM
+        # of the total aircraft. This accounts for all lifting surfaces.
+        self.add_subsystem(
+            "total_perf",
+            TotalAeroPerformance(surfaces=self.surfaces, user_specified_Sref=self.options["user_specified_Sref"]),
+            promotes_inputs=proms_in+["v", "rho", "cg"],
+            promotes_outputs=proms_out,
+        )
+
+        proms_in = []
+        for surface in self.surfaces:
             proms_in.append((surf_name + "_sec_forces", surf_name + ".sec_forces"))
 
         if self.options["write_solution"]:
@@ -188,25 +221,33 @@ class AeroFuncsGroup(om.Group):
 
 class AeroBuilder(Builder):
 
-    def __init__(self, options, write_solution=True, output_dir="./"):
-        self.options = copy.deepcopy(options)
-        self.write_solution = write_solution
-        self.output_dir = output_dir
+    def_options = {"user_specified_Sref": False,
+                   "compressible": True,
+                   "output_dir": "./",
+                   "write_solution": True}
+
+    def __init__(self, surfaces, options=None):
+        self.surfaces = surfaces
+        # Copy default options
+        self.options = copy.deepcopy(self.def_options)
+        # Update with user-defined options
+        if options:
+            self.options.update(options)
 
     def initialize(self, comm):
-        self.surfaces = self.options["surfaces"]
         self.nnodes = get_number_of_nodes(self.surfaces)
 
     def get_coupling_group_subsystem(self, scenario_name=None):
-        return AeroCouplingGroup(surfaces=self.surfaces)
+        return AeroCouplingGroup(surfaces=self.surfaces, compressible=self.options["compressible"])
 
     def get_mesh_coordinate_subsystem(self, scenario_name=None):
         return AeroMesh(surfaces=self.surfaces)
 
     def get_post_coupling_subsystem(self, scenario_name=None):
         return AeroFuncsGroup(surfaces=self.surfaces,
-                              write_solution=self.write_solution,
-                              output_dir=self.output_dir,
+                              write_solution=self.options["write_solution"],
+                              output_dir=self.options["output_dir"],
+                              user_specified_Sref =self.options["user_specified_Sref"],
                               scenario_name=scenario_name)
 
     def get_ndof(self):

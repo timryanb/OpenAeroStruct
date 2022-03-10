@@ -30,17 +30,17 @@ class TotalLiftDrag(om.ExplicitComponent):
     def setup(self):
         for surface in self.options["surfaces"]:
             name = surface["name"]
-            self.add_input(name + "_CL", val=1.0)
-            self.add_input(name + "_CD", val=1.0)
-            self.add_input(name + "_S_ref", val=1.0, units="m**2")
+            self.add_input(name + "_CL", val=1.0, tags=["mphys_result"])
+            self.add_input(name + "_CD", val=1.0, tags=["mphys_result"])
+            self.add_input(name + "_S_ref", val=1.0, units="m**2", tags=["mphys_coupling"])
             self.declare_partials("CL", name + "_CL")
             self.declare_partials("CD", name + "_CD")
             self.declare_partials("CL", name + "_S_ref")
             self.declare_partials("CD", name + "_S_ref")
 
-        self.add_input("S_ref_total", val=1.0, units="m**2")
-        self.add_output("CL", val=1.0)
-        self.add_output("CD", val=1.0)
+        self.add_input("S_ref_total", val=1.0, units="m**2", tags=["mphys_result"])
+        self.add_output("CL", val=1.0, tags=["mphys_result"])
+        self.add_output("CD", val=1.0, tags=["mphys_result"])
         self.declare_partials("CL", "S_ref_total")
         self.declare_partials("CD", "S_ref_total")
 

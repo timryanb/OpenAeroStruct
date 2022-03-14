@@ -384,6 +384,13 @@ class EvalVelMtx(om.ExplicitComponent):
                     outputs[vel_mtx_name][:, -1:, :, :] -= vortex_mult * result2
                     outputs[vel_mtx_name][:, -1:, :, :] += vortex_mult * result3
 
+            if surface["symmetry"]:
+                # If this is a right-hand symmetrical wing, we need to flip the "y" indexing
+                right_wing = abs(surface["mesh"][0, 0, 1]) < abs(surface["mesh"][0, -1, 1])
+                if right_wing:
+                    outputs[vel_mtx_name] = outputs[vel_mtx_name][:, :, ::-1, :]
+
+
     def compute_partials(self, inputs, partials):
         surfaces = self.options["surfaces"]
         eval_name = self.options["eval_name"]

@@ -286,6 +286,12 @@ class EvalVelMtx(om.ExplicitComponent):
                 cols = np.delete(cols, duplicate_jac_entry_idx_set_2)
                 rows = np.delete(rows, duplicate_jac_entry_idx_set_2)
 
+                # If this is a right-hand symmetrical wing, we need to flip the "y" indexing
+                right_wing = abs(surface["mesh"][0, 0, 1]) < abs(surface["mesh"][0, -1, 1])
+                flipped_vel_mtx_indices = vel_mtx_indices[:, :, ::-1, :]
+                flipped_rows = flipped_vel_mtx_indices.flatten()[rows]
+                rows = flipped_rows
+
             self.add_output(vel_mtx_name, shape=(num_eval_points, nx - 1, ny - 1, 3), units="1/m")
 
             self.declare_partials(vel_mtx_name, vectors_name, rows=rows, cols=cols)

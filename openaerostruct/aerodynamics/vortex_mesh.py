@@ -231,11 +231,11 @@ class VortexMesh(om.ExplicitComponent):
                         mesh[:, ny:, :] = inputs[mesh_name][:, :-1, :][:, ::-1, :]
                         mesh[:, ny:, 1] *= -1.0
                     else:
-                        mesh[:, ny-1:, :] = inputs[mesh_name]
+                        mesh[:, ny - 1 :, :] = inputs[mesh_name]
                         # indices are numbered from centerline to tip
                         #  reflection is all points in rev order
-                        mesh[:, :ny-1, :] = inputs[mesh_name][:, 1:, :][:, ::-1, :]
-                        mesh[:, :ny-1, 1] *= -1.0
+                        mesh[:, : ny - 1, :] = inputs[mesh_name][:, 1:, :][:, ::-1, :]
+                        mesh[:, : ny - 1, 1] *= -1.0
                 else:
                     mesh = inputs[mesh_name]
 
@@ -254,11 +254,11 @@ class VortexMesh(om.ExplicitComponent):
                     mesh[:nx, ny:, :] = inputs[mesh_name][:, :-1, :][:, ::-1, :]
                     mesh[:nx, ny:, 1] *= -1.0
                 else:
-                    mesh[:nx, ny - 1:, :] = inputs[mesh_name]
+                    mesh[:nx, ny - 1 :, :] = inputs[mesh_name]
                     # indices are numbered from centerline to tip
                     #  reflection is all points in rev order
-                    mesh[:nx, :ny-1, :] = inputs[mesh_name][:, 1:, :][:, ::-1, :]
-                    mesh[:nx, :ny-1, 1] *= -1.0
+                    mesh[:nx, : ny - 1, :] = inputs[mesh_name][:, 1:, :][:, ::-1, :]
+                    mesh[:nx, : ny - 1, 1] *= -1.0
 
                 alpha = inputs["alpha"][0]
                 plane_normal = np.array([np.sin(alpha), 0.0, -np.cos(alpha)]).reshape((1, 1, 3))

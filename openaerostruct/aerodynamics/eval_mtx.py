@@ -397,7 +397,6 @@ class EvalVelMtx(om.ExplicitComponent):
                 if right_wing:
                     outputs[vel_mtx_name] = outputs[vel_mtx_name][:, :, ::-1, :]
 
-
     def compute_partials(self, inputs, partials):
         surfaces = self.options["surfaces"]
         eval_name = self.options["eval_name"]

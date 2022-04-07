@@ -255,6 +255,7 @@ class AeroFuncsGroup(om.Group):
 
         proms_in = []
         for surface in self.surfaces:
+            surf_name = surface["name"]
             proms_in.append((surf_name + "_sec_forces", surf_name + ".sec_forces"))
 
         if self.options["write_solution"]:

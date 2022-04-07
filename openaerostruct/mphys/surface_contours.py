@@ -83,7 +83,7 @@ class SurfaceContour(ExplicitComponent):
             )
 
             # Compute the area of each panel using the cross product magnitude
-            panel_areas = np.sqrt(np.sum(norm_vecs ** 2, axis=2)) * 0.5
+            panel_areas = np.sqrt(np.sum(norm_vecs**2, axis=2)) * 0.5
 
             # Normalize the normal vectors
             for j in range(3):

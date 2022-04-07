@@ -102,17 +102,17 @@ class SurfaceContour(ExplicitComponent):
 
             i += num_panels
 
-        # Write out values to tecplot .dat file
+        # Write out values to tecplot .plt file
         self.write_to_tecplot(surf_mesh, surf_circs, surf_dCp, surf_forces)
         self.solution_counter += 1
 
     def write_to_tecplot(self, meshes, circs, dCps, panel_forces):
         """
-        Write circulation distribution as Tecplot .dat file.
+        Write circulation distribution as Tecplot .plt file.
         """
         if self.comm.rank == 0:
             # Now write out tecplot file
-            file_name = self.options["base_name"] + "_%.3d_panel.dat" % (self.solution_counter)
+            file_name = self.options["base_name"] + "_%.3d_panel.plt" % (self.solution_counter)
             file_path = os.path.join(self.options["output_dir"], file_name)
             file_handle = open(file_path, "w")
 

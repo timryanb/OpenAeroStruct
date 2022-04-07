@@ -1,4 +1,3 @@
-from mpi4py import MPI
 import openmdao.api as om
 import numpy as np
 

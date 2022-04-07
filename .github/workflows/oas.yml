@@ -42,6 +42,12 @@ jobs:
         cd ..
         pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git"
 
+    # we need mphys to run mphys tests.
+    - name: Install mphys
+      run: |
+        cd ..
+        pip install "mphys @ git+https://github.com/OpenMDAO/mphys.git"
+
     - name: Run tests
       env:
         OMPI_MCA_btl: ^openib   # prevent OpenMPI warning messages

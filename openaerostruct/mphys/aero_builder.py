@@ -1,13 +1,17 @@
 import copy
 import numpy as np
 import openmdao.api as om
-from mphys.builder import Builder
 from openaerostruct.aerodynamics.compressible_states import CompressibleVLMStates
 from openaerostruct.aerodynamics.geometry import VLMGeometry
 from openaerostruct.aerodynamics.states import VLMStates
 from openaerostruct.aerodynamics.functionals import VLMFunctionals
 from openaerostruct.functionals.total_aero_performance import TotalAeroPerformance
 from openaerostruct.mphys.surface_contours import SurfaceContour
+
+try:
+    from mphys.builder import Builder
+except ImportError:
+    pass
 
 
 class AeroMesh(om.IndepVarComp):

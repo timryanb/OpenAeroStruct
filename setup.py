@@ -35,6 +35,7 @@ setup(
         "openaerostruct/integration",
         "openaerostruct/common",
         "openaerostruct/utils",
+        "openaerostruct/mphys",
     ],
     # Test files
     package_data={"openaerostruct": ["tests/*.py", "*/tests/*.py", "*/*/tests/*.py"]},

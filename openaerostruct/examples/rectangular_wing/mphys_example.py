@@ -62,12 +62,12 @@ class Top(Multipoint):
         re = 1e6
 
         dvs = self.add_subsystem("dvs", om.IndepVarComp(), promotes=["*"])
-        dvs.add_output("alpha", val=aoa, units="deg")
-        dvs.add_output("beta", val=beta, units="deg")
+        dvs.add_output("aoa", val=aoa, units="deg")
+        dvs.add_output("yaw", val=beta, units="deg")
         dvs.add_output("rho", val=rho, units="kg/m**3")
-        dvs.add_output("Mach_number", mach)
+        dvs.add_output("mach", mach)
         dvs.add_output("v", vel, units="m/s")
-        dvs.add_output("re", re, units="1/m")
+        dvs.add_output("reynolds", re, units="1/m")
         dvs.add_output("cg", val=np.zeros((3)), units="m")
 
         # Create mphys builder for aero solver
@@ -80,7 +80,7 @@ class Top(Multipoint):
         self.connect("mesh.x_aero0", "cruise.x_aero")
 
         # Connect dv ivc's to solver
-        for dv in ["alpha", "beta", "rho", "Mach_number", "v", "re", "cg"]:
+        for dv in ["aoa", "yaw", "rho", "mach", "v", "reynolds", "cg"]:
             self.connect(dv, f"cruise.{dv}")
 
 

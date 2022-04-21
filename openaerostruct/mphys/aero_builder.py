@@ -109,7 +109,7 @@ class AeroSolverGroup(om.Group):
         self.surfaces = self.options["surfaces"]
 
         # Loop through each surface and promote relevant parameters
-        proms_in = []
+        proms_in = [("alpha", "aoa"), ("beta", "yaw")]
         proms_out = []
         for surface in self.surfaces:
             name = surface["name"]
@@ -120,6 +120,7 @@ class AeroSolverGroup(om.Group):
             self.add_subsystem(name, VLMGeometry(surface=surface), promotes_inputs=[("def_mesh", name + "_def_mesh")])
 
         if self.options["compressible"]:
+            proms_in.append(("Mach_number", "mach"))
             aero_states = CompressibleVLMStates(surfaces=self.surfaces)
         else:
             aero_states = VLMStates(surfaces=self.surfaces)
@@ -252,7 +253,14 @@ class AeroFuncsGroup(om.Group):
             self.add_subsystem(
                 surf_name,
                 VLMFunctionals(surface=surface),
-                promotes_inputs=["v", "alpha", "beta", "Mach_number", "re", "rho"],
+                promotes_inputs=[
+                    "v",
+                    ("alpha", "aoa"),
+                    ("beta", "yaw"),
+                    ("Mach_number", "mach"),
+                    ("re", "reynolds"),
+                    "rho",
+                ],
             )
 
             proms_in.append((surf_name + "_S_ref", surf_name + ".S_ref"))

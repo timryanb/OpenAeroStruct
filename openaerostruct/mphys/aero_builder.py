@@ -10,29 +10,35 @@ from openaerostruct.mphys.surface_contours import SurfaceContour
 
 try:
     from mphys.builder import Builder
+    from mphys.distributed_converter import DistributedConverter, DistributedVariableDescription
 except ImportError:
     pass
 
 
 class AeroMesh(om.IndepVarComp):
     """
-    Component to read the initial mesh coordinates with OAS
+    Component to read the initial mesh coordinates with OAS.
+    Only the root will be responsible for this information.
+    The mesh will be broadcasted to all other processors in a following step.
     """
 
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
 
     def setup(self):
-        self.surfaces = self.options["surfaces"]
-        nnodes = get_number_of_nodes(self.surfaces)
-        src_indices = get_src_indices(self.surfaces)
-        xpts = np.zeros(nnodes * 3)
-        for surface in self.surfaces:
-            surf_name = surface["name"]
-            xpts[src_indices[surf_name]] = surface["mesh"]
+        if self.comm.rank == 0:
+            self.surfaces = self.options["surfaces"]
+            nnodes = get_number_of_nodes(self.surfaces)
+            src_indices = get_src_indices(self.surfaces)
+            xpts = np.zeros(nnodes * 3)
+            for surface in self.surfaces:
+                surf_name = surface["name"]
+                xpts[src_indices[surf_name]] = surface["mesh"]
+        else:
+            xpts = np.zeros(0)
         self.add_output(
             "x_aero0",
-            distributed=False,
+            distributed=True,
             val=xpts,
             shape=xpts.size,
             units="m",
@@ -191,13 +197,22 @@ class AeroCouplingGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.compressible = self.options["compressible"]
 
+        nnodes = get_number_of_nodes(self.surfaces)
+
+        # Convert distributed mphys mesh input into a serial vector OAS can use
+        vars = [DistributedVariableDescription(name="x_aero", shape=(nnodes * 3), tags=["mphys_coordinates"])]
+
+        self.add_subsystem("collector", DistributedConverter(distributed_inputs=vars), promotes_inputs=["x_aero"])
+        self.connect("collector.x_aero_serial", "demuxer.x_aero")
+
+        # Demux flattened surface mesh vector into seperate vectors for each surface
         self.add_subsystem(
             "demuxer",
             DemuxSurfaceMesh(surfaces=self.surfaces),
-            promotes_inputs=["x_aero"],
             promotes_outputs=["*_def_mesh"],
         )
 
+        # OAS aero states group
         self.add_subsystem(
             "states",
             AeroSolverGroup(surfaces=self.surfaces, compressible=self.compressible),
@@ -205,12 +220,18 @@ class AeroCouplingGroup(om.Group):
             promotes_outputs=["*"],
         )
 
+        # Mux all surface forces into one flattened array
         self.add_subsystem(
             "muxer",
             MuxSurfaceForces(surfaces=self.surfaces),
             promotes_inputs=["*_mesh_point_forces"],
-            promotes_outputs=["f_aero"],
         )
+
+        # Convert serial force vector to distributed, like mphys expects
+        vars = [DistributedVariableDescription(name="f_aero", shape=(nnodes * 3), tags=["mphys_coupling"])]
+
+        self.add_subsystem("distributor", DistributedConverter(distributed_outputs=vars), promotes_outputs=["f_aero"])
+        self.connect("muxer.f_aero", "distributor.f_aero_serial")
 
 
 class AeroFuncsGroup(om.Group):
@@ -287,6 +308,7 @@ class AeroBuilder(Builder):
             self.options.update(options)
 
     def initialize(self, comm):
+        self.comm = comm
         self.nnodes = get_number_of_nodes(self.surfaces)
 
     def get_coupling_group_subsystem(self, scenario_name=None):
@@ -310,9 +332,11 @@ class AeroBuilder(Builder):
 
     def get_number_of_nodes(self):
         """
-        Get the number of nodes
+        Get the number of nodes on root proc
         """
-        return self.nnodes
+        if self.comm.rank == 0:
+            return self.nnodes
+        return 0
 
 
 def get_number_of_nodes(surfaces):

@@ -53,7 +53,7 @@ jobs:
         mkdir build buildlibs
 
         wget https://github.com/OpenVSP/OpenVSP/archive/refs/tags/OpenVSP_${VSP_VERSION}.tar.gz
-        tar -xf OpenVSP-OpenVSP_${VSP_VERSION}.tar.gz
+        tar -xf OpenVSP_${VSP_VERSION}.tar.gz
         mv OpenVSP-OpenVSP_${VSP_VERSION} repo
         cd buildlibs
         cmake -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR} -DPYTHON_LIBRARY=${PYTHON_LIBRARY} ../repo/Libraries -DCMAKE_BUILD_TYPE=Release

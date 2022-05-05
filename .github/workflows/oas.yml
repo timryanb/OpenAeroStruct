@@ -42,6 +42,40 @@ jobs:
         cd ..
         pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git"
 
+    # we need OpenVSP to run vsp tests.
+    - name: Install OpenVSP
+      run: |
+        export VSP_VERSION=3.27.1
+        cd ..
+        sudo apt-get install python3-dev cmake libxml2-dev libfltk1.3-dev libcpptest-dev libjpeg-dev libglm-dev libeigen3-dev libcminpack-dev libglew-dev swig doxygen graphviz texlive-latex-base
+        mkdir OpenVSP
+        cd OpenVSP
+        mkdir build buildlibs
+
+        wget https://github.com/OpenVSP/OpenVSP/archive/refs/tags/OpenVSP_${VSP_VERSION}.tar.gz
+        tar -xf OpenVSP-OpenVSP_${VSP_VERSION}.tar.gz
+        mv OpenVSP-OpenVSP_${VSP_VERSION} repo
+        cd buildlibs
+        cmake -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR} -DPYTHON_LIBRARY=${PYTHON_LIBRARY} ../repo/Libraries -DCMAKE_BUILD_TYPE=Release
+        make -j8
+
+        cd ..
+        export BUILD_LIBS_PATH=`pwd`
+        cd build
+        cmake ../repo/src/ -DVSP_LIBRARY_PATH=${BUILD_LIBS_PATH}/buildlibs \
+              -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR} -DPYTHON_LIBRARY=${PYTHON_LIBRARY} \
+              -DCMAKE_BUILD_TYPE=Release
+        make -j8
+        make package
+
+        pushd _CPack_Packages/Linux/ZIP/OpenVSP-${VSP_VERSION}-Linux/python
+        pip install -r requirements.txt
+        pushd ..
+        # cp vspaero vspscript vspslicer vspviewer /usr/local/bin
+        popd
+        popd
+        cd ${GITHUB_WORKSPACE}
+
     - name: Run tests
       env:
         OMPI_MCA_btl: ^openib   # prevent OpenMPI warning messages

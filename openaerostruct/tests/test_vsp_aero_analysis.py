@@ -9,15 +9,15 @@ from openaerostruct.aerodynamics.aero_groups import AeroPoint
 
 import openmdao.api as om
 
+vsp_file = os.path.join(os.path.dirname(__file__), "vsp_model.vsp3")
+
 # check if openvsp is available
 try:
-    import openvsp
+    generate_vsp_surfaces(vsp_file)
 
     openvsp_flag = True
-except ModuleNotFoundError:
+except ImportError:
     openvsp_flag = False
-
-vsp_file = os.path.join(os.path.dirname(__file__), "vsp_model.vsp3")
 
 
 @unittest.skipUnless(openvsp_flag, "OpenVSP is required.")

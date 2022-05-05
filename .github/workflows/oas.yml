@@ -47,14 +47,14 @@ jobs:
       run: |
         export VSP_VERSION=3.27.1
         cd ..
-        sudo apt-get install python3-dev cmake libxml2-dev libfltk1.3-dev libcpptest-dev libjpeg-dev libglm-dev libeigen3-dev libcminpack-dev libglew-dev swig doxygen graphviz texlive-latex-base
+        sudo apt-get install python3-dev cmake libx11-dev libxml2-dev libfltk1.3-dev libcpptest-dev libjpeg-dev libglm-dev libeigen3-dev libcminpack-dev libglew-dev swig doxygen graphviz texlive-latex-base
         mkdir OpenVSP
         cd OpenVSP
         mkdir build buildlibs
 
         wget -q https://github.com/OpenVSP/OpenVSP/archive/refs/tags/OpenVSP_${VSP_VERSION}.tar.gz
         tar -xf OpenVSP_${VSP_VERSION}.tar.gz
-        mv OpenVSP_${VSP_VERSION} repo
+        mv OpenVSP-OpenVSP_${VSP_VERSION} repo
         cd buildlibs
         cmake -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR} -DPYTHON_LIBRARY=${PYTHON_LIBRARY} ../repo/Libraries -DCMAKE_BUILD_TYPE=Release
         make -j8

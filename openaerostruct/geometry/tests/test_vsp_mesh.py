@@ -4,15 +4,15 @@ from openmdao.utils.assert_utils import assert_near_equal
 
 from openaerostruct.geometry.utils import generate_mesh, generate_vsp_surfaces
 
+vsp_file = os.path.join(os.path.dirname(__file__), "rect_wing.vsp3")
+
 # check if openvsp is available
 try:
-    import openvsp
+    generate_vsp_surfaces(vsp_file)
 
     openvsp_flag = True
-except ModuleNotFoundError:
+except ImportError:
     openvsp_flag = False
-
-vsp_file = os.path.join(os.path.dirname(__file__), "rect_wing.vsp3")
 
 
 @unittest.skipUnless(openvsp_flag, "OpenVSP is required.")

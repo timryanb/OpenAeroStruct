@@ -4,9 +4,9 @@ from openmdao.utils.assert_utils import assert_near_equal
 
 from openaerostruct.geometry.utils import generate_mesh, generate_vsp_surfaces
 
-# check if pygeo is available
+# check if openvsp is available
 try:
-    import openvsp  # noqa: F401
+    import openvsp
 
     openvsp_flag = True
 except ModuleNotFoundError:

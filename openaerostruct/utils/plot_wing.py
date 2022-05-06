@@ -276,24 +276,40 @@ class Display(object):
                 new_normals = []
             for i in range(self.num_iters):
                 for j, name in enumerate(names):
-                    mirror_mesh = self.mesh[i * n_names + j].copy()
+                    mesh = self.mesh[i * n_names + j].copy()
+                    right_wing = abs(mesh[0, 0, 1]) < abs(mesh[0, -1, 1])
+                    if right_wing:
+                        mesh = mesh[:, ::-1, :]
+                    mirror_mesh = mesh.copy()
                     mirror_mesh[:, :, 1] *= -1.0
                     mirror_mesh = mirror_mesh[:, ::-1, :][:, 1:, :]
-                    new_mesh.append(np.hstack((self.mesh[i * n_names + j], mirror_mesh)))
+                    new_mesh.append(np.hstack((mesh, mirror_mesh)))
 
                     if self.show_tube:
-                        thickness = self.thickness[i * n_names + j]
+                        thickness = self.thickness[i * n_names + j].copy()
+                        r = self.radius[i * n_names + j].copy()
+                        vonmises = self.vonmises[i * n_names + j].copy()
+                        if right_wing:
+                            thickness[0] = thickness[0][::-1]
+                            r = r[::-1]
+                            vonmises = vonmises[::-1]
                         new_thickness.append(np.hstack((thickness[0], thickness[0][::-1])))
-                        r = self.radius[i * n_names + j]
                         new_r.append(np.hstack((r, r[::-1])))
-                        vonmises = self.vonmises[i * n_names + j]
                         new_vonmises.append(np.hstack((vonmises, vonmises[::-1])))
 
                     if self.show_wing:
-                        mirror_mesh = self.def_mesh[i * n_names + j].copy()
+                        def_mesh = self.def_mesh[i * n_names + j].copy()
+                        twist = self.twist[i * n_names + j].copy()
+                        if right_wing:
+                            def_mesh = def_mesh[:, ::-1, :]
+                            normals[i * n_names + j] = normals[i * n_names + j][:, ::-1, :]
+                            sec_forces[i * n_names + j] = sec_forces[i * n_names + j][:, ::-1, :]
+                            widths[i * n_names + j] = widths[i * n_names + j][::-1]
+                            twist[0] = twist[0][::-1]
+                        mirror_mesh = def_mesh.copy()
                         mirror_mesh[:, :, 1] *= -1.0
                         mirror_mesh = mirror_mesh[:, ::-1, :][:, 1:, :]
-                        new_def_mesh.append(np.hstack((self.def_mesh[i * n_names + j], mirror_mesh)))
+                        new_def_mesh.append(np.hstack((def_mesh, mirror_mesh)))
 
                         mirror_normals = normals[i * n_names + j].copy()
                         mirror_normals = mirror_normals[:, ::-1, :][:, 1:, :]
@@ -304,7 +320,6 @@ class Display(object):
                         new_sec_forces.append(np.hstack((sec_forces[i * n_names + j], mirror_forces)))
 
                         new_widths.append(np.hstack((widths[i * n_names + j], widths[i * n_names + j][::-1])))
-                        twist = self.twist[i * n_names + j]
                         new_twist.append(np.hstack((twist[0], twist[0][::-1][1:])))
 
             self.mesh = new_mesh

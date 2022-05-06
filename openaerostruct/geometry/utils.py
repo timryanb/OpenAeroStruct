@@ -1,6 +1,12 @@
 import numpy as np
 from numpy import cos, sin, tan
 
+# openvsp python interface
+try:
+    import openvsp as vsp
+except ImportError:
+    vsp = None
+
 from openaerostruct.geometry.CRM_definitions import get_crm_points
 
 
@@ -699,6 +705,144 @@ def generate_mesh(input_dict):
     else:
 
         return mesh
+
+
+def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
+    """
+    Generate a series of VLM surfaces based on geometries in an OpenVSP model.
+
+    Parameters
+    ----------
+    vsp_file : str
+        OpenVSP file to generate meshes from.
+    symmetry : bool
+        Flag specifying if the full model should be read in (False) or only half (True).
+        Half model only reads in right side surfaces.
+        Defaults to full model.
+    include : list[str]
+        List of body names defined in OpenVSP model that should be included in VLM mesh output.
+        Defaults to all bodies found in model.
+
+    Returns
+    -------
+    surfaces : list[dict]
+        List of surfaces dictionaries, one (two if symmetry==False) for each body requested in include.
+        This is a relatively empty surface dictionary that contains only basic information about the VLM mesh
+        (i.e. name, symmetry, mesh).
+
+    """
+
+    if vsp is None:
+        raise ImportError("The OpenVSP Python API is required in order to use generate_vsp_surfaces")
+
+    # Read in file
+    vsp.ReadVSPFile(vsp_file)
+
+    # Find all vsp bodies
+    all_geoms = vsp.FindGeoms()
+
+    # If surfaces to include were not specified, we'll output all of them
+    if include is None:
+        include = []
+        for geom_id in all_geoms:
+            geom_name = vsp.GetContainerName(geom_id)
+            if geom_name not in include:
+                include.append(geom_name)
+
+    # Create a VSP set that we'll use to identify surfaces we want to output
+    for geom_id in all_geoms:
+        geom_name = vsp.GetContainerName(geom_id)
+        if geom_name in include:
+            set_flag = True
+        else:
+            set_flag = False
+        vsp.SetSetFlag(geom_id, 3, set_flag)
+
+    # Create a degengeom set that will have our VLM surfaces in it
+    vsp.SetAnalysisInputDefaults("DegenGeom")
+    vsp.SetIntAnalysisInput("DegenGeom", "WriteCSVFlag", [0], 0)
+    vsp.SetIntAnalysisInput("DegenGeom", "WriteMFileFlag", [0], 0)
+    vsp.SetIntAnalysisInput("DegenGeom", "Set", [3], 0)
+
+    # Export all degengeoms to a list
+    degen_results_id = vsp.ExecAnalysis("DegenGeom")
+    degens = vsp.parse_degen_geom(degen_results_id)
+
+    # Loop through each included body and generate a surface dict
+    surfaces = {}
+    symm_surfaces = []
+    for degen in degens:
+        if degen.name in include:
+            # We found a right surface or a full model was requested
+            if degen.surf_index == 0 or symmetry is False:
+                flip_normal = degen.flip_normal
+                for plate_idx, plate in enumerate(degen.plates):
+                    # Some vsp bodies (fuselages) have two surfaces associated with them
+                    if len(degen.plates) > 1:
+                        surf_name = f"{degen.name}_{plate_idx}"
+                    # If there's only one surface (wings) we don't need to append plate id
+                    else:
+                        surf_name = degen.name
+                    # Remove any spaces from name to be OpenMDAO-compatible
+                    surf_name = surf_name.replace(" ", "_")
+                    # For now, set symmetry to false, we'll update in next step if user requested a half model
+                    surf_dict = {"name": surf_name, "symmetry": False}
+
+                    nx = (plate.num_pnts + 1) // 2
+                    ny = plate.num_secs
+                    mesh = np.zeros([nx, ny, 3])
+
+                    # Extract camber-surface from plate info
+                    x = np.array(plate.x) + np.array(plate.nCamber_x) * np.array(plate.zCamber)
+                    y = np.array(plate.y) + np.array(plate.nCamber_y) * np.array(plate.zCamber)
+                    z = np.array(plate.z) + np.array(plate.nCamber_z) * np.array(plate.zCamber)
+
+                    # Make sure VLM mesh is ordered in right direction
+                    if not flip_normal:
+                        x = np.flipud(x)
+                        y = np.flipud(y)
+                        z = np.flipud(z)
+
+                    mesh[:, :, 0] = np.flipud(x.T)
+                    mesh[:, :, 1] = np.flipud(y.T)
+                    mesh[:, :, 2] = np.flipud(z.T)
+
+                    # Check if the surface has already been added (i.e. symmetry == False)
+                    if surf_name not in surfaces:
+                        surf_dict["mesh"] = mesh
+                        surfaces[surf_name] = surf_dict
+                    # If so, this surface has a left and right segment that must be concatonated
+                    else:
+                        if degen.surf_index == 0:
+                            right_mesh = mesh
+                            left_mesh = surfaces[surf_name]["mesh"]
+                        else:
+                            right_mesh = surfaces[surf_name]["mesh"]
+                            left_mesh = mesh
+                        new_mesh = np.hstack((left_mesh[:, :-1, :], right_mesh))
+                        surfaces[surf_name]["mesh"] = new_mesh
+
+            # We found a left surface, but a half-model was requested, flag the surface as symmetrical
+            elif degen.surf_index == 1 and symmetry is True:
+                surf_name = degen.name
+                surf_name = surf_name.replace(" ", "_")
+                symm_surfaces.append(surf_name)
+
+    # If a half-model was requested, go through and flag each surface as symmetrical
+    # if a left and right surface was found.
+    # NOTE: We don't necesarilly want to mark every surface as symmetrical,
+    # even if a half-model is requested, since some surfaces, like vertical tails,
+    # might lie perfectly on the symmetry plane.
+    if symmetry:
+        for surf_name in surfaces:
+            if surf_name in symm_surfaces:
+                surfaces[surf_name]["symmetry"] = True
+
+    # Make sure vsp model is cleared before exit
+    vsp.ClearVSPModel()
+
+    # Return surfaces as list
+    return list(surfaces.values())
 
 
 def write_FFD_file(surface, mx, my):

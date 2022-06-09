@@ -5,7 +5,7 @@ from mphys import Multipoint
 from mphys.scenario_aerodynamic import ScenarioAerodynamic
 
 from openaerostruct.geometry.utils import generate_mesh
-from openaerostruct.mphys.aero_builder import AeroBuilder
+from openaerostruct.mphys import AeroBuilder
 
 
 class Top(Multipoint):

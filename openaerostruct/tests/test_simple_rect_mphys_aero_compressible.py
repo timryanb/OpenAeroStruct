@@ -11,7 +11,7 @@ from openaerostruct.aerodynamics.aero_groups import AeroPoint
 
 from mphys import Multipoint
 from mphys.scenario_aerodynamic import ScenarioAerodynamic
-from openaerostruct.mphys.aero_builder import AeroBuilder
+from openaerostruct.mphys import AeroBuilder
 
 # Global flight condition inputs to be used with both oas and mphys
 mach = 0.84

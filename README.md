@@ -4,8 +4,8 @@ OpenAeroStruct
 ![GitHub Actions Status](https://github.com/mdolab/OpenAeroStruct/workflows/OAS%20build/badge.svg)
 [![codecov](https://codecov.io/gh/mdolab/OpenAeroStruct/branch/main/graph/badge.svg?token=yOxeH7rT2H)](https://codecov.io/gh/mdolab/OpenAeroStruct)
 [![Documentation Status](https://readthedocs.com/projects/mdolab-openaerostruct/badge/?version=latest)](https://mdolab-openaerostruct.readthedocs-hosted.com/en/latest/?badge=latest)
-[![PyPI](https://img.shields.io/pypi/v/openaerostruct)](https://pypi.org/project/OpenAeroStruct/)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/OpenAeroStruct)
+[![PyPI](https://img.shields.io/pypi/v/openaerostruct)](https://pypi.org/project/openaerostruct/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/openaerostruct)](https://pypi.org/project/openaerostruct/)
 
 OpenAeroStruct is a lightweight tool that performs aerostructural optimization using OpenMDAO.
 It couples a vortex-lattice method (VLM) and a 6 degrees of freedom 3-dimensional spatial beam model to simulate aerodynamic and structural analyses using lifting surfaces.
@@ -13,10 +13,10 @@ These simulations are wrapped with an optimizer using NASA's OpenMDAO framework.
 The analysis and optimization results can be visualized using included tools, producing figures such as these:
 
 *With a tubular structure*
-![Example](openaerostruct/docs/figures/example.png)
+![Example](https://raw.githubusercontent.com/mdolab/OpenAeroStruct/main/openaerostruct/docs/figures/example.png)
 
 *With a wingbox structure*
-![Example2](openaerostruct/docs/figures/wingbox_fine.png)
+![Example2](https://raw.githubusercontent.com/mdolab/OpenAeroStruct/main/openaerostruct/docs/figures/wingbox_fine.png)
 
 Please note that this repository is provided as is without any guaranteed support.
 If you would like to highlight issues, ask questions, or make changes, please do so using GitHub Issues and Pull Requests.

@@ -7,7 +7,7 @@ from mphys.scenario_aerodynamic import ScenarioAerodynamic
 from pygeo.mphys import OM_DVGEOCOMP
 
 from openaerostruct.geometry.utils import generate_vsp_surfaces
-from openaerostruct.mphys.aero_builder import AeroBuilder
+from openaerostruct.mphys import AeroBuilder
 
 
 class Top(Multipoint):

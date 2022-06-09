@@ -7,7 +7,7 @@ from mphys.scenario_aerodynamic import ScenarioAerodynamic
 from pygeo.mphys import OM_DVGEOCOMP
 
 from openaerostruct.geometry.utils import generate_vsp_surfaces
-from openaerostruct.mphys.aero_builder import AeroBuilder
+from openaerostruct.mphys import AeroBuilder
 
 
 class Top(Multipoint):
@@ -115,8 +115,9 @@ prob.setup()
 # Create a n^2 diagram for user to view model connections
 # om.n2(prob)
 prob.run_model()
-#prob.check_totals(step=1.0)
 prob.run_driver()
+# Write optimized geometry to vsp file
+prob.model.geometry.DVGeo.writeVSPFile("opt_chord.vsp3")
 
 print("CL", prob["cruise.WingGeom.CL"][0])
 print("CD", prob["cruise.WingGeom.CD"][0])

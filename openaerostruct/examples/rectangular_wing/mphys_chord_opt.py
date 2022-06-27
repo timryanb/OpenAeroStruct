@@ -15,12 +15,11 @@ class Top(Multipoint):
         # VSP model
         vsp_file = os.path.join(os.path.dirname(__file__), "rect_wing.vsp3")
 
-        # Generate half-body mesh of 777, include only wing and tail surfaces
+        # Generate half-body mesh of rectangular wing
         surfaces = generate_vsp_surfaces(
             vsp_file, symmetry=True, include=["WingGeom"]
         )
 
-        # Generate half-body mesh of rectangular wing
         surf_options = {
             "type": "aero",
             "S_ref_type": "wetted",  # how we compute the wing area,

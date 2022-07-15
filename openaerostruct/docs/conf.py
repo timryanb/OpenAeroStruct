@@ -5,7 +5,6 @@ import os
 import sys
 import importlib
 from unittest.mock import Mock
-from openaerostruct.docs._exts import embed_n2
 from openaerostruct.docs._utils.generate_sourcedocs import generate_docs
 from sphinx_mdolab_theme.config import *
 
@@ -35,7 +34,9 @@ extensions = [
     "sphinx.ext.githubpages",
     "numpydoc",
     "sphinx_copybutton",
-    "embed_n2",
+    "sphinx_mdolab_theme.ext.embed_code",
+    "sphinx_mdolab_theme.ext.embed_compare",
+    "sphinx_mdolab_theme.ext.embed_n2",
 ]
 
 # directories for which to generate sourcedocs

@@ -14,6 +14,17 @@ class MeshPointForces(om.ExplicitComponent):
     ends up at the quarter chord. The corresponding weights are stored in the le_wt and
     te_wt options.
 
+    Parameters
+    ----------
+    sec_forces[nx-1, ny-1, 3] : numpy array
+        The panel forces for each lifting surface.
+        There is one of these per surface.
+
+    Returns
+    -------
+    mesh_point_forces[nx, ny, 3] : numpy array
+        The aeordynamic forces evaluated at the mesh nodes for each lifting surface.
+        There is one of these per surface.
     """
 
     def initialize(self):

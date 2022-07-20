@@ -49,7 +49,20 @@ class AeroMesh(om.IndepVarComp):
 
 class DemuxSurfaceMesh(om.ExplicitComponent):
     """
-    Demux surface coordinates from flattened array.
+    Demux surface coordinates from single flattened array.
+    Mphys always passes coordinate as a single flattened array,
+    but OAS expects them in a series of 3D arrays (one for each surface).
+    This component is responsible handling the conversion between the two.
+
+    Parameters
+    ----------
+    x_aero[system_size*3] : numpy array
+        Flattened aero mesh coordinates for all lifting surfaces.
+
+    Returns
+    -------
+    def_mesh[nx, ny, 3] : numpy array
+        Array defining the nodal coordinates of each lifting surface.
     """
 
     def initialize(self):
@@ -67,7 +80,7 @@ class DemuxSurfaceMesh(om.ExplicitComponent):
             distributed=False,
             shape=self.nnodes * 3,
             units="m",
-            desc="flattened aero mesh coordinates " "for all oas surfaces",
+            desc="flattened aero mesh coordinates for all oas surfaces",
             tags=["mphys_coupling"],
         )
         for surface in self.surfaces:
@@ -78,7 +91,7 @@ class DemuxSurfaceMesh(om.ExplicitComponent):
                 distributed=False,
                 shape=mesh.shape,
                 units="m",
-                desc="Array defining the nodal coordinates " "of the lifting surface.",
+                desc="Array defining the nodal coordinates of the lifting surface.",
                 tags=["mphys_coupling"],
             )
 
@@ -101,6 +114,10 @@ class DemuxSurfaceMesh(om.ExplicitComponent):
 
 
 class AeroSolverGroup(om.Group):
+    """
+    Group that contains the states for a incompresible/compressible aerodynamic analysis.
+    """
+
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
         self.options.declare("compressible", default=True, desc="prandtl glauert compressibiity flag", recordable=True)
@@ -136,6 +153,20 @@ class AeroSolverGroup(om.Group):
 class MuxSurfaceForces(om.ExplicitComponent):
     """
     Demux surface coordinates from flattened array.
+    Mphys expects forces to be passed as a single flattened array,
+    but OAS outputs them as a series of 3D arrays (one for each surface).
+    This component is responsible handling the conversion between the two.
+
+    Parameters
+    ----------
+    mesh_point_forces[nx, ny, 3] : numpy array
+        The aeordynamic forces evaluated at the mesh nodes for each lifting surface.
+        There is one of these per surface.
+
+    Returns
+    -------
+    f_aero[system_size*3] : numpy array
+        Flattened array of aero nodal forces for all lifting surfaces.
     """
 
     def initialize(self):
@@ -190,6 +221,23 @@ class MuxSurfaceForces(om.ExplicitComponent):
 
 
 class AeroCouplingGroup(om.Group):
+    """
+    Group that wraps the aerodynamic states into the Mphys's broader coupling group.
+
+    This is done in four steps:
+
+        1. The deformed aero coordinates are read in as a distributed flattened array
+        and split up into multiple 3D serial arrays (one per surface).
+
+        2. The VLM problem is then solved based on the deformed mesh.
+
+        3. The aerodynamic nodal forces for each surface produced by the VLM solver
+        are concatonated into a flattened array.
+
+        4. The serial force vector is converted to a distributed array and
+        provided as output tothe rest of the Mphys coupling groups.
+    """
+
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
         self.options.declare("compressible", default=True, desc="prandtl glauert compressibiity flag", recordable=True)
@@ -236,6 +284,11 @@ class AeroCouplingGroup(om.Group):
 
 
 class AeroFuncsGroup(om.Group):
+    """
+    Group to contain the total aerodynamic performance functions
+    to be evaluated after the coupled states are solved.
+    """
+
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
         self.options.declare("user_specified_Sref", types=bool)
@@ -304,6 +357,9 @@ class AeroFuncsGroup(om.Group):
 
 
 class AeroBuilder(Builder):
+    """
+    Mphys builder class responsible for setting up components of OAS's aerodynamic solver.
+    """
 
     def_options = {"user_specified_Sref": False, "compressible": True, "output_dir": "./", "write_solution": True}
 
@@ -336,6 +392,9 @@ class AeroBuilder(Builder):
         )
 
     def get_ndof(self):
+        """
+        Tells Mphys this is a 3D problem.
+        """
         return 3
 
     def get_number_of_nodes(self):

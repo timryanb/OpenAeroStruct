@@ -16,9 +16,7 @@ class Top(Multipoint):
         vsp_file = os.path.join(os.path.dirname(__file__), "rect_wing.vsp3")
 
         # Generate half-body mesh of rectangular wing
-        surfaces = generate_vsp_surfaces(
-            vsp_file, symmetry=True, include=["WingGeom"]
-        )
+        surfaces = generate_vsp_surfaces(vsp_file, symmetry=True, include=["WingGeom"])
 
         surf_options = {
             "type": "aero",
@@ -85,11 +83,12 @@ class Top(Multipoint):
 
     def configure(self):
         # create geometric DV setup
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_1', 'Root_Chord', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_2', 'Root_Chord', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_3', 'Root_Chord', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_4', 'Root_Chord', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_4', 'Tip_Chord', scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_1", "Root_Chord", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_2", "Root_Chord", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_3", "Root_Chord", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_4", "Root_Chord", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_4", "Tip_Chord", scaledStep=False)
+
 
 prob = om.Problem()
 prob.model = Top()
@@ -117,6 +116,7 @@ prob.run_model()
 prob.run_driver()
 # Write optimized geometry to vsp file
 prob.model.geometry.DVGeo.writeVSPFile("opt_chord.vsp3")
+prob.model.geometry.DVGeo.createDesignFile("finalDVs.des")
 
 print("CL", prob["cruise.WingGeom.CL"][0])
 print("CD", prob["cruise.WingGeom.CD"][0])

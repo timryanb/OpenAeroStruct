@@ -16,9 +16,7 @@ class Top(Multipoint):
         vsp_file = os.path.join(os.path.dirname(__file__), "rect_wing.vsp3")
 
         # Generate half-body mesh of rectangular wing
-        surfaces = generate_vsp_surfaces(
-            vsp_file, symmetry=True, include=["WingGeom"]
-        )
+        surfaces = generate_vsp_surfaces(vsp_file, symmetry=True, include=["WingGeom"])
 
         # Define input surface dictionary for our wing
         surf_options = {
@@ -86,11 +84,12 @@ class Top(Multipoint):
 
     def configure(self):
         # create geometric DV setup
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_0', 'Twist', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_1', 'Twist', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_2', 'Twist', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_3', 'Twist', scaledStep=False)
-        self.geometry.nom_addVSPVariable('WingGeom', 'XSec_4', 'Twist', scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_0", "Twist", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_1", "Twist", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_2", "Twist", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_3", "Twist", scaledStep=False)
+        self.geometry.nom_addVSPVariable("WingGeom", "XSec_4", "Twist", scaledStep=False)
+
 
 prob = om.Problem()
 prob.model = Top()

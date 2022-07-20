@@ -1,3 +1,7 @@
+"""
+Class definition for the Mphys builder for the aero solver.
+"""
+
 import copy
 import numpy as np
 import openmdao.api as om

@@ -1,3 +1,11 @@
+"""
+Use Mphys/OpenVSP interface to perform inviscid drag minimization of
+an initially rectangular wing with respect to the chord distribution,
+subject to a lift and reference area constraint. Similar to the twist optimization,
+the expected result from lifting line theory should produce an elliptical lift distrbution.
+Check output directory for Tecplot solution files.
+"""
+
 import os
 import openmdao.api as om
 import numpy as np

@@ -116,7 +116,6 @@ prob.run_model()
 prob.run_driver()
 # Write optimized geometry to vsp file
 prob.model.geometry.DVGeo.writeVSPFile("opt_chord.vsp3")
-prob.model.geometry.DVGeo.createDesignFile("finalDVs.des")
 
 print("CL", prob["cruise.WingGeom.CL"][0])
 print("CD", prob["cruise.WingGeom.CD"][0])

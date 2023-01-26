@@ -77,7 +77,7 @@ class Top(Multipoint):
         self.add_subsystem("mesh", aero_builder.get_mesh_coordinate_subsystem())
 
         # add the geometry component, we dont need a builder because we do it here.
-        self.add_subsystem("geometry", OM_DVGEOCOMP(vsp_file=vsp_file))
+        self.add_subsystem("geometry", OM_DVGEOCOMP(file=vsp_file, type="vsp"))
         # add pointset
         self.geometry.nom_add_discipline_coords("aero")
 

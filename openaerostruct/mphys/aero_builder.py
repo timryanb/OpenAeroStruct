@@ -250,7 +250,7 @@ class AeroCouplingGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.compressible = self.options["compressible"]
 
-        self.set_input_defaults('aoa', units="deg")
+        self.set_input_defaults("aoa", units="deg")
 
         nnodes = get_number_of_nodes(self.surfaces)
 
@@ -383,10 +383,10 @@ class TotalAeroForces(om.ExplicitComponent):
 
         self.declare_partials("*", "*", method="cs")
 
-
     def compute(self, inputs, outputs):
         outputs["L"] = inputs["CL"] * 0.5 * inputs["rho"] * inputs["v"] ** 2 * inputs["S_ref_total"]
         outputs["D"] = inputs["CD"] * 0.5 * inputs["rho"] * inputs["v"] ** 2 * inputs["S_ref_total"]
+
 
 class AeroFuncsGroup(om.Group):
     """
@@ -405,7 +405,7 @@ class AeroFuncsGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.user_specified_Sref = self.options["user_specified_Sref"]
 
-        self.set_input_defaults('aoa', units="deg")
+        self.set_input_defaults("aoa", units="deg")
 
         proms_in = []
         for surface in self.surfaces:

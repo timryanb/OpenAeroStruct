@@ -9,6 +9,7 @@ class SurfaceContour(ExplicitComponent):
     solution of all lifting surfaces in a Tecplot format.
     The purpose of this component is to write visualization files, as such it
     has no output variables or sensitivities.
+
     Parameters
     ----------
     v : float

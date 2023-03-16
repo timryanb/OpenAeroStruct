@@ -25,7 +25,6 @@ cg = np.zeros((3))
 
 class Test(unittest.TestCase):
     def test(self):
-
         # Create a dictionary to store options about the surface
         mesh_dict = {"num_y": 5, "num_x": 2, "wing_type": "rect", "symmetry": True}
 
@@ -78,7 +77,6 @@ class Test(unittest.TestCase):
     def get_mphys_solution(self, surfaces):
         class Top(Multipoint):
             def setup(self):
-
                 dvs = self.add_subsystem("dvs", om.IndepVarComp(), promotes=["*"])
                 dvs.add_output("aoa", val=aoa, units="deg")
                 dvs.add_output("yaw", val=beta, units="deg")

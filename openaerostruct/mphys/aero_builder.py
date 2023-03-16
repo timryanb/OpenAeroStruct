@@ -255,9 +255,9 @@ class AeroCouplingGroup(om.Group):
         nnodes = get_number_of_nodes(self.surfaces)
 
         # Convert distributed mphys mesh input into a serial vector OAS can use
-        vars = [DistributedVariableDescription(name="x_aero", shape=(nnodes * 3), tags=["mphys_coordinates"])]
+        in_vars = [DistributedVariableDescription(name="x_aero", shape=(nnodes * 3), tags=["mphys_coordinates"])]
 
-        self.add_subsystem("collector", DistributedConverter(distributed_inputs=vars), promotes_inputs=["x_aero"])
+        self.add_subsystem("collector", DistributedConverter(distributed_inputs=in_vars), promotes_inputs=["x_aero"])
         self.connect("collector.x_aero_serial", "demuxer.x_aero")
 
         # Demux flattened surface mesh vector into seperate vectors for each surface
@@ -283,9 +283,9 @@ class AeroCouplingGroup(om.Group):
         )
 
         # Convert serial force vector to distributed, like mphys expects
-        vars = [DistributedVariableDescription(name="f_aero", shape=(nnodes * 3), tags=["mphys_coupling"])]
+        out_vars = [DistributedVariableDescription(name="f_aero", shape=(nnodes * 3), tags=["mphys_coupling"])]
 
-        self.add_subsystem("distributor", DistributedConverter(distributed_outputs=vars), promotes_outputs=["f_aero"])
+        self.add_subsystem("distributor", DistributedConverter(distributed_outputs=out_vars), promotes_outputs=["f_aero"])
         self.connect("muxer.f_aero", "distributor.f_aero_serial")
 
 
@@ -314,11 +314,7 @@ class TotalAeroForces(om.ExplicitComponent):
         Total drag of aircraft.
     """
 
-    def initialize(self):
-        self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
-
     def setup(self):
-
         # OpenMDAO part of setup
         self.add_input(
             "S_ref_total",

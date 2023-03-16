@@ -26,7 +26,7 @@ The easiest way to get started is by installing OpenAeroStruct via the Python Pa
 
 `pip install openaerostruct`
 
-If you'd like easier access to the examples and source code, install OpenAeroStruct by cloning this repository and entering the folder it generates.
+If you would like easier access to the examples and source code, install OpenAeroStruct by cloning this repository and entering the folder it generates.
 Then do:
 
 `pip install -e .`

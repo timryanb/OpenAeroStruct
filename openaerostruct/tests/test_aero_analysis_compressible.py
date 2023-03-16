@@ -11,7 +11,6 @@ import openmdao.api as om
 
 class Test(unittest.TestCase):
     def test(self):
-
         # Create a dictionary to store options about the surface
         mesh_dict = {"num_y": 7, "num_x": 2, "wing_type": "CRM", "symmetry": True, "num_twist_cp": 5}
 
@@ -62,7 +61,6 @@ class Test(unittest.TestCase):
 
         # Loop over each surface in the surfaces list
         for surface in surfaces:
-
             geom_group = Geometry(surface=surface)
 
             # Add tmp_group to the problem as the name of the surface.
@@ -72,7 +70,6 @@ class Test(unittest.TestCase):
 
         # Loop through and add a certain number of aero points
         for i in range(1):
-
             # Create the aero point group and add it to the model
             aero_group = AeroPoint(surfaces=surfaces, compressible=True, rotational=False)
             point_name = "aero_point_{}".format(i)
@@ -88,7 +85,6 @@ class Test(unittest.TestCase):
 
             # Connect the parameters within the model for each aero point
             for surface in surfaces:
-
                 name = surface["name"]
 
                 # Connect the mesh from the geometry component to the analysis point
@@ -105,9 +101,9 @@ class Test(unittest.TestCase):
 
         prob.run_model()
 
-        assert_near_equal(prob["aero_point_0.wing_perf.CD"][0], 0.042640338981881076, 1e-6)
+        assert_near_equal(prob["aero_point_0.wing_perf.CD"][0], 0.0408276181072298, 1e-6)
         assert_near_equal(prob["aero_point_0.wing_perf.CL"][0], 0.7007529249715114, 1e-6)
-        assert_near_equal(prob["aero_point_0.CM"][1], -2.403067220302201, 1e-6)
+        assert_near_equal(prob["aero_point_0.CM"][1], -2.846194746138373, 1e-6)
 
 
 if __name__ == "__main__":

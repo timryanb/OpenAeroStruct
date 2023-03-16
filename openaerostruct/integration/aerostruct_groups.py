@@ -134,7 +134,7 @@ class CoupledAS(om.Group):
             "aero_geom",
             VLMGeometry(surface=surface),
             promotes_inputs=["def_mesh"],
-            promotes_outputs=["b_pts", "widths", "cos_sweep", "lengths", "chords", "normals", "S_ref"],
+            promotes_outputs=["b_pts", "widths", "lengths_spanwise", "lengths", "chords", "normals", "S_ref"],
         )
 
         self.linear_solver = om.LinearRunOnce()
@@ -158,7 +158,7 @@ class CoupledPerformance(om.Group):
                 "re",
                 "rho",
                 "widths",
-                "cos_sweep",
+                "lengths_spanwise",
                 "lengths",
                 "S_ref",
                 "sec_forces",
@@ -219,7 +219,6 @@ class AerostructPoint(om.Group):
         coupled = om.Group()
 
         for surface in surfaces:
-
             name = surface["name"]
 
             # Connect the output of the loads component with the FEM
@@ -252,7 +251,7 @@ class AerostructPoint(om.Group):
             self.connect("coupled." + name + ".widths", name + "_perf.widths")
             # self.connect('coupled.' + name + '.chords', name + '_perf.chords')
             self.connect("coupled." + name + ".lengths", name + "_perf.lengths")
-            self.connect("coupled." + name + ".cos_sweep", name + "_perf.cos_sweep")
+            self.connect("coupled." + name + ".lengths_spanwise", name + "_perf.lengths_spanwise")
 
             # Connect parameters from the 'coupled' group to the total performance group.
             self.connect("coupled." + name + ".S_ref", "total_perf." + name + "_S_ref")

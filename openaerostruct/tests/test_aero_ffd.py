@@ -14,7 +14,6 @@ except ModuleNotFoundError:
 @unittest.skipUnless(pygeo_flag, "pyGeo is required.")
 class Test(unittest.TestCase):
     def test(self):
-
         from openaerostruct.geometry.utils import generate_mesh, write_FFD_file
         from openaerostruct.geometry.geometry_group import Geometry
 
@@ -82,7 +81,6 @@ class Test(unittest.TestCase):
 
         # Loop over each surface in the surfaces list
         for surface in surfaces:
-
             filename = write_FFD_file(surface, surface["mx"], surface["my"])
             DVGeo = DVGeometry(filename)
             geom_group = Geometry(surface=surface, DVGeo=DVGeo)
@@ -94,7 +92,6 @@ class Test(unittest.TestCase):
 
         # Loop through and add a certain number of aero points
         for i in range(1):
-
             # Create the aero point group and add it to the model
             aero_group = AeroPoint(surfaces=surfaces)
             point_name = "aero_point_{}".format(i)
@@ -110,7 +107,6 @@ class Test(unittest.TestCase):
 
             # Connect the parameters within the model for each aero point
             for surface in surfaces:
-
                 name = surface["name"]
 
                 # Connect the mesh from the geometry component to the analysis point
@@ -137,9 +133,9 @@ class Test(unittest.TestCase):
 
         prob.run_driver()
 
-        assert_near_equal(prob["aero_point_0.wing_perf.CD"][0], 0.03398038, 1e-6)
+        assert_near_equal(prob["aero_point_0.wing_perf.CD"][0], 0.03217543959727766, 1e-6)
         assert_near_equal(prob["aero_point_0.wing_perf.CL"][0], 0.5, 1e-6)
-        assert_near_equal(prob["aero_point_0.CM"][1], -1.773632, 1e-5)
+        assert_near_equal(prob["aero_point_0.CM"][1], -2.1128954575656356, 1e-5)
 
 
 if __name__ == "__main__":

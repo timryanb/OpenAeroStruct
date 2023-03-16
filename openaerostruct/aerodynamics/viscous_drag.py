@@ -55,8 +55,8 @@ class ViscousDrag(om.ExplicitComponent):
         self.add_input("re", val=5.0e6, units="1/m", tags=["mphys_input"])
         self.add_input("Mach_number", val=1.6, tags=["mphys_input"])
         self.add_input("S_ref", val=1.0, units="m**2", tags=["mphys_coupling"])
-        self.add_input("cos_sweep", val=np.ones((ny - 1)) * 0.2, units="m", tags=["mphys_coupling"])
-        self.add_input("widths", val=np.arange((ny - 1)) + 1.0, units="m", tags=["mphys_coupling"])
+        self.add_input("widths", val=np.ones((ny - 1)) * 0.2, units="m", tags=["mphys_coupling"])
+        self.add_input("lengths_spanwise", val=np.arange((ny - 1)) + 1.0, units="m", tags=["mphys_coupling"])
         self.add_input("lengths", val=np.ones((ny)), units="m", tags=["mphys_coupling"])
         self.add_input("t_over_c", val=np.arange((ny - 1)), tags=["mphys_input"])
         self.add_output("CDv", val=0.0)
@@ -72,7 +72,7 @@ class ViscousDrag(om.ExplicitComponent):
             S_ref = inputs["S_ref"]
             widths = inputs["widths"]
             lengths = inputs["lengths"]
-            cos_sweep = inputs["cos_sweep"] / widths
+            cos_sweep = inputs["widths"] / inputs["lengths_spanwise"]
             t_over_c = inputs["t_over_c"]
 
             # Take panel chord length to be average of its edge lengths
@@ -121,13 +121,11 @@ class ViscousDrag(om.ExplicitComponent):
         t_over_c = inputs["t_over_c"]
 
         if self.with_viscous:
-
             M = inputs["Mach_number"]
             S_ref = inputs["S_ref"]
-
             widths = inputs["widths"]
             lengths = inputs["lengths"]
-            cos_sweep = inputs["cos_sweep"] / widths
+            cos_sweep = widths / inputs["lengths_spanwise"]
 
             # Take panel chord length to be average of its edge lengths
             chords = (lengths[1:] + lengths[:-1]) / 2.0
@@ -172,7 +170,6 @@ class ViscousDrag(om.ExplicitComponent):
             if self.k_lam == 0:
                 cdT_Re = 0.455 / (np.log10(Re_c)) ** 3.58 / B * -2.58 / np.log(10) / Re_c
             elif self.k_lam < 1.0:
-
                 cdl_Re = 1.328 / (Re_c * self.k_lam) ** 1.5 * -0.5 * self.k_lam
                 cdt_Re = 0.455 / (np.log10(Re_c * self.k_lam)) ** 3.58 / B * -2.58 / np.log(10) / Re_c
                 cdT_Re = 0.455 / (np.log10(Re_c)) ** 3.58 / B * -2.58 / np.log(10) / Re_c
@@ -186,9 +183,9 @@ class ViscousDrag(om.ExplicitComponent):
 
             partials["CDv", "lengths"][0, 1:] += CDv_lengths
             partials["CDv", "lengths"][0, :-1] += CDv_lengths
-            partials["CDv", "widths"][0, :] = d_over_q * FF / S_ref * 0.72
+            partials["CDv", "lengths_spanwise"][0, :] = d_over_q / S_ref * (-0.28 * k_FF * cos_sweep**1.28)
             partials["CDv", "S_ref"] = -D_over_q / S_ref**2
-            partials["CDv", "cos_sweep"][0, :] = 0.28 * k_FF * d_over_q / S_ref / cos_sweep**0.72
+            partials["CDv", "widths"][0, :] = d_over_q / S_ref * (FF + 0.28 * k_FF * cos_sweep**0.28)
             partials["CDv", "t_over_c"] = (
                 d_over_q * widths * 1.34 * M**0.18 * (0.6 / self.c_max_t + 400 * t_over_c**3) * cos_sweep**0.28
             ) / S_ref
@@ -239,9 +236,9 @@ class ViscousDrag(om.ExplicitComponent):
 
             if self.surface["symmetry"]:
                 partials["CDv", "lengths"][0, :] *= 2
-                partials["CDv", "widths"][0, :] *= 2
+                partials["CDv", "lengths_spanwise"][0, :] *= 2
                 partials["CDv", "S_ref"] *= 2
-                partials["CDv", "cos_sweep"][0, :] *= 2
+                partials["CDv", "widths"][0, :] *= 2
                 partials["CDv", "Mach_number"][0, :] *= 2
                 partials["CDv", "re"][0, :] *= 2
                 partials["CDv", "t_over_c"][0, :] *= 2

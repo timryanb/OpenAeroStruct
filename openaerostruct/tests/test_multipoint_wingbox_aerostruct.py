@@ -335,7 +335,6 @@ class Test(unittest.TestCase):
 
         # Loop over each surface in the surfaces list
         for surface in surfaces:
-
             # Get the surface name and create a group to contain components
             # only for this surface
             name = surface["name"]
@@ -347,7 +346,6 @@ class Test(unittest.TestCase):
 
         # Loop through and add a certain number of aero points
         for i in range(2):
-
             point_name = "AS_point_{}".format(i)
             # Connect the parameters within the model for each aero point
 
@@ -370,8 +368,7 @@ class Test(unittest.TestCase):
             prob.model.connect("fuel_mass", point_name + ".total_perf.L_equals_W.fuelburn")
             prob.model.connect("fuel_mass", point_name + ".total_perf.CG.fuelburn")
 
-            for surface in surfaces:
-
+            for _surface in surfaces:
                 prob.model.connect("load_factor", point_name + ".coupled.load_factor", src_indices=[i])
 
                 com_name = point_name + "." + name + "_perf."
@@ -462,8 +459,8 @@ class Test(unittest.TestCase):
         print(prob["AS_point_0.fuelburn"][0])
         print(prob["wing.structural_mass"][0] / 1.25)
 
-        assert_near_equal(prob["AS_point_0.fuelburn"][0], 93177.833744, 1e-5)
-        assert_near_equal(prob["wing.structural_mass"][0] / 1.25, 26640.125856, 1e-5)
+        assert_near_equal(prob["AS_point_0.fuelburn"][0], 87313.4177585217, 1e-5)
+        assert_near_equal(prob["wing.structural_mass"][0] / 1.25, 26352.1600542036, 1e-5)
 
 
 if __name__ == "__main__":

@@ -11,40 +11,39 @@ on:
       - main
     tags:
       - v*.*.*
+  schedule:
+    # Run the tests at 7:23pm UTC on the 2nd and 17th of every month
+    - cron: '23 19 2,17 * *'
 
 jobs:
   # --- run OAS unit and regression tests ---
   test:
     runs-on: ubuntu-latest
-    env:
-      VSP_VERSION: 3.27.1
+    strategy:
+      matrix:
+        dep-versions: ["oldest", "latest"]
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Set versions to test here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        PYTHON_VERSION_OLDEST: ['3.8']
+        PYTHON_VERSION_LATEST: ['3.11']
+        NUMPY_VERSION_OLDEST: ['1.20']  # latest is most recent on PyPI
+        SCIPY_VERSION_OLDEST: ['1.6.0']  # latest is most recent on PyPI
+        OPENMDAO_VERSION_OLDEST: ['3.15']  # latest is most recent on PyPI
+        MPHYS_VERSION_OLDEST: ['1.0.0']  # latest is most recent on PyPI
+        PYGEO_VERSION_OLDEST: ['1.6.0']  # latest is pulled from main branch, for some reason anything after 1.12.2 seg faults on the old build
+        VSP_VERSION: ['3.27.1']  # used for both builds
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - name: Set up Python ${{ matrix.PYTHON_VERSION_OLDEST }}
+      if: ${{ matrix.dep-versions == 'oldest' }}
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
-
-    # OAS dependencies are specified in setup.py.
-    - name: Install OAS and its dependencies
-      run: |
-        python -m pip install --upgrade pip wheel
-        pip install .[test]
-
-    # we need pySpline/pyGeo to run FFD tests.
-    - name: Install pySpline and pyGeo
-      run: |
-        cd ..
-        sudo apt-get install openmpi-bin libopenmpi-dev
-        pip install mpi4py
-        git clone https://github.com/mdolab/pyspline.git
-        cd pyspline
-        cp config/defaults/config.LINUX_GFORTRAN.mk config/config.mk
-        make
-        pip install -e .
-        cd ..
-        pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git"
+        python-version:  ${{ matrix.PYTHON_VERSION_OLDEST }}
+    - name: Set up Python ${{ matrix.PYTHON_VERSION_LATEST }}
+      if: ${{ matrix.dep-versions == 'latest' }}
+      uses: actions/setup-python@v2
+      with:
+        python-version:  ${{ matrix.PYTHON_VERSION_LATEST }}
 
     # we need OpenVSP to run vsp tests.
     - name: Install OpenVSP
@@ -59,9 +58,9 @@ jobs:
         cd OpenVSP
         mkdir build buildlibs
         # Download source code
-        wget -q https://github.com/OpenVSP/OpenVSP/archive/refs/tags/OpenVSP_${VSP_VERSION}.tar.gz
-        tar -xf OpenVSP_${VSP_VERSION}.tar.gz
-        mv OpenVSP-OpenVSP_${VSP_VERSION} repo
+        wget -q https://github.com/OpenVSP/OpenVSP/archive/refs/tags/OpenVSP_${{ matrix.VSP_VERSION }}.tar.gz
+        tar -xf OpenVSP_${{ matrix.VSP_VERSION }}.tar.gz
+        mv OpenVSP-OpenVSP_${{ matrix.VSP_VERSION }} repo
         # Build dependency libs
         cd buildlibs
         cmake -DVSP_USE_SYSTEM_LIBXML2=true -DVSP_USE_SYSTEM_FLTK=true -DVSP_USE_SYSTEM_GLM=true \
@@ -79,18 +78,50 @@ jobs:
         make -j8
         make package
         # Install python interface
-        pushd _CPack_Packages/Linux/ZIP/OpenVSP-${VSP_VERSION}-Linux/python
+        pushd _CPack_Packages/Linux/ZIP/OpenVSP-${{ matrix.VSP_VERSION }}-Linux/python
         pip install -r requirements.txt
         pushd ..
         cp vspaero vspscript vspslicer $INST_PREFIX/bin
         popd
         popd
 
-    # we need mphys to run mphys tests.
-    - name: Install mphys
+    # OAS dependencies are specified in setup.py.
+    - name: Install OAS and its dependencies (oldest versions)
+      if: ${{ matrix.dep-versions == 'oldest' }}
+      run: |
+        python -m pip install --upgrade pip wheel
+        pip install numpy==${{ matrix.NUMPY_VERSION_OLDEST }} scipy==${{ matrix.SCIPY_VERSION_OLDEST }} openmdao==${{ matrix.OPENMDAO_VERSION_OLDEST }} mphys==${{ matrix.MPHYS_VERSION_OLDEST }}
+        pip install -e .[test]
+    - name: Install OAS and its dependencies (latest versions)
+      if: ${{ matrix.dep-versions == 'latest' }}
+      run: |
+        python -m pip install --upgrade pip wheel
+        pip install -e .[test]
+
+    # We need pySpline/pyGeo to run FFD tests.
+    - name: Install pySpline
       run: |
         cd ..
-        pip install "mphys @ git+https://github.com/OpenMDAO/mphys.git"
+        sudo apt-get install openmpi-bin libopenmpi-dev
+        pip install mpi4py
+        git clone https://github.com/mdolab/pyspline.git
+        cd pyspline
+        cp config/defaults/config.LINUX_GFORTRAN.mk config/config.mk
+        make
+        pip install -e .
+
+    - name: Install pyGeo ${{ matrix.PYGEO_VERSION_OLDEST }}
+      if: ${{ matrix.dep-versions == 'oldest' }}
+      run: |
+        pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git@v${{ matrix.PYGEO_VERSION_OLDEST }}"
+    - name: Install pyGeo latest
+      if: ${{ matrix.dep-versions == 'latest' }}
+      run: |
+        pip install "pygeo[testing] @ git+https://github.com/mdolab/pygeo.git"
+
+    - name: List installed Python packages
+      run: |
+        pip list -v
 
     - name: Run tests
       env:
@@ -103,41 +134,11 @@ jobs:
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
-
-  # --- code style check by flake8 ---
-  flake8:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-
-    # use both MDO Lab standard config
-    - name: Code style (flake8)
-      run: |
-        pip install flake8==3.9.2
-        wget https://raw.githubusercontent.com/mdolab/.github/main/.flake8 -O .flake8_mdolab
-        python -m flake8 openaerostruct --append-config .flake8_mdolab --append-config .github/.flake8_oas_specific --count --show-source --statistics
-
-  # --- code format check by black ---
+  # --- linting and formatting ---
   black:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-
-    # code format check by black
-    - name: Code format (black)
-      run: |
-        pip install black==22.3.0
-        black openaerostruct --check --diff -l 120 --target-version py38
+    uses: mdolab/.github/.github/workflows/black.yaml@main
+  flake8:
+    uses: mdolab/.github/.github/workflows/flake8.yaml@main
 
   # --- publish to PyPI
   pypi:

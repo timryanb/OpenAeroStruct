@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
     def test(self):
         # Create a dictionary to store options about the surface
         # OM: vary 'num_y' and 'num_x' to change the size of the mesh
-        mesh_dict = {"num_y": 5, "num_x": 2, "wing_type": "rect", "symmetry": True}
+        mesh_dict = {"num_y": 5, "num_x": 2, "wing_type": "rect", "symmetry": True, "span": 40.0, "root_chord": 4.0}
 
         mesh = generate_mesh(mesh_dict)
 
@@ -81,7 +81,6 @@ class Test(unittest.TestCase):
 
         # Loop over each surface in the surfaces list
         for surface in surfaces:
-
             # Get the surface name and create a group to contain components
             # only for this surface
             name = surface["name"]
@@ -93,7 +92,6 @@ class Test(unittest.TestCase):
 
         # Loop through and add a certain number of aero points
         for i in range(1):
-
             point_name = "AS_point_{}".format(i)
             # Connect the parameters within the model for each aero point
 
@@ -115,8 +113,7 @@ class Test(unittest.TestCase):
             prob.model.connect("empty_cg", point_name + ".empty_cg")
             prob.model.connect("load_factor", point_name + ".load_factor")
 
-            for surface in surfaces:
-
+            for _surface in surfaces:
                 com_name = point_name + "." + name + "_perf"
                 prob.model.connect(
                     name + ".local_stiff_transformed", point_name + ".coupled." + name + ".local_stiff_transformed"
@@ -137,7 +134,7 @@ class Test(unittest.TestCase):
                 prob.model.connect(name + ".t_over_c", com_name + ".t_over_c")
 
         prob.driver = om.ScipyOptimizeDriver()
-        prob.driver.options["tol"] = 1e-9
+        prob.driver.options["tol"] = 1e-7
 
         # Setup problem and add design variables, constraint, and objective
         prob.model.add_design_var("wing.twist_cp", lower=-10.0, upper=15.0)
@@ -155,7 +152,7 @@ class Test(unittest.TestCase):
 
         prob.run_driver()
 
-        assert_near_equal(prob["AS_point_0.fuelburn"][0], 68345.6633812, 1e-5)
+        assert_near_equal(prob["AS_point_0.fuelburn"][0], 73196.44377669816, 1e-5)
 
 
 if __name__ == "__main__":

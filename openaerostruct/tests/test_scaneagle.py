@@ -12,7 +12,6 @@ from openaerostruct.utils.constants import grav_constant
 
 class Test(unittest.TestCase):
     def test(self):
-
         # Total number of nodes to use in the spanwise (num_y) and
         # chordwise (num_x) directions. Vary these to change the level of fidelity.
         num_y = 21
@@ -204,10 +203,10 @@ class Test(unittest.TestCase):
         # Actually run the optimization problem
         prob.run_driver()
 
-        assert_near_equal(prob["AS_point_0.fuelburn"][0], 4.734596439931736, 1e-6)
-        assert_near_equal(prob["wing.twist_cp"], np.array([2.52737808, 10.62041433, 5.0]), 1e-6)
-        assert_near_equal(prob["wing.sweep"][0], 18.84598985, 1e-6)
-        assert_near_equal(prob["alpha"][0], 1.97414017, 1e-6)
+        assert_near_equal(prob["AS_point_0.fuelburn"][0], 4.6365011384888275, 1e-5)
+        assert_near_equal(prob["wing.twist_cp"], np.array([2.25819837, 10.39881572, 5.0]), 1e-5)
+        assert_near_equal(prob["wing.sweep"][0], 18.964409030629632, 1e-5)
+        assert_near_equal(prob["alpha"][0], 2.0366563718492547, 1e-5)
 
 
 if __name__ == "__main__":

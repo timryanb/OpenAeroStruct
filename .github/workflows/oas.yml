@@ -96,7 +96,7 @@ jobs:
       if: ${{ matrix.dep-versions == 'latest' }}
       run: |
         python -m pip install --upgrade pip wheel
-        pip install -e .[test]
+        pip install -e .[test,mphys]
 
     # We need pySpline/pyGeo to run FFD tests.
     - name: Install pySpline

@@ -285,7 +285,9 @@ class AeroCouplingGroup(om.Group):
         # Convert serial force vector to distributed, like mphys expects
         out_vars = [DistributedVariableDescription(name="f_aero", shape=(nnodes * 3), tags=["mphys_coupling"])]
 
-        self.add_subsystem("distributor", DistributedConverter(distributed_outputs=out_vars), promotes_outputs=["f_aero"])
+        self.add_subsystem(
+            "distributor", DistributedConverter(distributed_outputs=out_vars), promotes_outputs=["f_aero"]
+        )
         self.connect("muxer.f_aero", "distributor.f_aero_serial")
 
 

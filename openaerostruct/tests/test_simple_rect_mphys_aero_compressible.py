@@ -8,10 +8,16 @@ from openmdao.utils.assert_utils import assert_near_equal, assert_check_partials
 from openaerostruct.geometry.utils import generate_mesh
 from openaerostruct.geometry.geometry_group import Geometry
 from openaerostruct.aerodynamics.aero_groups import AeroPoint
-
-from mphys import Multipoint
-from mphys.scenario_aerodynamic import ScenarioAerodynamic
 from openaerostruct.mphys import AeroBuilder
+
+# check if mphys is available
+try:
+    from mphys import Multipoint  # noqa: F401
+    from mphys.scenario_aerodynamic import ScenarioAerodynamic  # noqa: F401
+
+    mphys_flag = True
+except ModuleNotFoundError:
+    mphys_flag = False
 
 # Global flight condition inputs to be used with both oas and mphys
 mach = 0.84
@@ -23,6 +29,7 @@ re = 1e6
 cg = np.zeros((3))
 
 
+@unittest.skipUnless(mphys_flag, "MPhys is required.")
 class Test(unittest.TestCase):
     def test(self):
         # Create a dictionary to store options about the surface

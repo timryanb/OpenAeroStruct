@@ -4,7 +4,6 @@ import unittest
 
 class Test(unittest.TestCase):
     def test(self):
-        # docs checkpoint 0
         import numpy as np
 
         from openaerostruct.geometry.utils import generate_mesh
@@ -58,11 +57,6 @@ class Test(unittest.TestCase):
         prob.driver.options["disp"] = True
         prob.driver.options["tol"] = 1e-9
 
-        recorder = om.SqliteRecorder("struct.db")
-        prob.driver.add_recorder(recorder)
-        prob.driver.recording_options["record_derivatives"] = True
-        prob.driver.recording_options["includes"] = ["*"]
-
         # Setup problem and add design variables, constraint, and objective
         prob.model.add_design_var("wing.thickness_cp", lower=0.01, upper=0.5, ref=1e-1)
         prob.model.add_constraint("wing.failure", upper=0.0)
@@ -74,11 +68,7 @@ class Test(unittest.TestCase):
         # Set up the problem
         prob.setup(force_alloc_complex=False)
 
-        # prob.run_model()
-        # prob.check_partials(compact_print=False, method='fd')
-        # exit()
         prob.run_driver()
-        # docs checkpoint 1
 
         assert_near_equal(prob["wing.structural_mass"][0], 71088.4682399, 1e-8)
 

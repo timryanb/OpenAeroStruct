@@ -11,17 +11,9 @@ Aerodynamic Optimization Example
 --------------------------------
 We optimize the aircraft at two cruise flight conditions below.
 
-.. literalinclude:: /../tests/test_multipoint_aero.py
-    :start-after: checkpoint 0
-    :end-before: checkpoint 1
-    :dedent: 8
-
-.. code-block:: python
-
-    print(prob["aero_point_0.wing_perf.CL"][0])
-    print(prob["aero_point_0.wing_perf.CD"][0])
-    print(prob["aero_point_1.wing_perf.CL"][0])
-    print(prob["aero_point_1.wing_perf.CD"][0])
+.. embed-code::
+    openaerostruct.tests.test_multipoint_aero.Test.test
+    :layout: interleave
 
 
 Aerostructural Optimization Example (Q400)
@@ -31,7 +23,8 @@ This is an additional example of a multipoint aerostructural optimization with t
 Here we also create a custom mesh instead of using one provided by OpenAeroStruct.
 Make sure you go through the :ref:`Aerostructural_with_Wingbox_Walkthrough` before trying to understand this example.
 
-.. literalinclude:: /advanced_features/scripts/wingbox_mpt_Q400_example.py
+.. embed-code::
+    advanced_features/scripts/wingbox_mpt_Q400_example.py
 
 The following shows a visualization of the results.
 As can be seen, there is plenty of room for improvement.

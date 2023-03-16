@@ -250,6 +250,8 @@ class AeroCouplingGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.compressible = self.options["compressible"]
 
+        self.set_input_defaults('aoa', units="deg")
+
         nnodes = get_number_of_nodes(self.surfaces)
 
         # Convert distributed mphys mesh input into a serial vector OAS can use
@@ -287,6 +289,105 @@ class AeroCouplingGroup(om.Group):
         self.connect("muxer.f_aero", "distributor.f_aero_serial")
 
 
+class TotalAeroForces(om.ExplicitComponent):
+    """
+    Convert force coeeficients into dimenional forces.
+
+    Parameters
+    ----------
+    S_ref_total : float
+        Total reference area of aircraft.
+    rho : float
+        Freestream density.
+    v : float
+        Freestream velocity.
+    CL : float
+        Total lift coefficient of aircraft.
+    CD : float
+        Total drag coefficient of aircraft.
+
+    Returns
+    -------
+    L : float
+        Total lift of aircraft.
+    D : float
+        Total drag of aircraft.
+    """
+
+    def initialize(self):
+        self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
+
+    def setup(self):
+
+        # OpenMDAO part of setup
+        self.add_input(
+            "S_ref_total",
+            distributed=False,
+            shape=1,
+            units="m**2",
+            desc="reference area of aircraft",
+            tags=["mphys_input"],
+        )
+
+        self.add_input(
+            "rho",
+            distributed=False,
+            shape=1,
+            units="kg/m**3",
+            desc="freestream density",
+            tags=["mphys_input"],
+        )
+
+        self.add_input(
+            "v",
+            distributed=False,
+            shape=1,
+            units="m/s",
+            desc="freestream velocity",
+            tags=["mphys_input"],
+        )
+
+        self.add_input(
+            "CL",
+            distributed=False,
+            shape=1,
+            desc="total lift coefficient of aircraft",
+            tags=["mphys_result"],
+        )
+
+        self.add_input(
+            "CD",
+            distributed=False,
+            shape=1,
+            desc="total drag coefficient of aircraft",
+            tags=["mphys_result"],
+        )
+
+        self.add_output(
+            "L",
+            distributed=False,
+            shape=1,
+            units="N",
+            desc="total lift of aircraft",
+            tags=["mphys_result"],
+        )
+
+        self.add_output(
+            "D",
+            distributed=False,
+            shape=1,
+            units="N",
+            desc="total drag of aircraft",
+            tags=["mphys_result"],
+        )
+
+        self.declare_partials("*", "*", method="cs")
+
+
+    def compute(self, inputs, outputs):
+        outputs["L"] = inputs["CL"] * 0.5 * inputs["rho"] * inputs["v"] ** 2 * inputs["S_ref_total"]
+        outputs["D"] = inputs["CD"] * 0.5 * inputs["rho"] * inputs["v"] ** 2 * inputs["S_ref_total"]
+
 class AeroFuncsGroup(om.Group):
     """
     Group to contain the total aerodynamic performance functions
@@ -303,6 +404,8 @@ class AeroFuncsGroup(om.Group):
     def setup(self):
         self.surfaces = self.options["surfaces"]
         self.user_specified_Sref = self.options["user_specified_Sref"]
+
+        self.set_input_defaults('aoa', units="deg")
 
         proms_in = []
         for surface in self.surfaces:
@@ -341,6 +444,13 @@ class AeroFuncsGroup(om.Group):
             TotalAeroPerformance(surfaces=self.surfaces, user_specified_Sref=self.user_specified_Sref),
             promotes_inputs=proms_in + ["v", "rho", "cg"],
             promotes_outputs=proms_out,
+        )
+
+        self.add_subsystem(
+            "total_forces",
+            TotalAeroForces(),
+            promotes_inputs=["S_ref_total", "v", "rho", "CL", "CD"],
+            promotes_outputs=["*"],
         )
 
         proms_in = []

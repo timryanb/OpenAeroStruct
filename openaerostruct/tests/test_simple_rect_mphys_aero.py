@@ -141,7 +141,6 @@ class Test(unittest.TestCase):
 
         # Loop through and add a certain number of aero points
         for i in range(1):
-
             # Create the aero point group and add it to the model
             aero_group = AeroPoint(surfaces=surfaces)
             point_name = "aero_point_{}".format(i)

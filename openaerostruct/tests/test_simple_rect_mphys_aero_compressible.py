@@ -94,7 +94,7 @@ class Test(unittest.TestCase):
                 dvs.add_output("cg", val=cg, units="m")
 
                 # Create mphys builder for aero solver
-                options = {"compressible": True}
+                options = {"compressible": True, "write_solution": False}
                 aero_builder = AeroBuilder(surfaces, options)
                 aero_builder.initialize(self.comm)
 

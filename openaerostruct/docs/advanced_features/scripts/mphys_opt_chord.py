@@ -119,7 +119,7 @@ prob.model.add_objective("cruise.WingGeom.CD", scaler=1e4)
 prob.setup()
 
 # Create a n^2 diagram for user to view model connections
-# om.n2(prob)
+om.n2(prob)
 prob.run_model()
 prob.run_driver()
 # Write optimized geometry to vsp file

@@ -25,8 +25,8 @@ class TotalAeroPerformance(om.Group):
         self.add_subsystem(
             "CL_CD",
             TotalLiftDrag(surfaces=surfaces),
-            promotes_inputs=["*CL", "*CD", "*S_ref", "S_ref_total"],
-            promotes_outputs=["CL", "CD"],
+            promotes_inputs=["*CL", "*CD", "*S_ref", "S_ref_total", "rho", "v"],
+            promotes_outputs=["CL", "CD", "L", "D"],
         )
 
         self.add_subsystem(

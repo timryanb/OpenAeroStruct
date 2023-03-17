@@ -7,6 +7,7 @@ from openaerostruct.utils.testing import run_test, get_default_surfaces
 class Test(unittest.TestCase):
     def test(self):
         surfaces = get_default_surfaces()
+        surfaces[0]["with_viscous"] = False
 
         comp = AeroFuncsGroup(surfaces=[surfaces[0]], write_solution=False)
         comp.set_input_defaults("wing.widths", val=[1.0, 1.0, 1.0])

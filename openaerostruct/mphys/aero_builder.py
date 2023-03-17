@@ -46,9 +46,9 @@ class AeroCouplingGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.compressible = self.options["compressible"]
 
-        self.set_input_defaults("aoa", val=0., units="deg")
-        self.set_input_defaults("yaw", val=0., units="deg")
-        self.set_input_defaults("mach", val=0.)
+        self.set_input_defaults("aoa", val=0.0, units="deg")
+        self.set_input_defaults("yaw", val=0.0, units="deg")
+        self.set_input_defaults("mach", val=0.0)
 
         nnodes = get_number_of_nodes(self.surfaces)
 

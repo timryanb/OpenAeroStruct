@@ -22,9 +22,9 @@ class AeroFuncsGroup(om.Group):
         self.surfaces = self.options["surfaces"]
         self.user_specified_Sref = self.options["user_specified_Sref"]
 
-        self.set_input_defaults("aoa", val=0., units="deg")
-        self.set_input_defaults("yaw", val=0., units="deg")
-        self.set_input_defaults("mach", val=0.)
+        self.set_input_defaults("aoa", val=0.0, units="deg")
+        self.set_input_defaults("yaw", val=0.0, units="deg")
+        self.set_input_defaults("mach", val=0.0)
 
         proms_in = []
         for surface in self.surfaces:

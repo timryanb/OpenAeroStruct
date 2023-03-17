@@ -17,3 +17,4 @@ These examples show some advanced features in OpenAeroStruct.
    advanced_features/ground_effect.rst
    advanced_features/openconcept_coupling.rst
    advanced_features/customizing_prob_setup.rst
+   advanced_features/mphys_coupling.rst

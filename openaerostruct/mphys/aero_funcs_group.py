@@ -13,8 +13,8 @@ class AeroFuncsGroup(om.Group):
 
     def initialize(self):
         self.options.declare("surfaces", default=None, desc="oas surface dicts", recordable=False)
-        self.options.declare("user_specified_Sref", types=bool)
-        self.options.declare("write_solution", default=True)
+        self.options.declare("user_specified_Sref", types=bool, default=False)
+        self.options.declare("write_solution", types=bool, default=True)
         self.options.declare("output_dir")
         self.options.declare("scenario_name", default=None)
 

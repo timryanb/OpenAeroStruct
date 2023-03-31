@@ -45,7 +45,7 @@ class HorseshoeCirculations(om.ExplicitComponent):
 
         self.system_size = system_size
 
-        self.add_input("circulations", shape=system_size, units="m**2/s")
+        self.add_input("circulations", shape=system_size, units="m**2/s", tags=["mphys_coupling"])
         self.add_output("horseshoe_circulations", shape=system_size, units="m**2/s")
 
         # To convert between the two circulations, we simply need to set up a

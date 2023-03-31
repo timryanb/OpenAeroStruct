@@ -52,13 +52,13 @@ class ViscousDrag(om.ExplicitComponent):
 
         ny = surface["mesh"].shape[1]
 
-        self.add_input("re", val=5.0e6, units="1/m")
-        self.add_input("Mach_number", val=1.6)
-        self.add_input("S_ref", val=1.0, units="m**2")
-        self.add_input("widths", val=np.ones((ny - 1)) * 0.2, units="m")
-        self.add_input("lengths_spanwise", val=np.arange((ny - 1)) + 1.0, units="m")
-        self.add_input("lengths", val=np.ones((ny)), units="m")
-        self.add_input("t_over_c", val=np.arange((ny - 1)))
+        self.add_input("re", val=5.0e6, units="1/m", tags=["mphys_input"])
+        self.add_input("Mach_number", val=1.6, tags=["mphys_input"])
+        self.add_input("S_ref", val=1.0, units="m**2", tags=["mphys_coupling"])
+        self.add_input("widths", val=np.ones((ny - 1)) * 0.2, units="m", tags=["mphys_coupling"])
+        self.add_input("lengths_spanwise", val=np.arange((ny - 1)) + 1.0, units="m", tags=["mphys_coupling"])
+        self.add_input("lengths", val=np.ones((ny)), units="m", tags=["mphys_coupling"])
+        self.add_input("t_over_c", val=np.arange((ny - 1)), tags=["mphys_input"])
         self.add_output("CDv", val=0.0)
 
         self.declare_partials("CDv", "*")

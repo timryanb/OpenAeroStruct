@@ -4,8 +4,10 @@ from numpy import cos, sin, tan
 # openvsp python interface
 try:
     import openvsp as vsp
+    import degen_geom as dg
 except ImportError:
     vsp = None
+    dg = None
 
 from openaerostruct.geometry.CRM_definitions import get_crm_points
 
@@ -732,38 +734,65 @@ def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
     if vsp is None:
         raise ImportError("The OpenVSP Python API is required in order to use generate_vsp_surfaces")
 
+    # Check if VSPVehicle class exits
+    if hasattr(vsp, "VSPVehicle"):
+        # Create a private vehicle geometry instance
+        vsp_model = vsp.VSPVehicle()
+    # Otherwise use module level API
+    # This is less safe since any python module that loads
+    # the OpenVSP module has access to our geometry instance
+    else:
+        vsp_model = vsp
+
     # Read in file
-    vsp.ReadVSPFile(vsp_file)
+    vsp_model.ReadVSPFile(vsp_file)
 
     # Find all vsp bodies
-    all_geoms = vsp.FindGeoms()
+    all_geoms = vsp_model.FindGeoms()
 
     # If surfaces to include were not specified, we'll output all of them
     if include is None:
         include = []
         for geom_id in all_geoms:
-            geom_name = vsp.GetContainerName(geom_id)
+            geom_name = vsp_model.GetContainerName(geom_id)
             if geom_name not in include:
                 include.append(geom_name)
 
     # Create a VSP set that we'll use to identify surfaces we want to output
     for geom_id in all_geoms:
-        geom_name = vsp.GetContainerName(geom_id)
+        geom_name = vsp_model.GetContainerName(geom_id)
         if geom_name in include:
             set_flag = True
         else:
             set_flag = False
-        vsp.SetSetFlag(geom_id, 3, set_flag)
+        vsp_model.SetSetFlag(geom_id, 3, set_flag)
 
     # Create a degengeom set that will have our VLM surfaces in it
-    vsp.SetAnalysisInputDefaults("DegenGeom")
-    vsp.SetIntAnalysisInput("DegenGeom", "WriteCSVFlag", [0], 0)
-    vsp.SetIntAnalysisInput("DegenGeom", "WriteMFileFlag", [0], 0)
-    vsp.SetIntAnalysisInput("DegenGeom", "Set", [3], 0)
+    vsp_model.SetAnalysisInputDefaults("DegenGeom")
+    vsp_model.SetIntAnalysisInput("DegenGeom", "WriteCSVFlag", [0], 0)
+    vsp_model.SetIntAnalysisInput("DegenGeom", "WriteMFileFlag", [0], 0)
+    vsp_model.SetIntAnalysisInput("DegenGeom", "Set", [3], 0)
 
     # Export all degengeoms to a list
-    degen_results_id = vsp.ExecAnalysis("DegenGeom")
-    degens = vsp.parse_degen_geom(degen_results_id)
+    degen_results_id = vsp_model.ExecAnalysis("DegenGeom")
+
+    # Get all of the degen geom results managers ids
+    degen_ids = vsp_model.GetStringResults(degen_results_id, "Degen_DegenGeoms")
+
+    # Create a list of all degen surfaces
+    degens = []
+    # loop over all degen objects
+    for degen_id in degen_ids:
+        res = vsp_model.parse_results_object(degen_id)
+        degen_obj = dg.DegenGeom(res)
+
+        # Create a degengeom object for the cambersurface
+        plate_ids = vsp_model.GetStringResults(degen_id, "plates")
+        for plate_id in plate_ids:
+            res = vsp_model.parse_results_object(plate_id)
+            degen_obj.plates.append(dg.DegenPlate(res))
+
+        degens.append(degen_obj)
 
     # Loop through each included body and generate a surface dict
     surfaces = {}
@@ -836,7 +865,7 @@ def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
                 surfaces[surf_name]["symmetry"] = True
 
     # Make sure vsp model is cleared before exit
-    vsp.ClearVSPModel()
+    vsp_model.ClearVSPModel()
 
     # Return surfaces as list
     return list(surfaces.values())

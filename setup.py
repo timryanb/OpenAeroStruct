@@ -12,6 +12,7 @@ optional_dependencies = {
     "docs": ["sphinx_mdolab_theme"],
     "test": ["pytest", "pytest-cov", "coverage"],
     "ffd": ["pygeo>=1.6.0"],
+    "mphys": ["mphys>=1.0.0"],
 }
 
 # Add an optional dependency that concatenates all others
@@ -46,12 +47,13 @@ setup(
         "openaerostruct/integration",
         "openaerostruct/common",
         "openaerostruct/utils",
+        "openaerostruct/mphys",
     ],
     # Test files
     package_data={"openaerostruct": ["tests/*.py", "*/tests/*.py", "*/*/tests/*.py"]},
     install_requires=[
         # Remember to update the oldest versions in the GitHub Actions build, the readme, and in docs/installation.rst
-        "openmdao>=3.10",
+        "openmdao>=3.15",
         "numpy>=1.20",
         "scipy>=1.6.0",
         "matplotlib",

@@ -25,7 +25,7 @@ class TotalLift(om.ExplicitComponent):
 
         self.add_input("CL1", val=1.0)
 
-        self.add_output("CL", val=1.0)
+        self.add_output("CL", val=1.0, tags=["mphys_result"])
 
         self.CL0 = surface["CL0"]
 

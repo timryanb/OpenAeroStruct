@@ -47,18 +47,18 @@ class MomentCoefficient(om.ExplicitComponent):
             nx = surface["mesh"].shape[0]
             ny = surface["mesh"].shape[1]
 
-            self.add_input(name + "_b_pts", val=np.ones((nx - 1, ny, 3)), units="m")
-            self.add_input(name + "_widths", val=np.ones((ny - 1)), units="m")
-            self.add_input(name + "_chords", val=np.ones((ny)), units="m")
-            self.add_input(name + "_S_ref", val=1.0, units="m**2")
-            self.add_input(name + "_sec_forces", val=np.ones((nx - 1, ny - 1, 3)), units="N")
+            self.add_input(name + "_b_pts", val=np.ones((nx - 1, ny, 3)), units="m", tags=["mphys_coupling"])
+            self.add_input(name + "_widths", val=np.ones((ny - 1)), units="m", tags=["mphys_coupling"])
+            self.add_input(name + "_chords", val=np.ones((ny)), units="m", tags=["mphys_coupling"])
+            self.add_input(name + "_S_ref", val=1.0, units="m**2", tags=["mphys_coupling"])
+            self.add_input(name + "_sec_forces", val=np.ones((nx - 1, ny - 1, 3)), units="N", tags=["mphys_coupling"])
 
-        self.add_input("cg", val=np.ones((3)), units="m")
-        self.add_input("v", val=10.0, units="m/s")
-        self.add_input("rho", val=3.0, units="kg/m**3")
-        self.add_input("S_ref_total", val=1.0, units="m**2")
+        self.add_input("cg", val=np.ones((3)), units="m", tags=["mphys_input"])
+        self.add_input("v", val=10.0, units="m/s", tags=["mphys_input"])
+        self.add_input("rho", val=3.0, units="kg/m**3", tags=["mphys_input"])
+        self.add_input("S_ref_total", val=1.0, units="m**2", tags=["mphys_input"])
 
-        self.add_output("CM", val=np.ones((3)))
+        self.add_output("CM", val=np.ones((3)), tags=["mphys_result"])
 
         self.declare_partials(of="*", wrt="*")
 

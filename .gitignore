@@ -21,3 +21,4 @@ src/adjoint/tempReverse/
 src/adjoint/tempForward/
 openaerostruct.egg-info/ 
 .vscode
+*.plt

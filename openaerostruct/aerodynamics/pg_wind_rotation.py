@@ -86,8 +86,8 @@ class RotateToWindFrame(om.ExplicitComponent):
 
             num_eval_points += (nx - 1) * (ny - 1)
 
-        self.add_input("alpha", val=0.0, units="rad")
-        self.add_input("beta", val=0.0, units="rad")
+        self.add_input("alpha", val=0.0, units="rad", tags=["mphys_input"])
+        self.add_input("beta", val=0.0, units="rad", tags=["mphys_input"])
         self.add_input("coll_pts", shape=(num_eval_points, 3), units="m")
         self.add_input("force_pts", shape=(num_eval_points, 3), units="m")
         self.add_input("bound_vecs", shape=(num_eval_points, 3), units="m")
@@ -271,8 +271,8 @@ class RotateFromWindFrame(om.ExplicitComponent):
         self.options.declare("surfaces", types=list)
 
     def setup(self):
-        self.add_input("alpha", val=0.0, units="rad")
-        self.add_input("beta", val=0.0, units="rad")
+        self.add_input("alpha", val=0.0, units="rad", tags=["mphys_input"])
+        self.add_input("beta", val=0.0, units="rad", tags=["mphys_input"])
 
         # We'll compute all of sensitivities associated with angle of attack and
         # sideslip number through complex-step. Since it's a scalar this is
@@ -291,7 +291,7 @@ class RotateFromWindFrame(om.ExplicitComponent):
             of_name = "{}_sec_forces".format(name)
 
             self.add_input(wrt_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N")
-            self.add_output(of_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N")
+            self.add_output(of_name, val=np.zeros((nx - 1, ny - 1, 3)), units="N", tags=["mphys_coupling"])
 
             row = np.array([0, 0, 0, 1, 1, 1, 2, 2, 2])
             col = np.array([0, 1, 2, 0, 1, 2, 0, 1, 2])

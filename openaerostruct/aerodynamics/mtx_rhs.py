@@ -142,6 +142,7 @@ class VLMMtxRHSComp(om.ExplicitComponent):
 
             # Construct the full matrix and all of the lifting surfaces
             # together
+            # TODO: This is not complex-safe
             self.mtx_n_n_3[:, ind_1:ind_2, :] = inputs[vel_mtx_name].reshape((system_size, num, 3))
             self.normals_n_3[ind_1:ind_2, :] = inputs[normals_name].reshape((num, 3))
 

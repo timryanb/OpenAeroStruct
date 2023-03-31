@@ -45,14 +45,14 @@ class WaveDrag(om.ExplicitComponent):
 
         ny = surface["mesh"].shape[1]
 
-        self.add_input("Mach_number", val=1.6)
-        self.add_input("widths", val=np.ones((ny - 1)) * 0.2, units="m")
+        self.add_input("Mach_number", val=1.6, tags=["mphys_input"])
+        self.add_input("widths", val=np.ones((ny - 1)) * 0.2, units="m", tags=["mphys_coupling"])
         self.add_input(
-            "lengths_spanwise", val=np.arange((ny - 1)) + 1.0, units="m"
+            "lengths_spanwise", val=np.arange((ny - 1)) + 1.0, units="m", tags=["mphys_coupling"]
         )  # set to np.arange so that d_CDw_d_chords is nonzero
         self.add_input("CL", val=0.33)
-        self.add_input("chords", val=np.ones((ny)), units="m")
-        self.add_input("t_over_c", val=np.arange((ny - 1)))
+        self.add_input("chords", val=np.ones((ny)), units="m", tags=["mphys_coupling"])
+        self.add_input("t_over_c", val=np.arange((ny - 1)), tags=["mphys_input"])
         self.add_output("CDw", val=0.0)
 
         self.declare_partials("CDw", "*")

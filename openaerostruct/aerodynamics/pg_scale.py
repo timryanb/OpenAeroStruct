@@ -93,7 +93,7 @@ class ScaleToPrandtlGlauert(om.ExplicitComponent):
 
             num_eval_points += (nx - 1) * (ny - 1)
 
-        self.add_input("Mach_number", val=0.0)
+        self.add_input("Mach_number", val=0.0, tags=["mphys_input"])
 
         self.add_input("coll_pts_w_frame", shape=(num_eval_points, 3), units="m")
         self.add_input("force_pts_w_frame", shape=(num_eval_points, 3), units="m")
@@ -265,7 +265,7 @@ class ScaleFromPrandtlGlauert(om.ExplicitComponent):
         self.options.declare("surfaces", types=list)
 
     def setup(self):
-        self.add_input("Mach_number", val=0.0)
+        self.add_input("Mach_number", val=0.0, tags=["mphys_input"])
 
         # We'll compute all of sensitivities associated with Mach number through
         # complex-step. Since it's a scalar this is pretty cheap.

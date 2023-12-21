@@ -736,7 +736,7 @@ def generate_mesh(input_dict):
         return mesh
 
 
-def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
+def generate_vsp_surfaces(vsp_file, symmetry=False, include=None, scale=1.0):
     """
     Generate a series of VLM surfaces based on geometries in an OpenVSP model.
 
@@ -751,6 +751,10 @@ def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
     include : list[str]
         List of body names defined in OpenVSP model that should be included in VLM mesh output.
         Defaults to all bodies found in model.
+    scale: float
+        A global scale factor from the OpenVSP geometry to incoming VLM mesh
+        geometry. For example, if the OpenVSP model is in inches, and the VLM
+        in meters, scale=0.0254. Defaults to 1.0.
 
     Returns
     -------
@@ -862,6 +866,7 @@ def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
                     mesh[:, :, 0] = np.flipud(x.T)
                     mesh[:, :, 1] = np.flipud(y.T)
                     mesh[:, :, 2] = np.flipud(z.T)
+                    mesh *= scale
 
                     # Check if the surface has already been added (i.e. symmetry == False)
                     if surf_name not in surfaces:
@@ -886,7 +891,7 @@ def generate_vsp_surfaces(vsp_file, symmetry=False, include=None):
 
     # If a half-model was requested, go through and flag each surface as symmetrical
     # if a left and right surface was found.
-    # NOTE: We don't necesarilly want to mark every surface as symmetrical,
+    # NOTE: We don't necessarily want to mark every surface as symmetrical,
     # even if a half-model is requested, since some surfaces, like vertical tails,
     # might lie perfectly on the symmetry plane.
     if symmetry:

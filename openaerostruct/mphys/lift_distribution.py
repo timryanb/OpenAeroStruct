@@ -43,7 +43,7 @@ class LiftDistribution(ExplicitComponent):
             self.add_input(name + "_def_mesh", val=mesh, units="m", tags=["mphys_coupling"])
             self.add_input(name + "_sec_forces", val=np.ones((nx - 1, ny - 1, 3)), units="N", tags=["mphys_coupling"])
         # Prevents OpenMDAO from suppressing this component when using group_by_pre_opt_post feature
-        self.options['always_opt'] = True
+        self.options["always_opt"] = True
 
     def compute(self, inputs, outputs):
         """

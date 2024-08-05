@@ -122,16 +122,6 @@ class CompressibleVLMStates(om.Group):
         indep_var_comp.add_output("beta_pg", val=0.0, units="deg")
         self.add_subsystem("pg_frame", indep_var_comp)
 
-        # Construct matrix based on rings, not horseshoes
-        self.add_subsystem(
-            "mtx_assy",
-            EvalVelMtx(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
-            promotes_inputs=["*_vectors"],
-            promotes_outputs=["*"],
-        )
-
-        self.connect("pg_frame.alpha_pg", "mtx_assy.alpha")
-
         # Convert freestream velocity to array of velocities
         # Note, don't want to promote Alpha or Beta here because we are in the transformed system.
         prom_in = ["v"]
@@ -151,13 +141,13 @@ class CompressibleVLMStates(om.Group):
         self.add_subsystem(
             "mtx_rhs",
             VLMMtxRHSComp(surfaces=surfaces),
-            promotes_inputs=["freestream_velocities", "*coll_pts_vel_mtx"],
+            promotes_inputs=["freestream_velocities"],
             promotes_outputs=["*"],
         )
 
         # Solve Mtx RHS to get ring circs
         self.add_subsystem(
-            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"]
+            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=[("alpha", "pg_frame.alpha_pg"), "*"], promotes_outputs=["*"]
         )
 
         # Convert ring circs to horseshoe circs
@@ -176,22 +166,13 @@ class CompressibleVLMStates(om.Group):
             promotes_outputs=["*"],
         )
 
-        # Set up force mtx
-        # Note, don't want to promote Alpha here because we are in the transformed system.
-        self.add_subsystem(
-            "mtx_assy_forces",
-            EvalVelMtx(surfaces=surfaces, num_eval_points=num_force_points, eval_name="force_pts"),
-            promotes_inputs=["*_force_pts_vectors"],
-            promotes_outputs=["*"],
-        )
-
-        self.connect("pg_frame.alpha_pg", "mtx_assy_forces.alpha")
+        #self.connect("pg_frame.alpha_pg", "mtx_assy_forces.alpha")
 
         # Multiply by horseshoe circs to get velocities
         self.add_subsystem(
             "eval_velocities",
             EvalVelocities(surfaces=surfaces, num_eval_points=num_force_points, eval_name="force_pts"),
-            promotes_inputs=["*"],
+            promotes_inputs=[("alpha", "pg_frame.alpha_pg"), "*"],
             promotes_outputs=["*"],
         )
 

@@ -1,6 +1,8 @@
 import numpy as np
+import jax.numpy as jnp
 
 import openmdao.api as om
+from openaerostruct.aerodynamics.eval_mtx_prod import EvalVelMtx
 
 
 class EvalVelocities(om.ExplicitComponent):
@@ -83,101 +85,106 @@ class EvalVelocities(om.ExplicitComponent):
             cols=np.arange(3 * num_eval_points),
         )
 
-        # For each surface we need to correctly set up the sparsity pattern
-        # based on the vel_mtx. This is pretty hairy due to the highly
-        # dimensional nature of the vel_mtx.
-        ind_1 = 0
-        ind_2 = 0
-        for surface in surfaces:
+        self.vector_names = []
+
+        for surface in self.options["surfaces"]:
+            name = surface["name"]
             mesh = surface["mesh"]
             nx = mesh.shape[0]
             ny = mesh.shape[1]
-            name = surface["name"]
-            num = (nx - 1) * (ny - 1)
 
-            ind_2 += num
+            # The logic differs if the surface is symmetric or not, due to the
+            # existence of the "ghost" surface; the reflection of the actual.
+            ground_effect = surface.get("groundplane", False)
+            if ground_effect:
+                nx_actual = 2 * nx
+            else:
+                nx_actual = nx
+            if surface["symmetry"]:
+                ny_actual = 2 * ny - 1
+            else:
+                ny_actual = ny
 
-            vel_mtx_name = "{}_{}_vel_mtx".format(name, eval_name)
+            system_size += (nx - 1) * (ny - 1)
+            vectors_name = "{}_{}_vectors".format(name, eval_name)
+            self.add_input(vectors_name, shape=(self.system_size, nx_actual, ny_actual, 3), units="m")
+            self.vector_names.append(vectors_name)
 
-            self.add_input(vel_mtx_name, shape=(num_eval_points, nx - 1, ny - 1, 3), units="1/m")
+        self.add_input("alpha", val=1.0, units="deg", tags=["mphys_input"])
 
-            vel_mtx_indices = np.arange(num_eval_points * num * 3).reshape((num_eval_points, num, 3))
-
-            self.declare_partials(
-                velocities_name,
-                vel_mtx_name,
-                rows=np.einsum("ik,j->ijk", velocities_indices, np.ones(num, int)).flatten(),
-                cols=vel_mtx_indices.flatten(),
-            )
-
-            ind_1 += num
+        self.aic_mtx = EvalVelMtx(self.options["surfaces"], eval_name)
 
     def compute(self, inputs, outputs):
-        surfaces = self.options["surfaces"]
         eval_name = self.options["eval_name"]
         num_eval_points = self.options["num_eval_points"]
 
         velocities_name = "{}_velocities".format(eval_name)
+        alpha = jnp.asarray(inputs["alpha"])
+        circulations = jnp.asarray(inputs["circulations"])
+        vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
 
         # Start with just the freestream velocities as the base for the output
         # velocities.
-        outputs[velocities_name] = inputs["freestream_velocities"]
-
-        ind_1 = 0
-        ind_2 = 0
-        for surface in surfaces:
-            mesh = surface["mesh"]
-            nx = mesh.shape[0]
-            ny = mesh.shape[1]
-            name = surface["name"]
-            num = (nx - 1) * (ny - 1)
-
-            ind_2 += num
-
-            vel_mtx_name = "{}_{}_vel_mtx".format(name, eval_name)
-
-            # Add the induced velocities; the contributions from the
-            # circulations.
-            outputs[velocities_name] += np.einsum(
-                "ijk,j->ik",
-                inputs[vel_mtx_name].reshape((num_eval_points, num, 3)),
-                inputs["circulations"][ind_1:ind_2],
-            )
-
-            ind_1 += num
-
-    def compute_partials(self, inputs, partials):
-        surfaces = self.options["surfaces"]
+        outputs[velocities_name] = inputs["freestream_velocities"] + self.aic_mtx.compute_velocity(alpha, vectors, circulations)
+    def compute_jacvec_product(self, inputs, d_inputs, d_outputs, mode):
         eval_name = self.options["eval_name"]
         num_eval_points = self.options["num_eval_points"]
-
-        system_size = self.system_size
-
         velocities_name = "{}_velocities".format(eval_name)
 
-        dv_dcirc = np.zeros((num_eval_points, system_size, 3))
+        if mode == "fwd":
+            pass
+        if mode == "rev":
+            if velocities_name in d_outputs:
+                d_func = jnp.asarray(d_outputs[velocities_name])
 
-        ind_1 = 0
-        ind_2 = 0
-        for surface in surfaces:
-            mesh = surface["mesh"]
-            nx = mesh.shape[0]
-            ny = mesh.shape[1]
-            name = surface["name"]
-            num = (nx - 1) * (ny - 1)
+                alpha = jnp.asarray(inputs["alpha"])
+                circulations = jnp.asarray(inputs["circulations"])
+                vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
+                d_alpha, d_vectors, d_circulations = self.aic_mtx.compute_velocity_vjp(alpha, vectors, circulations, d_func)
 
-            ind_2 += num
+                if "alpha" in d_inputs:
+                    d_inputs["alpha"] += d_alpha
 
-            vel_mtx_name = "{}_{}_vel_mtx".format(name, eval_name)
+                for vec_name in d_vectors:
+                    if vec_name in d_inputs:
+                        d_inputs[vec_name] += d_vectors[vec_name]
 
-            partials[velocities_name, vel_mtx_name] = np.einsum(
-                "ijk,j->ijk",
-                np.ones((num_eval_points, num, 3)),
-                inputs["circulations"][ind_1:ind_2],
-            ).flatten()
+                if "circulations" in d_inputs:
+                    d_inputs["circulations"] += d_circulations
 
-            dv_dcirc[:, ind_1:ind_2, :] = inputs[vel_mtx_name].reshape((num_eval_points, num, 3))
 
-            ind_1 += num
-
-        partials[velocities_name, "circulations"] = dv_dcirc.flatten()
+    # def compute_partials(self, inputs, partials):
+    #     surfaces = self.options["surfaces"]
+    #     eval_name = self.options["eval_name"]
+    #     num_eval_points = self.options["num_eval_points"]
+    #
+    #     system_size = self.system_size
+    #
+    #     velocities_name = "{}_velocities".format(eval_name)
+    #
+    #     dv_dcirc = np.zeros((num_eval_points, system_size, 3))
+    #
+    #     ind_1 = 0
+    #     ind_2 = 0
+    #     for surface in surfaces:
+    #         mesh = surface["mesh"]
+    #         nx = mesh.shape[0]
+    #         ny = mesh.shape[1]
+    #         name = surface["name"]
+    #         num = (nx - 1) * (ny - 1)
+    #
+    #         ind_2 += num
+    #
+    #         vel_mtx_name = "{}_{}_vel_mtx".format(name, eval_name)
+    #
+    #         partials[velocities_name, vel_mtx_name] = np.einsum(
+    #             "ijk,j->ijk",
+    #             np.ones((num_eval_points, num, 3)),
+    #             inputs["circulations"][ind_1:ind_2],
+    #         ).flatten()
+    #
+    #         dv_dcirc[:, ind_1:ind_2, :] = inputs[vel_mtx_name].reshape((num_eval_points, num, 3))
+    #
+    #         ind_1 += num
+    #
+    #     partials[velocities_name, "circulations"] = dv_dcirc.flatten()

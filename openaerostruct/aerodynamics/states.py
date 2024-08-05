@@ -57,14 +57,6 @@ class VLMStates(om.Group):
             promotes_outputs=["*"],
         )
 
-        # Construct matrix based on rings, not horseshoes
-        self.add_subsystem(
-            "mtx_assy",
-            EvalVelMtx(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
-            promotes_inputs=["*"],
-            promotes_outputs=["*"],
-        )
-
         # Convert freestream velocity to array of velocities
         if rotational:
             self.add_subsystem(
@@ -101,14 +93,6 @@ class VLMStates(om.Group):
         self.add_subsystem(
             "get_vectors_force",
             GetVectors(surfaces=surfaces, num_eval_points=num_force_points, eval_name="force_pts"),
-            promotes_inputs=["*"],
-            promotes_outputs=["*"],
-        )
-
-        # Set up force mtx
-        self.add_subsystem(
-            "mtx_assy_forces",
-            EvalVelMtx(surfaces=surfaces, num_eval_points=num_force_points, eval_name="force_pts"),
             promotes_inputs=["*"],
             promotes_outputs=["*"],
         )

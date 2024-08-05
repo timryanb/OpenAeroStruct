@@ -1,4 +1,5 @@
 import numpy as np
+import jax.numpy as jnp
 
 
 def get_array_indices(*shape):
@@ -21,6 +22,19 @@ def compute_dot(array1, array2):
         Second argument in the dot product. The dot product axis is the last one.
     """
     return np.einsum("...,i->...i", np.einsum("...i,...i->...", array1, array2), np.ones(3))
+
+def compute_dot_jnp(array1, array2):
+    """
+    Compute the dot product of two arrays.
+
+    Parameters
+    ----------
+    array1 : numpy array[..., 3]
+        First argument in the dot product. The dot product axis is the last one.
+    array2 : numpy array[..., 3]
+        Second argument in the dot product. The dot product axis is the last one.
+    """
+    return jnp.einsum("...,i->...i", jnp.einsum("...i,...i->...", array1, array2), jnp.ones(3))
 
 
 def compute_dot_deriv(array, deriv_array):
@@ -53,6 +67,19 @@ def compute_cross(array1, array2):
         Second argument in the cross product (order matters). The cross product axis is the last one.
     """
     return np.cross(array1, array2, axis=-1)
+
+def compute_cross_jnp(array1, array2):
+    """
+    Compute the cross product of two arrays.
+
+    Parameters
+    ----------
+    array1 : numpy array[..., 3]
+        First argument in the cross product (order matters). The cross product axis is the last one.
+    array2 : numpy array[..., 3]
+        Second argument in the cross product (order matters). The cross product axis is the last one.
+    """
+    return jnp.cross(array1, array2, axis=-1)
 
 
 def compute_cross_deriv1(deriv_array, array):
@@ -99,6 +126,17 @@ def compute_norm(array):
         Array we are taking the norm of in the last axis.
     """
     return np.einsum("...,k->...k", np.sum(array**2, axis=-1) ** 0.5, np.ones(3))
+
+def compute_norm_jnp(array):
+    """
+    Compute the 2-norm of an array.
+
+    Parameters
+    ----------
+    array : numpy array[..., 3]
+        Array we are taking the norm of in the last axis.
+    """
+    return jnp.einsum("...,k->...k", jnp.sum(array**2, axis=-1) ** 0.5, jnp.ones(3))
 
 
 def compute_norm_deriv(array, deriv_array):

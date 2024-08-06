@@ -86,7 +86,6 @@ class GetVectors(om.ExplicitComponent):
         surfaces = self.options["surfaces"]
         num_eval_points = self.options["num_eval_points"]
         eval_name = self.options["eval_name"]
-        print(eval_name)
 
         # At the end of the day, all this component is doing is computing
         # vectors that go from the mesh to the evaluation points. We have

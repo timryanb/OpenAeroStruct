@@ -26,7 +26,10 @@ def _compute_finite_vortex(r1, r2):
     num = (1.0 / r1_norm + 1.0 / r2_norm) * r1_x_r2
     den = r1_norm * r2_norm + r1_d_r2
 
-    result = jnp.where(jnp.abs(den) > tol, num/(den * 4 * jnp.pi), 0.0)
+    condition = jnp.abs(den) > tol
+    den_valid = jnp.where(condition, den, 1.0)
+
+    result = jnp.where(condition, num/(den_valid * 4 * jnp.pi), 0.0)
 
     return result
 
@@ -119,7 +122,7 @@ class EvalVelMtx:
 
     @partial(jax.jit, static_argnames=['self', 'jacobi'])
     def compute_velocity(self, alpha, vectors, circulations, jacobi=False):
-        velocities = jnp.zeros((self.num_eval_points, 3))
+        velocities = jnp.zeros((self.num_eval_points, 3), dtype=circulations.dtype)
         ind_1 = 0
         ind_2 = 0
         
@@ -236,7 +239,7 @@ class EvalVelMtx:
     @partial(jax.jit, static_argnames=['self'])
     def compute_residual(self, alpha, vectors, normals, circulations):
         velocity = self.compute_velocity(alpha, vectors, circulations)
-        res = jnp.zeros([self.num_eval_points])
+        res = jnp.zeros_like(circulations)
         surfaces = self.surfaces
 
         ind_1 = 0
@@ -278,9 +281,9 @@ class EvalVelMtx:
         return vjp_fun(d_residual)
 
     def get_diags(self, alpha, vectors, normals):
-        circulations = jnp.ones(self.num_eval_points)
+        circulations = jnp.ones(self.num_eval_points, dtype=alpha.dtype)
         velocity = self.compute_velocity(alpha, vectors, circulations, jacobi=True)
-        diag_vals = jnp.zeros([self.num_eval_points])
+        diag_vals = jnp.zeros_like(circulations)
         surfaces = self.surfaces
 
         ind_1 = 0

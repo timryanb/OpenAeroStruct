@@ -83,7 +83,8 @@ class SolveMatrix(om.ImplicitComponent):
         circulations = jnp.asarray(outputs["circulations"])
         vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
         normals = {normal_name: jnp.asarray(inputs[normal_name]) for normal_name in self.normal_names}
-        residuals["circulations"] = self.aic_mtx.compute_residual(alpha, vectors, normals, circulations) - inputs["rhs"]
+        res = self.aic_mtx.compute_residual(alpha, vectors, normals, circulations) - inputs["rhs"]
+        residuals["circulations"] = np.array(res)
 
     def solve_nonlinear(self, inputs, outputs):
         alpha = jnp.asarray(inputs["alpha"])
@@ -113,21 +114,21 @@ class SolveMatrix(om.ImplicitComponent):
                 d_alpha, d_vectors, d_normals, d_circulations = self.aic_mtx.compute_residual_vjp(alpha, vectors, normals, circulations,
                                                                                                   jnp.asarray(d_residuals["circulations"]))
                 if "circulations" in d_outputs:
-                    d_outputs["circulations"] += d_circulations
+                    d_outputs["circulations"] += np.array(d_circulations)
 
                 if "rhs" in d_inputs:
                     d_inputs["rhs"] -= d_residuals["circulations"]
 
                 if "alpha" in d_inputs:
-                    d_inputs["alpha"] += d_alpha
+                    d_inputs["alpha"] += np.array(d_alpha)
 
                 for vec_name in d_vectors:
                     if vec_name in d_inputs:
-                        d_inputs[vec_name] += d_vectors[vec_name]
+                        d_inputs[vec_name] += np.array(d_vectors[vec_name])
 
                 for normal_name in d_normals:
                     if normal_name in d_inputs:
-                        d_inputs[normal_name] += d_normals[normal_name]
+                        d_inputs[normal_name] += np.array(d_normals[normal_name])
 
     def solve_linear(self, d_outputs, d_residuals, mode):
         if mode == "fwd":

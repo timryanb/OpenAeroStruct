@@ -65,26 +65,6 @@ class EvalVelocities(om.ExplicitComponent):
         velocities_name = "{}_velocities".format(eval_name)
         self.add_output(velocities_name, shape=(num_eval_points, 3), units="m/s")
 
-        # Set up indices to create the sparsity pattern for the derivatives.
-        circulations_indices = np.arange(system_size)
-        velocities_indices = np.arange(num_eval_points * 3).reshape((num_eval_points, 3))
-
-        self.declare_partials(
-            velocities_name,
-            "circulations",
-            rows=np.einsum("ik,j->ijk", velocities_indices, np.ones(system_size, int)).flatten(),
-            cols=np.einsum("ik,j->ijk", np.ones((num_eval_points, 3), int), circulations_indices).flatten(),
-        )
-
-        # These derivatives are linear and don't change so we set the val here
-        self.declare_partials(
-            velocities_name,
-            "freestream_velocities",
-            val=1.0,
-            rows=np.arange(3 * num_eval_points),
-            cols=np.arange(3 * num_eval_points),
-        )
-
         self.vector_names = []
 
         for surface in self.options["surfaces"]:
@@ -116,7 +96,6 @@ class EvalVelocities(om.ExplicitComponent):
 
     def compute(self, inputs, outputs):
         eval_name = self.options["eval_name"]
-        num_eval_points = self.options["num_eval_points"]
 
         velocities_name = "{}_velocities".format(eval_name)
         alpha = jnp.asarray(inputs["alpha"])
@@ -128,7 +107,6 @@ class EvalVelocities(om.ExplicitComponent):
         outputs[velocities_name] = inputs["freestream_velocities"] + self.aic_mtx.compute_velocity(alpha, vectors, circulations)
     def compute_jacvec_product(self, inputs, d_inputs, d_outputs, mode):
         eval_name = self.options["eval_name"]
-        num_eval_points = self.options["num_eval_points"]
         velocities_name = "{}_velocities".format(eval_name)
 
         if mode == "fwd":
@@ -143,14 +121,17 @@ class EvalVelocities(om.ExplicitComponent):
                 d_alpha, d_vectors, d_circulations = self.aic_mtx.compute_velocity_vjp(alpha, vectors, circulations, d_func)
 
                 if "alpha" in d_inputs:
-                    d_inputs["alpha"] += d_alpha
+                    d_inputs["alpha"] += np.array(d_alpha)
 
                 for vec_name in d_vectors:
                     if vec_name in d_inputs:
-                        d_inputs[vec_name] += d_vectors[vec_name]
+                        d_inputs[vec_name] += np.array(d_vectors[vec_name])
 
                 if "circulations" in d_inputs:
-                    d_inputs["circulations"] += d_circulations
+                    d_inputs["circulations"] += np.array(d_circulations)
+
+                if "freestream_velocities" in d_inputs:
+                    d_inputs["freestream_velocities"] += d_outputs[velocities_name]
 
 
     # def compute_partials(self, inputs, partials):

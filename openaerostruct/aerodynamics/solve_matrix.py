@@ -107,7 +107,32 @@ class SolveMatrix(om.ImplicitComponent):
         normals = {normal_name: jnp.asarray(inputs[normal_name]) for normal_name in self.normal_names}
         circulations = jnp.asarray(outputs["circulations"])
         if mode == "fwd":
-            pass
+            if "circulations" in d_residuals:
+                d_circulations = None
+                if "circulations" in d_outputs:
+                    d_circulations = jnp.asarray(d_outputs["circulations"])
+
+                d_alpha = None
+                if "alpha" in d_inputs:
+                    d_alpha = jnp.asarray(d_inputs["alpha"])
+
+                d_vectors = {}
+                for vec_name in self.vector_names:
+                    if vec_name in d_inputs:
+                        d_vectors[vec_name] = jnp.asarray(d_inputs[vec_name])
+
+                d_normals = {}
+                for normal_name in self.normal_names:
+                    if normal_name in d_inputs:
+                        d_normals[normal_name] = jnp.asarray(d_inputs[normal_name])
+
+                d_res = self.aic_mtx.compute_residual_jvp(alpha, vectors, normals, circulations,
+                                                          d_alpha, d_vectors, d_normals, d_circulations)
+
+                d_residuals["circulations"] += np.array(d_res)
+
+                if "rhs" in d_inputs:
+                    d_residuals["circulations"] -= d_inputs["rhs"]
 
         if mode == "rev":
             if "circulations" in d_residuals:
@@ -132,6 +157,6 @@ class SolveMatrix(om.ImplicitComponent):
 
     def solve_linear(self, d_outputs, d_residuals, mode):
         if mode == "fwd":
-            pass
+            d_outputs["circulations"], exit_code = gmres(self.A, d_residuals["circulations"], x0=d_outputs["circulations"], tol=1e-10, M=self.d)
         if mode == "rev":
             d_residuals["circulations"], exit_code = gmres(self.A.T, d_outputs["circulations"], x0=d_residuals["circulations"], tol=1e-10, M=self.d)

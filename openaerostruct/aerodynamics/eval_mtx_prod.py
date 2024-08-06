@@ -271,6 +271,26 @@ class EvalVelMtx:
         return vjp_fun(d_output)
 
     @partial(jax.jit, static_argnums=(0,))
+    def compute_velocity_jvp(self, alpha, vectors, circulations, d_alpha=None, d_vectors=None, d_circulations=None):
+        if d_alpha is None:
+            d_alpha = jnp.zeros_like(alpha)
+        if d_vectors is None:
+            d_vectors = {jnp.zeros_like(vectors[vector_name]) for vector_name in vectors}
+        else:
+            for vector_name in vectors:
+                if vector_name not in d_vectors or d_vectors[vector_name] is None:
+                    d_vectors[vector_name] = jnp.zeros_like(vectors[vector_name])
+        if d_circulations is None:
+            d_circulations = jnp.zeros_like(circulations)
+
+        primals = (alpha, vectors, circulations)
+        tangents = (d_alpha, d_vectors, d_circulations)
+
+        _, jvp_val = jax.jvp(self.compute_velocity, primals, tangents)
+
+        return jvp_val
+
+    @partial(jax.jit, static_argnums=(0,))
     def compute_residual_vjp(self, alpha, vectors, normals, circulations, d_residual):
         # VJP is a good choice here since the jacbian matrix is a row vector.
         # We can compute the jacobian with a single call of the VJP function.
@@ -279,6 +299,32 @@ class EvalVelMtx:
         _, vjp_fun = jax.vjp(self.compute_residual, alpha, vectors, normals, circulations)
 
         return vjp_fun(d_residual)
+
+    @partial(jax.jit, static_argnums=(0,))
+    def compute_residual_jvp(self, alpha, vectors, normals, circulations, d_alpha=None, d_vectors=None, d_normals=None, d_circulations=None):
+        if d_alpha is None:
+            d_alpha = jnp.zeros_like(alpha)
+        if d_vectors is None:
+            d_vectors = {jnp.zeros_like(vectors[vector_name]) for vector_name in vectors}
+        else:
+            for vector_name in vectors:
+                if vector_name not in d_vectors or d_vectors[vector_name] is None:
+                    d_vectors[vector_name] = jnp.zeros_like(vectors[vector_name])
+        if d_normals is None:
+            d_normals = {jnp.zeros_like(normals[normal_name]) for normal_name in normals}
+        else:
+            for normal_name in normals:
+                if normal_name not in d_normals or d_normals[normal_name] is None:
+                    d_normals[normal_name] = jnp.zeros_like(normals[normal_name])
+        if d_circulations is None:
+            d_circulations = jnp.zeros_like(circulations)
+
+        # vjp always returns the primal and the vjp
+        primals = (alpha, vectors, normals, circulations)
+        tangents = (d_alpha, d_vectors, d_normals, d_circulations)
+        _, jvp_val = jax.jvp(self.compute_residual, primals, tangents)
+
+        return jvp_val
 
     def get_diags(self, alpha, vectors, normals):
         circulations = jnp.ones(self.num_eval_points, dtype=alpha.dtype)

@@ -110,7 +110,29 @@ class EvalVelocities(om.ExplicitComponent):
         velocities_name = "{}_velocities".format(eval_name)
 
         if mode == "fwd":
-            pass
+            if velocities_name in d_outputs:
+                d_circulations = None
+                if "circulations" in d_inputs:
+                    d_circulations = jnp.asarray(d_inputs["circulations"])
+
+                if "alpha" in d_inputs:
+                    d_alpha = jnp.asarray(d_inputs["alpha"])
+
+                d_vectors = {}
+                for vec_name in self.vector_names:
+                    if vec_name in d_inputs:
+                        d_vectors[vec_name] = jnp.asarray(d_inputs[vec_name])
+
+                alpha = jnp.asarray(inputs["alpha"])
+                circulations = jnp.asarray(inputs["circulations"])
+                vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
+                d_func = self.aic_mtx.compute_velocity_jvp(alpha, vectors, circulations, d_alpha, d_vectors, d_circulations)
+
+                d_outputs[velocities_name] += np.array(d_func)
+
+                if "freestream_velocities" in d_inputs:
+                    d_outputs[velocities_name] += d_inputs["freestream_velocities"]
+
         if mode == "rev":
             if velocities_name in d_outputs:
                 d_func = jnp.asarray(d_outputs[velocities_name])

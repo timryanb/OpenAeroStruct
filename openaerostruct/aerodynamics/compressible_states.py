@@ -120,11 +120,11 @@ class CompressibleVLMStates(om.Group):
         indep_var_comp = om.IndepVarComp()
         indep_var_comp.add_output("alpha_pg", val=0.0, units="deg")
         indep_var_comp.add_output("beta_pg", val=0.0, units="deg")
-        self.add_subsystem("pg_frame", indep_var_comp)
+        self.add_subsystem("pg_frame", indep_var_comp, promotes=["*"])
 
         # Convert freestream velocity to array of velocities
         # Note, don't want to promote Alpha or Beta here because we are in the transformed system.
-        prom_in = ["v"]
+        prom_in = ["v", ("alpha", "alpha_pg"), ("beta", "beta_pg")]
         if rotational:
             prom_in.append("rotational_velocities")
         self.add_subsystem(
@@ -133,9 +133,6 @@ class CompressibleVLMStates(om.Group):
             promotes_inputs=prom_in,
             promotes_outputs=["*"],
         )
-
-        self.connect("pg_frame.alpha_pg", "convert_velocity.alpha")
-        self.connect("pg_frame.beta_pg", "convert_velocity.beta")
 
         # Construct RHS and full matrix of system
         self.add_subsystem(
@@ -147,7 +144,7 @@ class CompressibleVLMStates(om.Group):
 
         # Solve Mtx RHS to get ring circs
         self.add_subsystem(
-            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=[("alpha", "pg_frame.alpha_pg"), "*"], promotes_outputs=["*"]
+            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=[("alpha", "alpha_pg"), "*"], promotes_outputs=["*"]
         )
 
         # Convert ring circs to horseshoe circs
@@ -172,7 +169,7 @@ class CompressibleVLMStates(om.Group):
         self.add_subsystem(
             "eval_velocities",
             EvalVelocities(surfaces=surfaces, num_eval_points=num_force_points, eval_name="force_pts"),
-            promotes_inputs=[("alpha", "pg_frame.alpha_pg"), "*"],
+            promotes_inputs=[("alpha", "alpha_pg"), "*"],
             promotes_outputs=["*"],
         )
 

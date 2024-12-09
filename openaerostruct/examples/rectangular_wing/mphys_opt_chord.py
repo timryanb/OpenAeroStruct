@@ -122,9 +122,10 @@ prob.setup()
 # Create a n^2 diagram for user to view model connections
 # om.n2(prob)
 prob.run_model()
+prob.check_totals()
 prob.run_driver()
 # Write optimized geometry to vsp file
-prob.model.geometry.DVGeo.writeVSPFile("opt_chord.vsp3")
+prob.model.geometry.DVGeos['defaultDVGeo'].writeVSPFile("opt_chord.vsp3")
 
 print("CL", prob["cruise.WingGeom.CL"][0])
 print("CD", prob["cruise.WingGeom.CD"][0])

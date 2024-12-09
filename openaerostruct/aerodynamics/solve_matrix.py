@@ -99,7 +99,7 @@ class SolveMatrix(om.ImplicitComponent):
 
         self.A = LinearOperator((self.system_size, self.system_size), mvp, vmp)
         self.d = self.aic_mtx.get_diags(alpha, vectors, normals)
-        outputs["circulations"], exit_code = gmres(self.A, inputs["rhs"], x0=outputs["circulations"], tol=1e-10, M=self.d)
+        outputs["circulations"], exit_code = gmres(self.A, inputs["rhs"], x0=outputs["circulations"], rtol=1e-10, M=self.d)
 
     def apply_linear(self, inputs, outputs, d_inputs, d_outputs, d_residuals, mode):
         alpha = jnp.asarray(inputs["alpha"])
@@ -157,6 +157,6 @@ class SolveMatrix(om.ImplicitComponent):
 
     def solve_linear(self, d_outputs, d_residuals, mode):
         if mode == "fwd":
-            d_outputs["circulations"], exit_code = gmres(self.A, d_residuals["circulations"], x0=d_outputs["circulations"], tol=1e-10, M=self.d)
+            d_outputs["circulations"], exit_code = gmres(self.A, d_residuals["circulations"], x0=d_outputs["circulations"], rtol=1e-10, M=self.d)
         if mode == "rev":
-            d_residuals["circulations"], exit_code = gmres(self.A.T, d_outputs["circulations"], x0=d_residuals["circulations"], tol=1e-10, M=self.d)
+            d_residuals["circulations"], exit_code = gmres(self.A.T, d_outputs["circulations"], x0=d_residuals["circulations"], rtol=1e-10, M=self.d)

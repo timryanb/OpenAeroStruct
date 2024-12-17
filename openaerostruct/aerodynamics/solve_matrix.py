@@ -1,5 +1,8 @@
 import numpy as np
+import jax.numpy as jnp
+from scipy.sparse.linalg import LinearOperator, gmres
 from scipy.linalg import lu_factor, lu_solve
+from openaerostruct.aerodynamics.eval_mtx_prod import EvalVelMtx
 
 import openmdao.api as om
 
@@ -29,6 +32,7 @@ class SolveMatrix(om.ImplicitComponent):
 
     def setup(self):
         system_size = 0
+        self.eval_name = "coll_pts"
 
         for surface in self.options["surfaces"]:
             mesh = surface["mesh"]
@@ -39,47 +43,120 @@ class SolveMatrix(om.ImplicitComponent):
 
         self.system_size = system_size
 
-        self.add_input("mtx", shape=(system_size, system_size), units="1/m")
-        self.add_input("rhs", shape=system_size, units="m/s")
-        self.add_output("circulations", shape=system_size, units="m**2/s", tags=["mphys_coupling"])
+        self.vector_names = []
+        self.normal_names = []
 
-        self.declare_partials(
-            "circulations",
-            "circulations",
-            rows=np.outer(np.arange(system_size), np.ones(system_size, int)).flatten(),
-            cols=np.outer(np.ones(system_size, int), np.arange(system_size)).flatten(),
-        )
-        self.declare_partials(
-            "circulations",
-            "mtx",
-            rows=np.outer(np.arange(system_size), np.ones(system_size, int)).flatten(),
-            cols=np.arange(system_size**2),
-        )
-        self.declare_partials(
-            "circulations",
-            "rhs",
-            val=-1.0,
-            rows=np.arange(system_size),
-            cols=np.arange(system_size),
-        )
+        for surface in self.options["surfaces"]:
+            name = surface["name"]
+            mesh = surface["mesh"]
+            nx = mesh.shape[0]
+            ny = mesh.shape[1]
+
+            # The logic differs if the surface is symmetric or not, due to the
+            # existence of the "ghost" surface; the reflection of the actual.
+            ground_effect = surface.get("groundplane", False)
+            if ground_effect:
+                nx_actual = 2 * nx
+            else:
+                nx_actual = nx
+            if surface["symmetry"]:
+                ny_actual = 2 * ny - 1
+            else:
+                ny_actual = ny
+
+            system_size += (nx - 1) * (ny - 1)
+            vectors_name = "{}_{}_vectors".format(name, self.eval_name)
+            self.add_input(vectors_name, shape=(self.system_size, nx_actual, ny_actual, 3), units="m")
+            self.vector_names.append(vectors_name)
+            normals_name = "{}_normals".format(name)
+            self.add_input(normals_name, shape=(nx - 1, ny - 1, 3))
+            self.normal_names.append(normals_name)
+
+        self.add_input("alpha", val=1.0, units="deg", tags=["mphys_input"])
+        self.add_input("rhs", shape=self.system_size, units="m/s")
+        self.add_output("circulations", shape=self.system_size, units="m**2/s", tags=["mphys_coupling"])
+
+        self.aic_mtx = EvalVelMtx(self.options["surfaces"], self.eval_name)
 
     def apply_nonlinear(self, inputs, outputs, residuals):
-        residuals["circulations"] = inputs["mtx"].dot(outputs["circulations"]) - inputs["rhs"]
+        alpha = jnp.asarray(inputs["alpha"])
+        circulations = jnp.asarray(outputs["circulations"])
+        vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
+        normals = {normal_name: jnp.asarray(inputs[normal_name]) for normal_name in self.normal_names}
+        res = self.aic_mtx.compute_residual(alpha, vectors, normals, circulations) - inputs["rhs"]
+        residuals["circulations"] = np.array(res)
 
     def solve_nonlinear(self, inputs, outputs):
-        self.lu = lu_factor(inputs["mtx"])
+        alpha = jnp.asarray(inputs["alpha"])
+        vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
+        normals = {normal_name: jnp.asarray(inputs[normal_name]) for normal_name in self.normal_names}
 
-        outputs["circulations"] = lu_solve(self.lu, inputs["rhs"])
+        mvp = lambda circulations: self.aic_mtx.compute_residual(alpha, vectors, normals, jnp.asarray(circulations))
+        def vmp(psi_vec):
+            circulations = jnp.zeros_like(psi_vec)
+            _, _, _, d_circulations = self.aic_mtx.compute_residual_vjp(alpha, vectors, normals, circulations, jnp.asarray(psi_vec))
+            return d_circulations
 
-    def linearize(self, inputs, outputs, partials):
-        system_size = self.system_size
-        self.lu = lu_factor(inputs["mtx"])
+        self.A = LinearOperator((self.system_size, self.system_size), mvp, vmp)
+        self.d = self.aic_mtx.get_diags(alpha, vectors, normals)
+        outputs["circulations"], exit_code = gmres(self.A, inputs["rhs"], x0=outputs["circulations"], rtol=1e-10, M=self.d)
 
-        partials["circulations", "circulations"] = inputs["mtx"].flatten()
-        partials["circulations", "mtx"] = np.outer(np.ones(system_size), outputs["circulations"]).flatten()
+    def apply_linear(self, inputs, outputs, d_inputs, d_outputs, d_residuals, mode):
+        alpha = jnp.asarray(inputs["alpha"])
+        vectors = {vector_name: jnp.asarray(inputs[vector_name]) for vector_name in self.vector_names}
+        normals = {normal_name: jnp.asarray(inputs[normal_name]) for normal_name in self.normal_names}
+        circulations = jnp.asarray(outputs["circulations"])
+        if mode == "fwd":
+            if "circulations" in d_residuals:
+                d_circulations = None
+                if "circulations" in d_outputs:
+                    d_circulations = jnp.asarray(d_outputs["circulations"])
+
+                d_alpha = None
+                if "alpha" in d_inputs:
+                    d_alpha = jnp.asarray(d_inputs["alpha"])
+
+                d_vectors = {}
+                for vec_name in self.vector_names:
+                    if vec_name in d_inputs:
+                        d_vectors[vec_name] = jnp.asarray(d_inputs[vec_name])
+
+                d_normals = {}
+                for normal_name in self.normal_names:
+                    if normal_name in d_inputs:
+                        d_normals[normal_name] = jnp.asarray(d_inputs[normal_name])
+
+                d_res = self.aic_mtx.compute_residual_jvp(alpha, vectors, normals, circulations,
+                                                          d_alpha, d_vectors, d_normals, d_circulations)
+
+                d_residuals["circulations"] += np.array(d_res)
+
+                if "rhs" in d_inputs:
+                    d_residuals["circulations"] -= d_inputs["rhs"]
+
+        if mode == "rev":
+            if "circulations" in d_residuals:
+                d_alpha, d_vectors, d_normals, d_circulations = self.aic_mtx.compute_residual_vjp(alpha, vectors, normals, circulations,
+                                                                                                  jnp.asarray(d_residuals["circulations"]))
+                if "circulations" in d_outputs:
+                    d_outputs["circulations"] += np.array(d_circulations)
+
+                if "rhs" in d_inputs:
+                    d_inputs["rhs"] -= d_residuals["circulations"]
+
+                if "alpha" in d_inputs:
+                    d_inputs["alpha"] += np.array(d_alpha)
+
+                for vec_name in d_vectors:
+                    if vec_name in d_inputs:
+                        d_inputs[vec_name] += np.array(d_vectors[vec_name])
+
+                for normal_name in d_normals:
+                    if normal_name in d_inputs:
+                        d_inputs[normal_name] += np.array(d_normals[normal_name])
 
     def solve_linear(self, d_outputs, d_residuals, mode):
         if mode == "fwd":
-            d_outputs["circulations"] = lu_solve(self.lu, d_residuals["circulations"], trans=0)
-        else:
-            d_residuals["circulations"] = lu_solve(self.lu, d_outputs["circulations"], trans=1)
+            d_outputs["circulations"], exit_code = gmres(self.A, d_residuals["circulations"], x0=d_outputs["circulations"], rtol=1e-10, M=self.d)
+        if mode == "rev":
+            d_residuals["circulations"], exit_code = gmres(self.A.T, d_outputs["circulations"], x0=d_residuals["circulations"], rtol=1e-10, M=self.d)

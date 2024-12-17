@@ -109,7 +109,18 @@ prob.model.add_constraint(point_name + ".wing_perf.CL", equals=0.5)
 prob.model.add_objective(point_name + ".wing_perf.CD", scaler=1e4)
 
 # Set up the problem
-prob.setup()
+prob.setup(mode="rev")
 
 # Run optimization
-prob.run_driver()
+#prob.run_driver()
+prob["wing.twist_cp"][0] -= 1e-6
+prob.run_model()
+CL0 = prob[point_name + ".wing_perf.CL"][0]
+print('{0:.16f}'.format(prob[point_name + ".wing_perf.CL"][0]))
+prob["wing.twist_cp"][0] += 2e-6
+prob.run_model()
+CL1 = prob[point_name + ".wing_perf.CL"][0]
+print('{0:.16f}'.format(prob[point_name + ".wing_perf.CL"][0]))
+print(f"manual fd: {(CL1-CL0)*0.5e6}")
+prob["wing.twist_cp"][0] = 0.0
+prob.check_totals(step=1e-6, form="central")

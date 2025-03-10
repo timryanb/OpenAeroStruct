@@ -80,15 +80,15 @@ class Top(Multipoint):
         # add the geometry component, we dont need a builder because we do it here.
         self.add_subsystem("geometry", OM_DVGEOCOMP(file=vsp_file, type="vsp"))
         # add pointset
-        self.geometry.nom_add_discipline_coords("aero")
+        self.geometry.nom_add_discipline_coords(MPhysVariables.Aerodynamics.Surface.Geometry)
 
         self.mphys_add_scenario("cruise", ScenarioAerodynamic(aero_builder=aero_builder))
         self.connect(
-            f"mesh.{MPhysVariables.Aerodynamics.Surface.COORDINATES}",
-            f"geometry.{MPhysVariables.Aerodynamics.Geometry.COORDINATES_INPUT}",
+            f"mesh.{MPhysVariables.Aerodynamics.Surface.Mesh.COORDINATES}",
+            f"geometry.{MPhysVariables.Aerodynamics.Surface.Geometry.COORDINATES_INPUT}",
         )
         self.connect(
-            f"geometry.{MPhysVariables.Aerodynamics.Geometry.COORDINATES_OUTPUT}",
+            f"geometry.{MPhysVariables.Aerodynamics.Surface.Geometry.COORDINATES_OUTPUT}",
             f"cruise.{MPhysVariables.Aerodynamics.Surface.COORDINATES}",
         )
 
@@ -126,7 +126,7 @@ prob.model.add_design_var("geometry.WingGeom:XSec_2:Root_Chord", lower=1e-3, upp
 prob.model.add_design_var("geometry.WingGeom:XSec_3:Root_Chord", lower=1e-3, upper=5.0)
 prob.model.add_design_var("geometry.WingGeom:XSec_4:Root_Chord", lower=1e-3, upper=5.0)
 prob.model.add_design_var("geometry.WingGeom:XSec_4:Tip_Chord", lower=1e-3, upper=5.0)
-prob.model.add_design_var("aoa", lower=-10.0, upper=10.0)
+prob.model.add_design_var(MPhysVariables.Aerodynamics.FlowConditions.ANGLE_OF_ATTACK, lower=-10.0, upper=10.0)
 prob.model.add_constraint("cruise.WingGeom.CL", equals=0.5)
 prob.model.add_constraint("cruise.WingGeom.S_ref", equals=10.0)
 prob.model.add_objective("cruise.WingGeom.CD", scaler=1e4)

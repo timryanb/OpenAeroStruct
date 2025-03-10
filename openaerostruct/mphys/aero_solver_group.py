@@ -44,3 +44,6 @@ class AeroSolverGroup(om.Group):
             promotes_inputs=proms_in + ["*"],
             promotes_outputs=proms_out + ["circulations", "*_mesh_point_forces"],
         )
+
+    def configure(self):
+        self.solver.solve_matrix.options['run_root_only'] = True

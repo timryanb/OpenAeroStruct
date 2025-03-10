@@ -80,15 +80,15 @@ class Top(Multipoint):
         # add the geometry component, we dont need a builder because we do it here.
         self.add_subsystem("geometry", OM_DVGEOCOMP(file=vsp_file, type="vsp"))
         # add pointset
-        self.geometry.nom_add_discipline_coords("aero")
+        self.geometry.nom_add_discipline_coords(MPhysVariables.Aerodynamics.Surface.Geometry)
 
         self.mphys_add_scenario("cruise", ScenarioAerodynamic(aero_builder=aero_builder))
         self.connect(
-            f"mesh.{MPhysVariables.Aerodynamics.Surface.COORDINATES}",
-            f"geometry.{MPhysVariables.Aerodynamics.Geometry.COORDINATES_INPUT}",
+            f"mesh.{MPhysVariables.Aerodynamics.Surface.Mesh.COORDINATES}",
+            f"geometry.{MPhysVariables.Aerodynamics.Surface.Geometry.COORDINATES_INPUT}",
         )
         self.connect(
-            f"geometry.{MPhysVariables.Aerodynamics.Geometry.COORDINATES_OUTPUT}",
+            f"geometry.{MPhysVariables.Aerodynamics.Surface.Geometry.COORDINATES_OUTPUT}",
             f"cruise.{MPhysVariables.Aerodynamics.Surface.COORDINATES}",
         )
 

@@ -57,6 +57,7 @@ setup(
         "numpy>=1.20",
         "scipy>=1.6.0",
         "matplotlib",
+        "jax",
     ],
     extras_require=optional_dependencies,
     zip_safe=False,
